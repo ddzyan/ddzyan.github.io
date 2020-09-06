@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>nodejs错误处理最佳实现 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="参考资料：https:&#x2F;&#x2F;segmentfault.com&#x2F;a&#x2F;1190000002741935#articleHeader3  四种传递错误的方式 作为异常抛出 把错误传给一个callback 在EventEmitter上触发一个Error事件 程序运行过程中抛出的异常，或由底层库抛出，或是运行中发生的一些 SyntaxError 之类  错误捕获的几种方式 try .. catch常用的一种">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nodejs错误处理最佳实现">
+<meta property="og:url" content="http://example.com/2018/11/16/nodejs%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="参考资料：https:&#x2F;&#x2F;segmentfault.com&#x2F;a&#x2F;1190000002741935#articleHeader3  四种传递错误的方式 作为异常抛出 把错误传给一个callback 在EventEmitter上触发一个Error事件 程序运行过程中抛出的异常，或由底层库抛出，或是运行中发生的一些 SyntaxError 之类  错误捕获的几种方式 try .. catch常用的一种">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/errorInfo.png">
+<meta property="article:published_time" content="2018-11-15T16:42:48.000Z">
+<meta property="article:modified_time" content="2020-09-06T09:20:12.220Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="nodejs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/errorInfo.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-nodejs错误处理最佳实现" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/16/nodejs%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E7%8E%B0/" class="article-date">
+  <time datetime="2018-11-15T16:42:48.000Z" itemprop="datePublished">2018-11-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nodejs错误处理最佳实现
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>参考资料：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000002741935#articleHeader3">https://segmentfault.com/a/1190000002741935#articleHeader3</a></li>
+</ul>
+<h3 id="四种传递错误的方式"><a href="#四种传递错误的方式" class="headerlink" title="四种传递错误的方式"></a>四种传递错误的方式</h3><ol>
+<li>作为异常抛出</li>
+<li>把错误传给一个callback</li>
+<li>在EventEmitter上触发一个Error事件</li>
+<li>程序运行过程中抛出的异常，或由底层库抛出，或是运行中发生的一些 SyntaxError 之类</li>
+</ol>
+<h3 id="错误捕获的几种方式"><a href="#错误捕获的几种方式" class="headerlink" title="错误捕获的几种方式"></a>错误捕获的几种方式</h3><p><img src="/images/errorInfo.png" alt="image"></p>
+<h4 id="try-catch"><a href="#try-catch" class="headerlink" title="try .. catch"></a>try .. catch</h4><p>常用的一种捕获错误方式，浏览器 || node 环境均适用</p>
+<p>缺点：只针对同步异常有效</p>
+<h4 id="callback"><a href="#callback" class="headerlink" title="callback"></a>callback</h4><p>异步执行的函数通过回调函数，将错误返回给同步函数。</p>
+<h4 id="EventEmitter"><a href="#EventEmitter" class="headerlink" title="EventEmitter"></a>EventEmitter</h4><p>由 Events 模块提供的 EventEmitter 类，基于 Observer 模式做的 publish/subscribe，通过 .on(‘error’, …) || .addEventlistener(‘error’, …) 注册 subscriber，.emit() 发布事件，但会有最大的 maxListener 的限制，可更改。</p>
+<a id="more"></a>
+
+<h4 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h4><p>Process 进程对象也是 EventEmitter 的实例，可通过如下两事件监听 error</p>
+<h5 id="uncaughtException"><a href="#uncaughtException" class="headerlink" title="uncaughtException"></a>uncaughtException</h5><p>监听在程序中未被捕获的异常。</p>
+<h5 id="unhandledRejection"><a href="#unhandledRejection" class="headerlink" title="unhandledRejection"></a>unhandledRejection</h5><p>监听在程序中未被捕获的promise异常</p>
+<h4 id="标准error类的信息"><a href="#标准error类的信息" class="headerlink" title="标准error类的信息"></a>标准error类的信息</h4><ul>
+<li>==name==：用于在程序里区分众多的错误类型（例如参数非法和连接失败）</li>
+<li>==message==：一个供人类阅读的错误消息。对可能读到这条消息的人来说这应该已经足够完整。如果你从更底层的地方传递了一个错误，你应该加上一些信息来说明你在做什么。怎么包装异常请往下看。</li>
+<li>==stack==：一般来讲不要随意扰乱堆栈信息。甚至不要增强它。V8引擎只有在这个属性被读取的时候才会真的去运算，以此大幅提高处理异常时候的性能。如果你读完再去增强它，结果就会多付出代价，哪怕调用者并不需要堆栈信息。</li>
+</ul>
+<p>用详细的属性来增强 Error 对象。<br>举个例子，如果遇到无效参数，把 propertyName 设成参数的名字，把 propertyValue 设成传进来的值。如果无法连到服务器，用 remoteIp 属性指明尝试连接到的 IP。如果发生一个系统错误，在syscal 属性里设置是哪个系统调用，并把错误代码放到errno属性里。具体你可以查看附录，看有哪些样例属性可以用。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li>学习了怎么区分操作失败，即那些可以被预测的哪怕在正确的程序里也无法避免的错误（例如，无法连接到服务器）；而程序的Bug则是程序员失误。</li>
+<li>操作失败可以被处理,也应当被处理。程序员的失误无法被处理或可靠地恢复（本不应该这么做），尝试这么做只会让问题更难调试。</li>
+<li>学习了怎么区分操作失败，即那些可以被预测的哪怕在正确的程序里也无法避免的错误（例如，无法连接到服务器）；而程序的Bug则是程序员失误。</li>
+<li>在写新函数的时候，用文档清楚地记录函数预期的参数，包括它们的类型、是否有其它约束（例如必须是有效的IP地址），可能会发生的合理的操作失败（例如无法解析主机名，连接服务器失败，所有的服务器端错误），错误是怎么传递给调用者的（同步，用throw，还是异步，用 callback 和 EventEmitter）。</li>
+<li>缺少参数或者参数无效是程序员的失误，一旦发生总是应该抛出异常。函数的作者认为的可接受的参数可能会有一个灰色地带，但是如果传递的是一个文档里写明接收的参数以外的东西，那就是一个程序员失误。</li>
+<li><strong>传递错误的时候用标准的 Error 类和它标准的属性</strong>。尽可能把额外的有用信息放在对应的属性里。如果有可能，用约定的属性名（如下）。</li>
+</ul>
+<h4 id="脚注"><a href="#脚注" class="headerlink" title="脚注"></a>脚注</h4><ol>
+<li>异步函数无法使用throw一个异常，被外面的catch代码块捕获。因为异步函数在运行的时候，同步函数try代码块已经退出了。</li>
+<li>在JavaScript里，抛出一个不属于Error的参数从技术上是可行的，但是应该被避免。这样的结果使获得调用堆栈没有可能，代码也无法检查name属性，或者其它任何能够说明哪里有问题的属性。</li>
+</ol>
+<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* Make a TCP connection to the given IPv4 address.  Arguments:</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">*    ip4addr        a string representing a valid IPv4 address</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">*    tcpPort        a positive integer representing a valid TCP port</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">*    timeout        a positive integer denoting the number of milliseconds</span></span><br><span class="line"><span class="comment">*                   to wait for a response from the remote server before</span></span><br><span class="line"><span class="comment">*                   considering the connection to have failed.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">*    callback       invoked when the connection succeeds or fails.  Upon</span></span><br><span class="line"><span class="comment">*                   success, callback is invoked as callback(null, socket),</span></span><br><span class="line"><span class="comment">*                   where `socket` is a Node net.Socket object.  Upon failure,</span></span><br><span class="line"><span class="comment">*                   callback is invoked as callback(err) instead.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* This function may fail for several reasons:</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">*    SystemError    For &quot;connection refused&quot; and &quot;host unreachable&quot; and other</span></span><br><span class="line"><span class="comment">*                   errors returned by the connect(2) system call.  For these</span></span><br><span class="line"><span class="comment">*                   errors, err.errno will be set to the actual errno symbolic</span></span><br><span class="line"><span class="comment">*                   name.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">*    TimeoutError   Emitted if &quot;timeout&quot; milliseconds elapse without</span></span><br><span class="line"><span class="comment">*                   successfully completing the connection.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* All errors will have the conventional &quot;remoteIp&quot; and &quot;remotePort&quot; properties.</span></span><br><span class="line"><span class="comment">* After any error, any socket that was created will be closed.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">ip4addr, tcpPort, timeout, callback</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">assert.equal(<span class="keyword">typeof</span> (ip4addr), <span class="string">&#x27;string&#x27;</span>,</span><br><span class="line">    <span class="string">&quot;argument &#x27;ip4addr&#x27; must be a string&quot;</span>);</span><br><span class="line">assert.ok(net.isIPv4(ip4addr),</span><br><span class="line">    <span class="string">&quot;argument &#x27;ip4addr&#x27; must be a valid IPv4 address&quot;</span>);</span><br><span class="line">assert.equal(<span class="keyword">typeof</span> (tcpPort), <span class="string">&#x27;number&#x27;</span>,</span><br><span class="line">    <span class="string">&quot;argument &#x27;tcpPort&#x27; must be a number&quot;</span>);</span><br><span class="line">assert.ok(!<span class="built_in">isNaN</span>(tcpPort) &amp;&amp; tcpPort &gt; <span class="number">0</span> &amp;&amp; tcpPort &lt; <span class="number">65536</span>,</span><br><span class="line">    <span class="string">&quot;argument &#x27;tcpPort&#x27; must be a positive integer between 1 and 65535&quot;</span>);</span><br><span class="line">assert.equal(<span class="keyword">typeof</span> (timeout), <span class="string">&#x27;number&#x27;</span>,</span><br><span class="line">    <span class="string">&quot;argument &#x27;timeout&#x27; must be a number&quot;</span>);</span><br><span class="line">assert.ok(!<span class="built_in">isNaN</span>(timeout) &amp;&amp; timeout &gt; <span class="number">0</span>,</span><br><span class="line">    <span class="string">&quot;argument &#x27;timeout&#x27; must be a positive integer&quot;</span>);</span><br><span class="line">assert.equal(<span class="keyword">typeof</span> (callback), <span class="string">&#x27;function&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* do work */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>参数，类型以及其它一些约束被清晰的文档化</li>
+<li>这个函数对于接受的参数是非常严格的，并且会在得到错误参数的时候抛出异常（程序员的失误）</li>
+<li>可能出现的操作失败集合被记录了。通过不同的”name“值可以区分不同的异常，而”errno“被用来获得系统错误的详细信息</li>
+<li>异常被传递的方式也被记录了（通过失败时调用回调函数）</li>
+<li>返回的错误有”remoteIp“和”remotePort“字段，这样用户就可以定义自己的错误了（比如，一个HTTP客户端的端口号是隐含的）</li>
+<li>虽然很明显，但是连接失败后的状态也被清晰的记录了：所有被打开的套接字此时已经被关闭</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/11/16/nodejs%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E7%8E%B0/" data-id="ckeqw2ok7004jaiqy28ze53v7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/11/16/%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%94%AF%E6%8C%81%E9%AB%98%E5%B9%B6%E5%8F%91%EF%BC%9F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          单线程为什么能支持高并发？
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/11/12/EOS%E5%8F%8C%E8%8A%B1%E5%92%8C%E5%88%86%E5%8F%89%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">EOS双花和分叉问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ETH/">ETH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elk/">elk</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eos/">eos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ionic/">ionic</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">nodejs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/stellar/">stellar</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/typescript/">typescript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ETH/" rel="tag">ETH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GraphQL/" rel="tag">GraphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/egg/" rel="tag">egg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elk/" rel="tag">elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphQL/" rel="tag">graphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/" rel="tag">ionic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-module/" rel="tag">node_module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag">sql优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" rel="tag">sql分析工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stellar/" rel="tag">stellar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1/" rel="tag">事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="tag">存储引擎</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ETH/" style="font-size: 10px;">ETH</a> <a href="/tags/GraphQL/" style="font-size: 10px;">GraphQL</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/docker/" style="font-size: 15.71px;">docker</a> <a href="/tags/egg/" style="font-size: 10px;">egg</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/eos/" style="font-size: 17.14px;">eos</a> <a href="/tags/graphQL/" style="font-size: 10px;">graphQL</a> <a href="/tags/ionic/" style="font-size: 12.86px;">ionic</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/linux/" style="font-size: 11.43px;">linux</a> <a href="/tags/mysql/" style="font-size: 11.43px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node/" style="font-size: 12.86px;">node</a> <a href="/tags/node-module/" style="font-size: 14.29px;">node_module</a> <a href="/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/tags/sql%E4%BC%98%E5%8C%96/" style="font-size: 12.86px;">sql优化</a> <a href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">sql分析工具</a> <a href="/tags/stellar/" style="font-size: 10px;">stellar</a> <a href="/tags/typescript/" style="font-size: 11.43px;">typescript</a> <a href="/tags/%E4%BA%8B%E5%8A%A1/" style="font-size: 10px;">事务</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 18.57px;">区块链</a> <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" style="font-size: 10px;">存储引擎</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10px;">架构</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 11.43px;">测试</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 12.86px;">索引</a> <a href="/tags/%E9%94%81/" style="font-size: 11.43px;">锁</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/06/Docker-BridgeNetwork%E5%8E%9F%E7%90%86/">Docker-BridgeNetwork原理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/14/egg-graphQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">egg-graphQL源码分析</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/GraphQL%E6%89%AB%E7%9B%B2/">GraphQL扫盲</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/docker-compose%E9%83%A8%E7%BD%B2eak/">docker-compose部署eak</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/node-rabbitMq/">node-rabbitMq</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

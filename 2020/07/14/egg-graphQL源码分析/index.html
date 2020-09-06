@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>egg-graphQL源码分析 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介egg-graphQL 是 egg 的 graphQL 插件，规范化 GraphQL API 实现，自动创建 schema ，挂载 koa middleware 处理 GraphQL 请求，并且提供创建 GraphQL 开发者工具 源码分析项目依赖模块分析12345678910&amp;#123;  &quot;dependencies&quot;: &amp;#123;    &quot;apollo-se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="egg-graphQL源码分析">
+<meta property="og:url" content="http://example.com/2020/07/14/egg-graphQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="简介egg-graphQL 是 egg 的 graphQL 插件，规范化 GraphQL API 实现，自动创建 schema ，挂载 koa middleware 处理 GraphQL 请求，并且提供创建 GraphQL 开发者工具 源码分析项目依赖模块分析12345678910&amp;#123;  &quot;dependencies&quot;: &amp;#123;    &quot;apollo-se">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-14T10:06:44.000Z">
+<meta property="article:modified_time" content="2020-09-06T09:20:09.914Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="nodejs">
+<meta property="article:tag" content="egg">
+<meta property="article:tag" content="graphQL">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-egg-graphQL源码分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/14/egg-graphQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="article-date">
+  <time datetime="2020-07-14T10:06:44.000Z" itemprop="datePublished">2020-07-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      egg-graphQL源码分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>egg-graphQL 是 egg 的 graphQL 插件，规范化 GraphQL API 实现，自动创建 schema ，挂载 koa middleware 处理 GraphQL 请求，并且提供创建 GraphQL 开发者工具</p>
+<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><h4 id="项目依赖模块分析"><a href="#项目依赖模块分析" class="headerlink" title="项目依赖模块分析"></a>项目依赖模块分析</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;apollo-server-koa&quot;</span>: <span class="string">&quot;2.0.4&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;apollo-server-module-graphiql&quot;</span>: <span class="string">&quot;1.4.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;graphql&quot;</span>: <span class="string">&quot;0.13.2&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;graphql-tools&quot;</span>: <span class="string">&quot;3.1.1&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;lodash&quot;</span>: <span class="string">&quot;^4.17.10&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;lru-cache&quot;</span>: <span class="string">&quot;^4.1.2&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>apollo-server-koa：apollo 提供的服务端 GraphQL 开源模块种 nodejs-koa 的实现方式</p>
+<p>apollo-server-module-graphiql ：apollo 提供的 GraphQL 开发者工具</p>
+<p>graphql-tools：提供更好的创建 GraphQL schema 的方法</p>
+<h4 id="项目核心代码结构"><a href="#项目核心代码结构" class="headerlink" title="项目核心代码结构"></a>项目核心代码结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── agent.js</span><br><span class="line">├── app</span><br><span class="line">│   ├── extend</span><br><span class="line">│   │   └── context.js</span><br><span class="line">│   ├── middleware</span><br><span class="line">│   │   └── graphql.js</span><br><span class="line">│   └── service</span><br><span class="line">│       └── graphql.js</span><br><span class="line">├── app.js</span><br><span class="line">├── config</span><br><span class="line">│   └── config.default.js</span><br><span class="line">├── lib</span><br><span class="line">│   ├── graphql-tag.js</span><br><span class="line">│   ├── load_connector.js</span><br><span class="line">│   ├── load_schema.js</span><br><span class="line">│   └── util.js</span><br><span class="line">├── package.json</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h4 id="核心代码"><a href="#核心代码" class="headerlink" title="核心代码"></a>核心代码</h4><p>执行属顺序：load config.js ,extends –&gt; load agent.js —&gt; load start app.js –&gt; load app/service —&gt; load middleware</p>
+<p>以上步骤略有省略，去除了源代码种未涉及的内容</p>
+<p>app.js 和 agent.js 都只做了 两件相同的事情，在项目启动时挂载如下内容</p>
+<ol>
+<li>挂载 schema 属性到 app 对象</li>
+<li>挂载 connectorClass 属性到 app 对象</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">app</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">require</span>(<span class="string">&#x27;./lib/load_schema&#x27;</span>)(app);</span><br><span class="line">  <span class="built_in">require</span>(<span class="string">&#x27;./lib/load_connector&#x27;</span>)(app);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>load_schema.js 核心代码，遍历 Graphql 目录下文件，获取指定参数属性，执行 makeExecutableSchema 返回</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.defineProperty(app, <span class="string">&#x27;schema&#x27;</span>, &#123;</span><br><span class="line">  get() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">this</span>[SYMBOL_SCHEMA]) &#123;</span><br><span class="line">      resolverFactories.forEach(<span class="function">(<span class="params">resolverFactory</span>) =&gt;</span></span><br><span class="line">        _.merge(resolverMap, resolverFactory(app))</span><br><span class="line">      );</span><br><span class="line"></span><br><span class="line">      <span class="built_in">this</span>[SYMBOL_SCHEMA] = makeExecutableSchema(&#123;</span><br><span class="line">        typeDefs: schemas,</span><br><span class="line">        resolvers: resolverMap,</span><br><span class="line">        directiveResolvers: directiveMap,</span><br><span class="line">        schemaDirectives: schemaDirectivesProps,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>[SYMBOL_SCHEMA];</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>load_connector.js 遍历 Graphql 目录下文件所有 connector.js，创建 Map 对象返回，key 为 connector.js 上级目录，value 为 connector.js 导出的方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.defineProperty(app, <span class="string">&#x27;connectorClass&#x27;</span>, &#123;</span><br><span class="line">  get() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">this</span>[SYMBOL_CONNECTOR_CLASS]) &#123;</span><br><span class="line">      <span class="keyword">const</span> classes = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line"></span><br><span class="line">      types.forEach(<span class="function">(<span class="params">type</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> connectorFile = path.join(basePath, type, <span class="string">&#x27;connector.js&#x27;</span>);</span><br><span class="line">        <span class="comment">/* istanbul ignore else */</span></span><br><span class="line">        <span class="keyword">if</span> (fs.existsSync(connectorFile)) &#123;</span><br><span class="line">          <span class="keyword">const</span> Connector = <span class="built_in">require</span>(connectorFile);</span><br><span class="line">          classes.set(path.basename(type), Connector);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      <span class="built_in">this</span>[SYMBOL_CONNECTOR_CLASS] = classes;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>[SYMBOL_CONNECTOR_CLASS];</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>根据如上加载规则，则项目文件格式则有特殊的含义：</p>
+<ol>
+<li>schema.graphql ：采用 SDL 编写的 schema</li>
+<li>resolver.js ：解析器，对应 schema 的字段，一般在此调用 connector</li>
+<li>connector.js : 连接器，可以直接调用 ctx 对象，一般在这调用 service 或者逻辑处理</li>
+<li>directive：指令，在解析器处理之前运行，一般处理一些通用操作，例如参数验证，权限验证等</li>
+</ol>
+<p>app/extend/context.js 为 ctx 对象添加方法：</p>
+<ol>
+<li>获取 service.graphql 类的所有方法</li>
+<li>获得所有在 app.connectorClass 对象</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// 获取所有连接器，app.connectorClass 已经在 app.js/agent.js挂载</span></span><br><span class="line">  <span class="keyword">get</span> <span class="title">connector</span>() &#123;</span><br><span class="line">    <span class="comment">// 单例模式，判断是否已经存在，避免重复遍历</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">this</span>[SYMBOL_CONNECTOR]) &#123;</span><br><span class="line">      <span class="keyword">const</span> connectors = &#123;&#125;;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">const</span> [type, Class] <span class="keyword">of</span> <span class="built_in">this</span>.app.connectorClass) &#123;</span><br><span class="line">        <span class="comment">// 实例化 connector 对象，并且传入 ctx</span></span><br><span class="line">        connectors[type] = <span class="keyword">new</span> Class(<span class="built_in">this</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="built_in">this</span>[SYMBOL_CONNECTOR] = connectors;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>[SYMBOL_CONNECTOR];</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="keyword">get</span> <span class="title">graphql</span>() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.service.graphql;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>app/middleware/graphql.js 使用 apollo-server-koa 模块的中间件 处理 GraphQL API 路径下的请求</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; graphqlKoa &#125; = <span class="built_in">require</span>(<span class="string">&#x27;apollo-server-koa/dist/koaApollo&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; resolveGraphiQLString &#125; = <span class="built_in">require</span>(<span class="string">&#x27;apollo-server-module-graphiql&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">graphiqlKoa</span>(<span class="params">options</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">ctx</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> query = ctx.request.query;</span><br><span class="line">    <span class="keyword">return</span> resolveGraphiQLString(query, options, ctx).then(<span class="function">(<span class="params">graphiqlString</span>) =&gt;</span> &#123;</span><br><span class="line">      ctx.set(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;text/html&#x27;</span>);</span><br><span class="line">      ctx.body = graphiqlString;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">_, app</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> options = app.config.graphql;</span><br><span class="line">  <span class="keyword">const</span> graphQLRouter = options.router;</span><br><span class="line">  <span class="keyword">let</span> graphiql = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (options.graphiql === <span class="literal">false</span>) &#123;</span><br><span class="line">    graphiql = <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">async</span> (ctx, next) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 捕获在config.graphql.router 设定的路由，因为所有 GraphQL 接口都走一个路由</span></span><br><span class="line">    <span class="keyword">if</span> (ctx.path === graphQLRouter) &#123;</span><br><span class="line">      <span class="comment">// ....</span></span><br><span class="line">      <span class="keyword">const</span> &#123; onPreGraphiQL, onPreGraphQL, apolloServerOptions &#125; = options;</span><br><span class="line">      <span class="comment">// 执行配置的GraphiQL钩子函数</span></span><br><span class="line">      <span class="keyword">if</span> (ctx.request.accepts([<span class="string">&#x27;json&#x27;</span>, <span class="string">&#x27;html&#x27;</span>]) === <span class="string">&#x27;html&#x27;</span> &amp;&amp; graphiql) &#123;</span><br><span class="line">        <span class="keyword">if</span> (onPreGraphiQL) &#123;</span><br><span class="line">          <span class="keyword">await</span> onPreGraphiQL(ctx);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 返回开发者平台路径</span></span><br><span class="line">        <span class="keyword">return</span> graphiqlKoa(&#123;</span><br><span class="line">          endpointURL: graphQLRouter,</span><br><span class="line">        &#125;)(ctx);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 执行配置的GraphQL钩子函数</span></span><br><span class="line">      <span class="keyword">if</span> (onPreGraphQL) &#123;</span><br><span class="line">        <span class="keyword">await</span> onPreGraphQL(ctx);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> serverOptions = <span class="built_in">Object</span>.assign(&#123;&#125;, apolloServerOptions, &#123;</span><br><span class="line">        schema: app.schema,</span><br><span class="line">        context: ctx,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span> graphqlKoa(serverOptions)(ctx);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">await</span> next();</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>apollo-server-koa 涉及的 graphqlKoa 源代码，主要为获取 ctx 中的属性和根据 GraphQL 的配置，处理请求并且返回</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> interface KoaHandler &#123;</span><br><span class="line">    (ctx: Koa.Context, <span class="attr">next</span>: any): <span class="keyword">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> declare <span class="function"><span class="keyword">function</span> <span class="title">graphqlKoa</span>(<span class="params">options: GraphQLOptions | KoaGraphQLOptionsFunction</span>): <span class="title">KoaHandler</span>;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">graphqlKoa</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  options: GraphQLOptions | KoaGraphQLOptionsFunction,</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">KoaHandler</span> </span>&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="keyword">const</span> graphqlHandler = (ctx: Koa.Context): <span class="built_in">Promise</span>&lt;<span class="keyword">void</span>&gt; =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> runHttpQuery([ctx], &#123;</span><br><span class="line">      method: ctx.request.method,</span><br><span class="line">      options: options,</span><br><span class="line">      query:</span><br><span class="line">        ctx.request.method === <span class="string">&#x27;POST&#x27;</span></span><br><span class="line">          ? <span class="comment">// fallback to ctx.req.body for koa-multer support</span></span><br><span class="line">            ctx.request.body || (ctx.req <span class="keyword">as</span> any).body</span><br><span class="line">          : ctx.request.query,</span><br><span class="line">      request: convertNodeHttpToRequest(ctx.req),</span><br><span class="line">    &#125;).then(</span><br><span class="line">      (&#123; graphqlResponse, responseInit &#125;) =&gt; &#123;</span><br><span class="line">        <span class="built_in">Object</span>.keys(responseInit.headers).forEach(<span class="function"><span class="params">key</span> =&gt;</span></span><br><span class="line">          ctx.set(key, responseInit.headers[key]),</span><br><span class="line">        );</span><br><span class="line">        ctx.body = graphqlResponse;</span><br><span class="line">      &#125;,</span><br><span class="line">      (error: HttpQueryError) =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&#x27;HttpQueryError&#x27;</span> !== error.name) &#123;</span><br><span class="line">          <span class="keyword">throw</span> error;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (error.headers) &#123;</span><br><span class="line">          <span class="built_in">Object</span>.keys(error.headers).forEach(<span class="function"><span class="params">header</span> =&gt;</span> &#123;</span><br><span class="line">            ctx.set(header, error.headers[header]);</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ctx.status = error.statusCode;</span><br><span class="line">        ctx.body = error.message;</span><br><span class="line">      &#125;,</span><br><span class="line">    );</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> graphqlHandler;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/07/14/egg-graphQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" data-id="ckeqw2ojb0026aiqycl3wd1ti" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/egg/" rel="tag">egg</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/graphQL/" rel="tag">graphQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/06/Docker-BridgeNetwork%E5%8E%9F%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Docker-BridgeNetwork原理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/10/GraphQL%E6%89%AB%E7%9B%B2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">GraphQL扫盲</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ETH/">ETH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elk/">elk</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eos/">eos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ionic/">ionic</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">nodejs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/stellar/">stellar</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/typescript/">typescript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ETH/" rel="tag">ETH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GraphQL/" rel="tag">GraphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/egg/" rel="tag">egg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elk/" rel="tag">elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphQL/" rel="tag">graphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/" rel="tag">ionic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-module/" rel="tag">node_module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag">sql优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" rel="tag">sql分析工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stellar/" rel="tag">stellar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1/" rel="tag">事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="tag">存储引擎</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ETH/" style="font-size: 10px;">ETH</a> <a href="/tags/GraphQL/" style="font-size: 10px;">GraphQL</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/docker/" style="font-size: 15.71px;">docker</a> <a href="/tags/egg/" style="font-size: 10px;">egg</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/eos/" style="font-size: 17.14px;">eos</a> <a href="/tags/graphQL/" style="font-size: 10px;">graphQL</a> <a href="/tags/ionic/" style="font-size: 12.86px;">ionic</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/linux/" style="font-size: 11.43px;">linux</a> <a href="/tags/mysql/" style="font-size: 11.43px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node/" style="font-size: 12.86px;">node</a> <a href="/tags/node-module/" style="font-size: 14.29px;">node_module</a> <a href="/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/tags/sql%E4%BC%98%E5%8C%96/" style="font-size: 12.86px;">sql优化</a> <a href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">sql分析工具</a> <a href="/tags/stellar/" style="font-size: 10px;">stellar</a> <a href="/tags/typescript/" style="font-size: 11.43px;">typescript</a> <a href="/tags/%E4%BA%8B%E5%8A%A1/" style="font-size: 10px;">事务</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 18.57px;">区块链</a> <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" style="font-size: 10px;">存储引擎</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10px;">架构</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 11.43px;">测试</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 12.86px;">索引</a> <a href="/tags/%E9%94%81/" style="font-size: 11.43px;">锁</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/06/Docker-BridgeNetwork%E5%8E%9F%E7%90%86/">Docker-BridgeNetwork原理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/14/egg-graphQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">egg-graphQL源码分析</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/GraphQL%E6%89%AB%E7%9B%B2/">GraphQL扫盲</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/docker-compose%E9%83%A8%E7%BD%B2eak/">docker-compose部署eak</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/node-rabbitMq/">node-rabbitMq</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

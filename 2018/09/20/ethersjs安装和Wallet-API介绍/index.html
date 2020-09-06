@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>ethersjs安装和Wallet-API介绍 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介ethers.js库是以太坊的一个完整的JavaScript库。 参考网址：https:&#x2F;&#x2F;docs.ethers.io&#x2F;ethers.js&#x2F;html&#x2F;getting-started.html 安装在Nodejs1npm install --save ethers  导入 1var ethers &#x3D; require(&amp;#x27;ethers&amp;#x27;);  参考网址：https:&#x2F;&#x2F;docs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ethersjs安装和Wallet-API介绍">
+<meta property="og:url" content="http://example.com/2018/09/20/ethersjs%E5%AE%89%E8%A3%85%E5%92%8CWallet-API%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="简介ethers.js库是以太坊的一个完整的JavaScript库。 参考网址：https:&#x2F;&#x2F;docs.ethers.io&#x2F;ethers.js&#x2F;html&#x2F;getting-started.html 安装在Nodejs1npm install --save ethers  导入 1var ethers &#x3D; require(&amp;#x27;ethers&amp;#x27;);  参考网址：https:&#x2F;&#x2F;docs">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-09-19T16:57:37.000Z">
+<meta property="article:modified_time" content="2020-09-06T09:20:10.839Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="区块链">
+<meta property="article:tag" content="ETH">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ethersjs安装和Wallet-API介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/20/ethersjs%E5%AE%89%E8%A3%85%E5%92%8CWallet-API%E4%BB%8B%E7%BB%8D/" class="article-date">
+  <time datetime="2018-09-19T16:57:37.000Z" itemprop="datePublished">2018-09-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ETH/">ETH</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ethersjs安装和Wallet-API介绍
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>ethers.js库是以太坊的一个完整的JavaScript库。</p>
+<p>参考网址：<a target="_blank" rel="noopener" href="https://docs.ethers.io/ethers.js/html/getting-started.html">https://docs.ethers.io/ethers.js/html/getting-started.html</a></p>
+<h3 id="安装在Nodejs"><a href="#安装在Nodejs" class="headerlink" title="安装在Nodejs"></a>安装在Nodejs</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save ethers</span><br></pre></td></tr></table></figure>
+
+<p>导入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ethers = <span class="built_in">require</span>(<span class="string">&#x27;ethers&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考网址：<a target="_blank" rel="noopener" href="https://docs.ethers.io/ethers.js/html/api-wallet.html">https://docs.ethers.io/ethers.js/html/api-wallet.html</a></p>
+<h3 id="wallet"><a href="#wallet" class="headerlink" title="wallet"></a>wallet</h3><p>一个钱包管理一个私有/公共密钥对，用于对事务进行加密签名并在Ethereum网络上证明所有权。</p>
+<h4 id="创建wallet对象"><a href="#创建wallet对象" class="headerlink" title="创建wallet对象"></a>创建wallet对象</h4><h5 id="私钥创建"><a href="#私钥创建" class="headerlink" title="私钥创建"></a>私钥创建</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> privateKey = <span class="string">&quot;0x0123456789012345678901234567890123456789012345678901234567890123&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> wallet = <span class="keyword">new</span> Wallet(privateKey);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;Address: &quot;</span> + wallet.address);</span><br><span class="line"><span class="comment">// &quot;Address: 0x14791697260E4c9A71f18484C9f997B308e59325&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="随机创建"><a href="#随机创建" class="headerlink" title="随机创建"></a>随机创建</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> wallet = Wallet.createRandom();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;Address: &quot;</span> + wallet.address);</span><br><span class="line"><span class="comment">// &quot;Address: ... this will be different every time ...&quot;</span></span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h5 id="加密钱包"><a href="#加密钱包" class="headerlink" title="加密钱包"></a>加密钱包</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> data = &#123;</span><br><span class="line">    id: <span class="string">&quot;fb1280c0-d646-4e40-9550-7026b1be504a&quot;</span>,</span><br><span class="line">    address: <span class="string">&quot;88a5c2d9919e46f883eb62f7b8dd9d0cc45bc290&quot;</span>,</span><br><span class="line">    Crypto: &#123;</span><br><span class="line">        kdfparams: &#123;</span><br><span class="line">            dklen: <span class="number">32</span>,</span><br><span class="line">            p: <span class="number">1</span>,</span><br><span class="line">            salt: <span class="string">&quot;bbfa53547e3e3bfcc9786a2cbef8504a5031d82734ecef02153e29daeed658fd&quot;</span>,</span><br><span class="line">            r: <span class="number">8</span>,</span><br><span class="line">            n: <span class="number">262144</span></span><br><span class="line">        &#125;,</span><br><span class="line">        kdf: <span class="string">&quot;scrypt&quot;</span>,</span><br><span class="line">        ciphertext: <span class="string">&quot;10adcc8bcaf49474c6710460e0dc974331f71ee4c7baa7314b4a23d25fd6c406&quot;</span>,</span><br><span class="line">        mac: <span class="string">&quot;1cf53b5ae8d75f8c037b453e7c3c61b010225d916768a6b145adf5cf9cb3a703&quot;</span>,</span><br><span class="line">        cipher: <span class="string">&quot;aes-128-ctr&quot;</span>,</span><br><span class="line">        cipherparams: &#123;</span><br><span class="line">            iv: <span class="string">&quot;1dcdf13e49cea706994ed38804f6d171&quot;</span></span><br><span class="line">         &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;version&quot;</span> : <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> json = <span class="built_in">JSON</span>.stringify(data);</span><br><span class="line"><span class="keyword">var</span> password = <span class="string">&quot;foo&quot;</span>;</span><br><span class="line">Wallet.fromEncryptedWallet(json, password).then(<span class="function"><span class="keyword">function</span>(<span class="params">wallet</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Address: &quot;</span> + wallet.address);</span><br><span class="line">    <span class="comment">// &quot;Address: 0x88a5C2d9919e46F883EB62F7b8Dd9d0CC45bc290&quot;</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h5 id="助记词创建"><a href="#助记词创建" class="headerlink" title="助记词创建"></a>助记词创建</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mnemonic = <span class="string">&quot;radar blur cabbage chef fix engine embark joy scheme fiction master release&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> wallet = Wallet.fromMnemonic(mnemonic);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;Address: &quot;</span> + wallet.address);</span><br><span class="line"><span class="comment">// &quot;Address: 0xaC39b311DCEb2A4b2f5d8461c1cdaF756F4F7Ae9&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="账号密码创建"><a href="#账号密码创建" class="headerlink" title="账号密码创建"></a>账号密码创建</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> username = <span class="string">&quot;support@ethers.io&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> password = <span class="string">&quot;password123&quot;</span>;</span><br><span class="line">Wallet.fromBrainWallet(username, password).then(<span class="function"><span class="keyword">function</span>(<span class="params">wallet</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Address: &quot;</span> + wallet.address);</span><br><span class="line">    <span class="comment">// &quot;Address: 0x7Ee9AE2a2eAF3F0df8D323d555479be562ac4905&quot;</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="wallet属性"><a href="#wallet属性" class="headerlink" title="wallet属性"></a>wallet属性</h4><ul>
+<li>address ：地址</li>
+<li>privateKey ：私钥</li>
+<li>provider ：连接的提供商，允许钱包连接到以太坊网络以查询其状态并发送事务</li>
+<li>getAddress()：返回address</li>
+<li>sign(transaction)：对事务进行签名并以十六进制字符串的形式返回已签名的事务</li>
+<li>signMessage(message) ：签名消息并以十六进制字符串返回签名。</li>
+<li>encrypt(password[ , options ] [ , progressCallback]) :返回Promise对象，将钱包加密为Secret Storage JSON Wallet;</li>
+</ul>
+<h5 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h5><h6 id="签名事务，并且发送网络"><a href="#签名事务，并且发送网络" class="headerlink" title="签名事务，并且发送网络"></a>签名事务，并且发送网络</h6><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ethers = <span class="built_in">require</span>(<span class="string">&#x27;ethers&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> Wallet = ethers.Wallet;</span><br><span class="line"><span class="keyword">var</span> utils = ethers.utils;</span><br><span class="line"><span class="keyword">var</span> providers = ethers.providers;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> privateKey = <span class="string">&quot;0x0123456789012345678901234567890123456789012345678901234567890123&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> wallet = <span class="keyword">new</span> Wallet(privateKey);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Address: &#x27;</span> + wallet.address);</span><br><span class="line"><span class="comment">// &quot;Address: 0x14791697260E4c9A71f18484C9f997B308e59325&quot;.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> transaction = &#123;</span><br><span class="line">    nonce: <span class="number">0</span>,</span><br><span class="line">    gasLimit: <span class="number">21000</span>,</span><br><span class="line">    gasPrice: utils.bigNumberify(<span class="string">&quot;20000000000&quot;</span>),</span><br><span class="line"></span><br><span class="line">    to: <span class="string">&quot;0x88a5C2d9919e46F883EB62F7b8Dd9d0CC45bc290&quot;</span>,</span><br><span class="line"></span><br><span class="line">    value: utils.parseEther(<span class="string">&quot;1.0&quot;</span>),</span><br><span class="line">    data: <span class="string">&quot;0x&quot;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">//这确保了事务不能在不同的网络上重播</span></span><br><span class="line">    chainId: providers.networks.homestead.chainId</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> signedTransaction = wallet.sign(transaction);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(signedTransaction);</span><br><span class="line"><span class="comment">// &quot;0xf86c808504a817c8008252089488a5c2d9919e46f883eb62f7b8dd9d0cc45bc2&quot; +</span></span><br><span class="line"><span class="comment">//   &quot;90880de0b6b3a7640000801ca0d7b10eee694f7fd9acaa0baf51e91da5c3d324&quot; +</span></span><br><span class="line"><span class="comment">//   &quot;f67ad827fbe4410a32967cbc32a06ffb0b4ac0855f146ff82bef010f6f2729b4&quot; +</span></span><br><span class="line"><span class="comment">//   &quot;24c57b3be967e2074220fca13e79&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这现在可以发送到Ethereum网络</span></span><br><span class="line"><span class="keyword">var</span> provider = providers.getDefaultProvider();</span><br><span class="line">provider.sendTransaction(signedTransaction).then(<span class="function"><span class="keyword">function</span>(<span class="params">hash</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Hash: &#x27;</span> + hash);</span><br><span class="line">    <span class="comment">// Hash:</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h6 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h6><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> password = <span class="string">&quot;password123&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">percent</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Encrypting: &quot;</span> + <span class="built_in">parseInt</span>(percent * <span class="number">100</span>) + <span class="string">&quot;% complete&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> encryptPromise = wallet.encrypt(password, callback);</span><br><span class="line"></span><br><span class="line">encryptPromise.then(<span class="function"><span class="keyword">function</span>(<span class="params">json</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(json);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="区块链操作"><a href="#区块链操作" class="headerlink" title="区块链操作"></a>区块链操作</h4><p>这些操作要求钱包附加一个网络提供者。</p>
+<h5 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h5><ul>
+<li>getBalance([ blockTag ]) ：在blockTag中返回一个带有钱包余额（作为一个BigNumber，在wei中）的Promise。默认值：blockTag =“最新”</li>
+<li>getTransactionCount( [blockTag]) ：返回一个Promise，其中包含此帐户在blockTag上发送的事务数（也称为nonce）。默认值：blockTag =“最新”</li>
+<li>estimateGas(transaction ) ：返回一个Promise，其中包含事务的估计成本（in gas, as a BigNumber）</li>
+<li>sendTransaction(transaction ) ：将事务发送到网络并返回带有事务详细信息的Promise。 强烈建议省略transaction.chainId，它将由提供者填写。</li>
+<li>send ( addressOrName, amountWei [ , options ] ) ：将金额发送到网络上的地址或名称，并返回带有交易详细信息的承诺。</li>
+</ul>
+<h5 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h5><h6 id="查询网络"><a href="#查询网络" class="headerlink" title="查询网络"></a>查询网络</h6><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> privateKey = <span class="string">&#x27;0x0123456789012345678901234567890123456789012345678901234567890123&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> wallet = <span class="keyword">new</span> ethers.Wallet(privateKey);</span><br><span class="line">wallet.provider = ethers.providers.getDefaultProvider();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> balancePromise = wallet.getBalance();</span><br><span class="line"></span><br><span class="line">balancePromise.then(<span class="function"><span class="keyword">function</span>(<span class="params">balance</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(balance);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> transactionCountPromise = wallet.getTransactionCount();</span><br><span class="line"></span><br><span class="line">transactionCountPromise.then(<span class="function"><span class="keyword">function</span>(<span class="params">transactionCount</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(transactionCount);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h6 id="交易"><a href="#交易" class="headerlink" title="交易"></a>交易</h6><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> privateKey = <span class="string">&#x27;0x0123456789012345678901234567890123456789012345678901234567890123&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> wallet = <span class="keyword">new</span> ethers.Wallet(privateKey);</span><br><span class="line">wallet.provider = ethers.providers.getDefaultProvider();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 必须先将金额转换为最小单位 wei</span></span><br><span class="line"><span class="comment">// parseEther 可以将 ether 转换成 wei</span></span><br><span class="line"><span class="keyword">var</span> amount = ethers.utils.parseEther(<span class="string">&#x27;1.0&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> address = <span class="string">&#x27;0x88a5c2d9919e46f883eb62f7b8dd9d0cc45bc290&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> sendPromise = wallet.send(address, amount);</span><br><span class="line"></span><br><span class="line">sendPromise.then(<span class="function"><span class="keyword">function</span>(<span class="params">transactionHash</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(transactionHash);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// These will query the network for appropriate values</span></span><br><span class="line"><span class="keyword">var</span> options = &#123;</span><br><span class="line">    <span class="comment">//gasLimit: 21000</span></span><br><span class="line">    <span class="comment">//gasPrice: utils.bigNumberify(&quot;20000000000&quot;)</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> promiseSend = wallet.send(address, amount, options);</span><br><span class="line"></span><br><span class="line">promiseSend.then(<span class="function"><span class="keyword">function</span>(<span class="params">transaction</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(transaction);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h6 id="发送复杂交易"><a href="#发送复杂交易" class="headerlink" title="发送复杂交易"></a>发送复杂交易</h6><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> privateKey = <span class="string">&#x27;0x0123456789012345678901234567890123456789012345678901234567890123&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> wallet = <span class="keyword">new</span> ethers.Wallet(privateKey);</span><br><span class="line">wallet.provider = ethers.providers.getDefaultProvider(<span class="string">&#x27;ropsten&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> transaction = &#123;</span><br><span class="line">    <span class="comment">// Recommendation: omit nonce; the provider will query the network</span></span><br><span class="line">    <span class="comment">// nonce: 0,</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Gas Limit; 21000 will send ether to another use, but to execute contracts</span></span><br><span class="line">    <span class="comment">// larger limits are required. The provider.estimateGas can be used for this.</span></span><br><span class="line">    gasLimit: <span class="number">1000000</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Recommendations: omit gasPrice; the provider will query the network</span></span><br><span class="line">    <span class="comment">//gasPrice: utils.bigNumberify(&quot;20000000000&quot;),</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Required; unless deploying a contract (in which case omit)</span></span><br><span class="line">    to: <span class="string">&quot;0x88a5C2d9919e46F883EB62F7b8Dd9d0CC45bc290&quot;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Optional</span></span><br><span class="line">    data: <span class="string">&quot;0x&quot;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Optional</span></span><br><span class="line">    value: ethers.utils.parseEther(<span class="string">&quot;1.0&quot;</span>),</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Recommendation: omit chainId; the provider will populate this</span></span><br><span class="line">    <span class="comment">// chaindId: providers.networks.homestead.chainId</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Estimate the gas cost for the transaction</span></span><br><span class="line"><span class="comment">//var estimateGasPromise = wallet.estimateGas(transaction);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//estimateGasPromise.then(function(gasEstimate) &#123;</span></span><br><span class="line"><span class="comment">//    console.log(gasEstimate);</span></span><br><span class="line"><span class="comment">//&#125;);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Send the transaction</span></span><br><span class="line"><span class="keyword">var</span> sendTransactionPromise = wallet.sendTransaction(transaction);</span><br><span class="line"></span><br><span class="line">sendTransactionPromise.then(<span class="function"><span class="keyword">function</span>(<span class="params">transactionHash</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(transactionHash);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h5 id="解析签名后的交易"><a href="#解析签名后的交易" class="headerlink" title="解析签名后的交易"></a>解析签名后的交易</h5><ul>
+<li>parseTransaction ( hexStringOrArrayish )： 将原始hexStringOrArrayish解析为Transaction。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Mainnet:</span></span><br><span class="line"><span class="keyword">var</span> ethers = <span class="built_in">require</span>(<span class="string">&#x27;ethers&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> Wallet = ethers.Wallet;</span><br><span class="line"><span class="keyword">var</span> utils = ethers.utils;</span><br><span class="line"><span class="keyword">var</span> privateKey = <span class="string">&#x27;0x0123456789012345678901234567890123456789012345678901234567890123&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> wallet = <span class="keyword">new</span> ethers.Wallet(privateKey);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> raw = <span class="string">&quot;0xf87083154262850500cf6e0083015f9094c149be1bcdfa69a94384b46a1f913&quot;</span> +</span><br><span class="line">            <span class="string">&quot;50e5f81c1ab880de6c75de74c236c8025a05b13ef45ce3faf69d1f40f9d15b007&quot;</span> +</span><br><span class="line">            <span class="string">&quot;0cc9e2c92f&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> transaction = &#123;</span><br><span class="line">    nonce: <span class="number">1393250</span>,</span><br><span class="line">    gasLimit: <span class="number">21000</span>,</span><br><span class="line">    gasPrice: utils.bigNumberify(<span class="string">&quot;20000000000&quot;</span>),</span><br><span class="line"></span><br><span class="line">    to: <span class="string">&quot;0xc149Be1bcDFa69a94384b46A1F91350E5f81c1AB&quot;</span>,</span><br><span class="line"></span><br><span class="line">    value: utils.parseEther(<span class="string">&quot;1.0&quot;</span>),</span><br><span class="line">    data: <span class="string">&quot;0x&quot;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// This ensures the transaction cannot be replayed on different networks</span></span><br><span class="line">    chainId: ethers.providers.networks.homestead.chainId</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> signedTransaction = wallet.sign(transaction);</span><br><span class="line"><span class="keyword">var</span> transaction = Wallet.parseTransaction(signedTransaction);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(transaction);</span><br><span class="line"><span class="comment">// &#123; nonce: 1393250,</span></span><br><span class="line"><span class="comment">//   gasPrice: BigNumber &#123; _bn: &lt;BN: 4a817c800&gt; &#125;,</span></span><br><span class="line"><span class="comment">//   gasLimit: BigNumber &#123; _bn: &lt;BN: 5208&gt; &#125;,</span></span><br><span class="line"><span class="comment">//   to: &#x27;0xc149Be1bcDFa69a94384b46A1F91350E5f81c1AB&#x27;,</span></span><br><span class="line"><span class="comment">//   value: BigNumber &#123; _bn: &lt;BN: de0b6b3a7640000&gt; &#125;,</span></span><br><span class="line"><span class="comment">//   data: &#x27;0x&#x27;,</span></span><br><span class="line"><span class="comment">//   v: 38,</span></span><br><span class="line"><span class="comment">//   r: &#x27;0x3cf1f5af8bd11963193451096d86635aed589572c184ac8696dd99c9c044ded3&#x27;,</span></span><br><span class="line"><span class="comment">//   s: &#x27;0x08c52dbf1383492c72598511bb135179ec93b062032d2a0d002214644ba39a2c&#x27;,</span></span><br><span class="line"><span class="comment">//   chainId: 1,</span></span><br><span class="line"><span class="comment">//   from: &#x27;0x14791697260E4c9A71f18484C9f997B308e59325&#x27; &#125;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="验证消息"><a href="#验证消息" class="headerlink" title="验证消息"></a>验证消息</h5><ul>
+<li>verifyMessage ( message , signature )：返回带有签名的消息的地址。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> signature = <span class="string">&quot;0xddd0a7290af9526056b4e35a077b9a11b513aa0028ec6c9880948544508f3c63&quot;</span> +</span><br><span class="line">                  <span class="string">&quot;265e99e47ad31bb2cab9646c504576b3abc6939a1710afc08cbf3034d73214b8&quot;</span> +</span><br><span class="line">                  <span class="string">&quot;1c&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> address = Wallet.verifyMessage(<span class="string">&#x27;hello world&#x27;</span>, signature);</span><br><span class="line"><span class="built_in">console</span>.log(address);</span><br><span class="line"><span class="comment">// &#x27;0x14791697260E4c9A71f18484C9f997B308e59325&#x27;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/09/20/ethersjs%E5%AE%89%E8%A3%85%E5%92%8CWallet-API%E4%BB%8B%E7%BB%8D/" data-id="ckeqw2ojg002eaiqycx3h5kge" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ETH/" rel="tag">ETH</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/21/mocha%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          mocha快速上手
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/14/Linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux常用指令</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ETH/">ETH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elk/">elk</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eos/">eos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ionic/">ionic</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">nodejs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/stellar/">stellar</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/typescript/">typescript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ETH/" rel="tag">ETH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GraphQL/" rel="tag">GraphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/egg/" rel="tag">egg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elk/" rel="tag">elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphQL/" rel="tag">graphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/" rel="tag">ionic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-module/" rel="tag">node_module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag">sql优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" rel="tag">sql分析工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stellar/" rel="tag">stellar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1/" rel="tag">事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="tag">存储引擎</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ETH/" style="font-size: 10px;">ETH</a> <a href="/tags/GraphQL/" style="font-size: 10px;">GraphQL</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/docker/" style="font-size: 15.71px;">docker</a> <a href="/tags/egg/" style="font-size: 10px;">egg</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/eos/" style="font-size: 17.14px;">eos</a> <a href="/tags/graphQL/" style="font-size: 10px;">graphQL</a> <a href="/tags/ionic/" style="font-size: 12.86px;">ionic</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/linux/" style="font-size: 11.43px;">linux</a> <a href="/tags/mysql/" style="font-size: 11.43px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node/" style="font-size: 12.86px;">node</a> <a href="/tags/node-module/" style="font-size: 14.29px;">node_module</a> <a href="/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/tags/sql%E4%BC%98%E5%8C%96/" style="font-size: 12.86px;">sql优化</a> <a href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">sql分析工具</a> <a href="/tags/stellar/" style="font-size: 10px;">stellar</a> <a href="/tags/typescript/" style="font-size: 11.43px;">typescript</a> <a href="/tags/%E4%BA%8B%E5%8A%A1/" style="font-size: 10px;">事务</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 18.57px;">区块链</a> <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" style="font-size: 10px;">存储引擎</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10px;">架构</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 11.43px;">测试</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 12.86px;">索引</a> <a href="/tags/%E9%94%81/" style="font-size: 11.43px;">锁</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/06/Docker-BridgeNetwork%E5%8E%9F%E7%90%86/">Docker-BridgeNetwork原理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/14/egg-graphQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">egg-graphQL源码分析</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/GraphQL%E6%89%AB%E7%9B%B2/">GraphQL扫盲</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/docker-compose%E9%83%A8%E7%BD%B2eak/">docker-compose部署eak</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/node-rabbitMq/">node-rabbitMq</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

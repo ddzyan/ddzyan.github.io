@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>EOS的Unlinkable_block问题解决 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="eos版本：v1.1.1操作系统：centos 7  参考地址：  https:&#x2F;&#x2F;github.com&#x2F;EOSIO&#x2F;eos&#x2F;issues&#x2F;4986 https:&#x2F;&#x2F;github.com&#x2F;EOSIO&#x2F;eos&#x2F;pull&#x2F;5001">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EOS的Unlinkable_block问题解决">
+<meta property="og:url" content="http://example.com/2018/08/09/EOS%E7%9A%84Unlinkable-block%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="eos版本：v1.1.1操作系统：centos 7  参考地址：  https:&#x2F;&#x2F;github.com&#x2F;EOSIO&#x2F;eos&#x2F;issues&#x2F;4986 https:&#x2F;&#x2F;github.com&#x2F;EOSIO&#x2F;eos&#x2F;pull&#x2F;5001">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-08T21:59:22.000Z">
+<meta property="article:modified_time" content="2020-09-06T09:20:10.174Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="区块链">
+<meta property="article:tag" content="eos">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-EOS的Unlinkable-block问题解决" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/09/EOS%E7%9A%84Unlinkable-block%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" class="article-date">
+  <time datetime="2018-08-08T21:59:22.000Z" itemprop="datePublished">2018-08-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/eos/">eos</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      EOS的Unlinkable_block问题解决
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>eos版本：v1.1.1<br>操作系统：centos 7 </p>
+<p>参考地址：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/EOSIO/eos/issues/4986">https://github.com/EOSIO/eos/issues/4986</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/EOSIO/eos/pull/5001">https://github.com/EOSIO/eos/pull/5001</a></li>
+</ul>
+<a id="more"></a>
+
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>区块同步停止，查看nodeos输出如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">2018-08-05T04:07:34.613 thread-0   producer_plugin.cpp:310       on_incoming_block    ] 3030001 unlinkable_block_exception: Unlinkable block</span><br><span class="line">unlinkable block</span><br><span class="line">    &#123;&quot;id&quot;:&quot;0088f55a6f0609ced742278dbc1a0c9bd2660d211187384c63d19ea10d3b65b1&quot;,&quot;previous&quot;:&quot;0088f5596c6ce2d0797beb3306969c9276f5b86fd7c785af778d120201d6ae5b&quot;&#125;</span><br><span class="line">    thread-0  fork_database.cpp:151 add</span><br><span class="line">rethrow</span><br><span class="line">    &#123;&#125;</span><br><span class="line">    thread-0  controller.cpp:924 push_block</span><br><span class="line">2018-08-05T04:07:34.614 thread-0   controller.cpp:924            push_block           ] 3030001 unlinkable_block_exception: Unlinkable block</span><br><span class="line">unlinkable block</span><br><span class="line">    &#123;&quot;id&quot;:&quot;0088f55b290b9bf807736545a1818989243505db569b5546a7890c27f761aab6&quot;,&quot;previous&quot;:&quot;0088f55a6f0609ced742278dbc1a0c9bd2660d211187384c63d19ea10d3b65b1&quot;&#125;</span><br><span class="line">    thread-0  fork_database.cpp:151 add</span><br><span class="line">2018-08-05T04:07:34.614 thread-0   producer_plugin.cpp:310       on_incoming_block    ] 3030001 unlinkable_block_exception: Unlinkable block</span><br><span class="line">unlinkable block</span><br><span class="line">    &#123;&quot;id&quot;:&quot;0088f55b290b9bf807736545a1818989243505db569b5546a7890c27f761aab6&quot;,&quot;previous&quot;:&quot;0088f55a6f0609ced742278dbc1a0c9bd2660d211187384c63d19ea10d3b65b1&quot;&#125;</span><br><span class="line">    thread-0  fork_database.cpp:151 add</span><br><span class="line">rethrow</span><br><span class="line">    &#123;&#125;</span><br><span class="line">    thread-0  controller.cpp:924 push_block</span><br><span class="line">2018-08-05T04:07:34.614 thread-0   controller.cpp:924            push_block           ] 3030001 unlinkable_block_exception: Unlinkable block</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>将eosio升级到1.1.2，此版本已解决此问题。</p>
+<p>修改内容：</p>
+<ol>
+<li>transaction_context包含新的布尔字段explicit_billed_cpu_time，如果billed_cpu_time_us显式设置，则为true （在验证块时始终发生）。如果为真，transaction_context将永远不会更改billed_cpu_time_us字段的值explicit_billed_cpu_time。</li>
+<li>在soft_fail的情况下，节点现在将始终尝试在执行原始延迟事务的可计费CPU时间之上正确计算错误处理程序执行的可计费CPU时间，该时间已失败并导致错误处理程序运行首先。</li>
+<li>在hard_fail的情况下，节点将始终尝试计算适当的金额（到目前为止可用的可计费CPU时间），但正确地受到协议规则允许其充电的最大值的限制。这可以防止控制器add_transaction_usage以不适当的高额调用，这会导致它抛出一个传播的异常，直到它导致块的生成失败。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/08/09/EOS%E7%9A%84Unlinkable-block%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" data-id="ckeqw2oiq000laiqycu8r1kuw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/14/stellar%E8%B5%84%E6%96%99/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          stellar资料
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/09/EOS%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">EOS权限系统</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ETH/">ETH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elk/">elk</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eos/">eos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ionic/">ionic</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">nodejs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/stellar/">stellar</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/typescript/">typescript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ETH/" rel="tag">ETH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GraphQL/" rel="tag">GraphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/egg/" rel="tag">egg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elk/" rel="tag">elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphQL/" rel="tag">graphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/" rel="tag">ionic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-module/" rel="tag">node_module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag">sql优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" rel="tag">sql分析工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stellar/" rel="tag">stellar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1/" rel="tag">事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="tag">存储引擎</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ETH/" style="font-size: 10px;">ETH</a> <a href="/tags/GraphQL/" style="font-size: 10px;">GraphQL</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/docker/" style="font-size: 15.71px;">docker</a> <a href="/tags/egg/" style="font-size: 10px;">egg</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/eos/" style="font-size: 17.14px;">eos</a> <a href="/tags/graphQL/" style="font-size: 10px;">graphQL</a> <a href="/tags/ionic/" style="font-size: 12.86px;">ionic</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/linux/" style="font-size: 11.43px;">linux</a> <a href="/tags/mysql/" style="font-size: 11.43px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node/" style="font-size: 12.86px;">node</a> <a href="/tags/node-module/" style="font-size: 14.29px;">node_module</a> <a href="/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/tags/sql%E4%BC%98%E5%8C%96/" style="font-size: 12.86px;">sql优化</a> <a href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">sql分析工具</a> <a href="/tags/stellar/" style="font-size: 10px;">stellar</a> <a href="/tags/typescript/" style="font-size: 11.43px;">typescript</a> <a href="/tags/%E4%BA%8B%E5%8A%A1/" style="font-size: 10px;">事务</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 18.57px;">区块链</a> <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" style="font-size: 10px;">存储引擎</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10px;">架构</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 11.43px;">测试</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 12.86px;">索引</a> <a href="/tags/%E9%94%81/" style="font-size: 11.43px;">锁</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/06/Docker-BridgeNetwork%E5%8E%9F%E7%90%86/">Docker-BridgeNetwork原理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/14/egg-graphQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">egg-graphQL源码分析</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/GraphQL%E6%89%AB%E7%9B%B2/">GraphQL扫盲</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/docker-compose%E9%83%A8%E7%BD%B2eak/">docker-compose部署eak</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/node-rabbitMq/">node-rabbitMq</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

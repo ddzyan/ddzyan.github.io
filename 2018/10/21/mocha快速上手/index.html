@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>mocha快速上手 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="参考资料 mocha入门1 mocha入门2 Chai.js断言库API中文文档  简介Mocha（发音”摩卡”）诞生于2011年，是现在最流行的JavaScript测试框架之一，在浏览器和Node环境都可以使用。  验证代码的正确性 避免修改代码时出错 避免其他团队成员修改代码时出错 便于自动化测试与部署  插件supertest支持调试本地 api 接口 模块安装12345&#x2F;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mocha快速上手">
+<meta property="og:url" content="http://example.com/2018/10/21/mocha%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="参考资料 mocha入门1 mocha入门2 Chai.js断言库API中文文档  简介Mocha（发音”摩卡”）诞生于2011年，是现在最流行的JavaScript测试框架之一，在浏览器和Node环境都可以使用。  验证代码的正确性 避免修改代码时出错 避免其他团队成员修改代码时出错 便于自动化测试与部署  插件supertest支持调试本地 api 接口 模块安装12345&#x2F;&amp;#x">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015120301.png">
+<meta property="og:image" content="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015120303.png">
+<meta property="article:published_time" content="2018-10-20T17:24:11.000Z">
+<meta property="article:modified_time" content="2020-09-06T09:20:11.584Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="nodejs">
+<meta property="article:tag" content="测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015120301.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-mocha快速上手" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/21/mocha%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" class="article-date">
+  <time datetime="2018-10-20T17:24:11.000Z" itemprop="datePublished">2018-10-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      mocha快速上手
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015120301.png" alt="image"></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/12/a-mocha-tutorial-of-examples.html">mocha入门1</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9c78548caffa">mocha入门2</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f200a75a15d2">Chai.js断言库API中文文档</a></li>
+</ul>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Mocha（发音”摩卡”）诞生于2011年，是现在最流行的JavaScript测试框架之一，在浏览器和Node环境都可以使用。</p>
+<ul>
+<li>验证代码的正确性</li>
+<li>避免修改代码时出错</li>
+<li>避免其他团队成员修改代码时出错</li>
+<li>便于自动化测试与部署</li>
+</ul>
+<h4 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h4><h5 id="supertest"><a href="#supertest" class="headerlink" title="supertest"></a>supertest</h5><p>支持调试本地 api 接口</p>
+<h3 id="模块安装"><a href="#模块安装" class="headerlink" title="模块安装"></a>模块安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;全局安装</span><br><span class="line">npm i -g mocha</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;项目内安装</span><br><span class="line">npm i mocha --save-dev</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h3 id="测试脚本编写"><a href="#测试脚本编写" class="headerlink" title="测试脚本编写"></a>测试脚本编写</h3><p>首先写一个需要测试的脚本</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add.js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = add;</span><br></pre></td></tr></table></figure>
+
+<p>测试代码后缀名为.test.js（表示测试）或者.spec.js（表示规格）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add.test.js</span></span><br><span class="line"><span class="keyword">var</span> add = <span class="built_in">require</span>(<span class="string">&#x27;./add.js&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> expect = <span class="built_in">require</span>(<span class="string">&#x27;chai&#x27;</span>).expect;</span><br><span class="line"></span><br><span class="line">describe(<span class="string">&#x27;加法函数的测试&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  it(<span class="string">&#x27;1 加 1 应该等于 2&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    expect(add(<span class="number">1</span>, <span class="number">1</span>)).to.be.equal(<span class="number">2</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><ul>
+<li>describe块称为”测试套件”（test suite），表示一组相关的测试。它是一个函数，第一个参数是测试套件的名称（”加法函数的测试”），第二个参数是一个实际执行的函数。</li>
+<li>it块称为”测试用例”（test case），表示一个单独的测试，是测试的最小单位。它也是一个函数，第一个参数是测试用例的名称（”1 加 1 应该等于 2”），第二个参数是一个实际执行的函数。</li>
+</ul>
+<h3 id="执行测试"><a href="#执行测试" class="headerlink" title="执行测试"></a>执行测试</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mocha add.test.js</span><br><span class="line"></span><br><span class="line">  加法函数的测试</span><br><span class="line">    ✓ 1 加 1 应该等于 2</span><br><span class="line"></span><br><span class="line">  1 passing (8ms)</span><br></pre></td></tr></table></figure>
+<p>上面的运行结果表示，测试脚本通过了测试，一共只有1个测试用例，耗时是8毫秒。</p>
+<h3 id="测试用例的钩子"><a href="#测试用例的钩子" class="headerlink" title="测试用例的钩子"></a>测试用例的钩子</h3><p>Mocha在describe块之中，提供测试用例的四个钩子：before()、after()、beforeEach()和afterEach()。它们会在指定时间执行。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">describe(<span class="string">&#x27;hooks&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  before(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 在本区块的所有测试用例之前执行</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  after(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 在本区块的所有测试用例之后执行</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  beforeEach(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 在本区块的每个测试用例之前执行</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  afterEach(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 在本区块的每个测试用例之后执行</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// test cases</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="命令行参数"><a href="#命令行参数" class="headerlink" title="命令行参数"></a>命令行参数</h3><h4 id="–reporter-R"><a href="#–reporter-R" class="headerlink" title="–reporter, -R"></a>–reporter, -R</h4><p>使用mochawesome模块，可以生成漂亮的HTML格式的报告<br><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015120303.png" alt="image"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save-dev mochawesome</span><br><span class="line">$ ../node_modules/.bin/mocha --reporter mochawesome</span><br></pre></td></tr></table></figure>
+<p>测试结果报告就在mochaawesome-reports子目录生成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;mocha.opts</span><br><span class="line"></span><br><span class="line">--timeout 30000</span><br><span class="line">--slow 1000</span><br><span class="line">--bail</span><br><span class="line">--recursive</span><br><span class="line">--reporter mochawesome</span><br><span class="line">--reporter-options overwrite&#x3D;true,reportDir&#x3D;report,inline&#x3D;true,cdn&#x3D;true,json&#x3D;false,reportTitle&#x3D;x-blockchain</span><br></pre></td></tr></table></figure>
+<h5 id="测试报告工具详细设置"><a href="#测试报告工具详细设置" class="headerlink" title="测试报告工具详细设置"></a>测试报告工具详细设置</h5><ul>
+<li>–reporter：指定测试报告工具</li>
+<li>–reporter-options(-O)：测试报告工具详细设置</li>
+</ul>
+<h6 id="mochawesome参数配置"><a href="#mochawesome参数配置" class="headerlink" title="mochawesome参数配置"></a>mochawesome参数配置</h6><p>参考地址：<a target="_blank" rel="noopener" href="https://github.com/adamgruber/mochawesome-report-generator#options">https://github.com/adamgruber/mochawesome-report-generator#options</a></p>
+<ul>
+<li>html：测试输出HTML</li>
+<li>json：测试输出JSON</li>
+<li>reportDir：输出的文件地址</li>
+<li>reportFilename：测试输出的文件名称</li>
+</ul>
+<hr>
+<h4 id="–bail-b"><a href="#–bail-b" class="headerlink" title="–bail, -b"></a>–bail, -b</h4><p>–bail参数指定只要有一个测试用例没有通过，就停止执行后面的测试用例。这对持续集成很有用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mocha --bail</span><br></pre></td></tr></table></figure>
+<h4 id="–grep-g"><a href="#–grep-g" class="headerlink" title="–grep, -g"></a>–grep, -g</h4><p>–grep参数用于搜索测试用例的名称（即it块的第一个参数），然后只执行匹配的测试用例。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mocha --grep <span class="string">&quot;111&quot;</span></span><br></pre></td></tr></table></figure>
+<h4 id="–invert-i"><a href="#–invert-i" class="headerlink" title="–invert, -i"></a>–invert, -i</h4><p>–invert参数表示只运行不符合条件的测试脚本，必须与–grep参数配合使用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mocha --grep <span class="string">&quot;1 加 1&quot;</span> --invert</span><br></pre></td></tr></table></figure>
+<h4 id="–timeout"><a href="#–timeout" class="headerlink" title="–timeout"></a>–timeout</h4><p>设置测试超时时间</p>
+<h4 id="–slow"><a href="#–slow" class="headerlink" title="–slow"></a>–slow</h4><p>指定“慢”测试阈值，默认为75毫秒。Mocha用这个去高亮那些耗时过长的测试。</p>
+<h4 id="–recursive"><a href="#–recursive" class="headerlink" title="–recursive"></a>–recursive</h4><p>包含子目录</p>
+<hr>
+<h4 id="配置文件mocha-opts"><a href="#配置文件mocha-opts" class="headerlink" title="配置文件mocha.opts"></a>配置文件mocha.opts</h4><p>Mocha允许在test目录下面，放置配置文件mocha.opts，把命令行参数写在里面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;mocha.opts</span><br><span class="line">--reporter tap</span><br><span class="line">--recursive</span><br><span class="line">--growl</span><br></pre></td></tr></table></figure>
+<p>然后，执行mocha就能取得与第一行命令一样的效果。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/10/21/mocha%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" data-id="ckeqw2ojs003aaiqy11inh985" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/25/bignumber-js%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          bignumber.js快速上手
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/20/ethersjs%E5%AE%89%E8%A3%85%E5%92%8CWallet-API%E4%BB%8B%E7%BB%8D/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ethersjs安装和Wallet-API介绍</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ETH/">ETH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elk/">elk</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eos/">eos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ionic/">ionic</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">nodejs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/stellar/">stellar</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/typescript/">typescript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ETH/" rel="tag">ETH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GraphQL/" rel="tag">GraphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/egg/" rel="tag">egg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elk/" rel="tag">elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphQL/" rel="tag">graphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/" rel="tag">ionic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-module/" rel="tag">node_module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag">sql优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" rel="tag">sql分析工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stellar/" rel="tag">stellar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1/" rel="tag">事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="tag">存储引擎</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ETH/" style="font-size: 10px;">ETH</a> <a href="/tags/GraphQL/" style="font-size: 10px;">GraphQL</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/docker/" style="font-size: 15.71px;">docker</a> <a href="/tags/egg/" style="font-size: 10px;">egg</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/eos/" style="font-size: 17.14px;">eos</a> <a href="/tags/graphQL/" style="font-size: 10px;">graphQL</a> <a href="/tags/ionic/" style="font-size: 12.86px;">ionic</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/linux/" style="font-size: 11.43px;">linux</a> <a href="/tags/mysql/" style="font-size: 11.43px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node/" style="font-size: 12.86px;">node</a> <a href="/tags/node-module/" style="font-size: 14.29px;">node_module</a> <a href="/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/tags/sql%E4%BC%98%E5%8C%96/" style="font-size: 12.86px;">sql优化</a> <a href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">sql分析工具</a> <a href="/tags/stellar/" style="font-size: 10px;">stellar</a> <a href="/tags/typescript/" style="font-size: 11.43px;">typescript</a> <a href="/tags/%E4%BA%8B%E5%8A%A1/" style="font-size: 10px;">事务</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 18.57px;">区块链</a> <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" style="font-size: 10px;">存储引擎</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10px;">架构</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 11.43px;">测试</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 12.86px;">索引</a> <a href="/tags/%E9%94%81/" style="font-size: 11.43px;">锁</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/06/Docker-BridgeNetwork%E5%8E%9F%E7%90%86/">Docker-BridgeNetwork原理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/14/egg-graphQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">egg-graphQL源码分析</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/GraphQL%E6%89%AB%E7%9B%B2/">GraphQL扫盲</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/docker-compose%E9%83%A8%E7%BD%B2eak/">docker-compose部署eak</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/node-rabbitMq/">node-rabbitMq</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

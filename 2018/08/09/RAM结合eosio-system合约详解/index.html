@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>RAM结合eosio.system合约详解 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="源码分析eosio.system.cpp12345678910&#x2F;&#x2F; native.hpp (newaccount definition is actually in eosio.system.cpp)(newaccount)(updateauth)(deleteauth)(linkauth)(unlinkauth)(canceldelay)(onerror)&#x2F;&amp;#x2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RAM结合eosio.system合约详解">
+<meta property="og:url" content="http://example.com/2018/08/09/RAM%E7%BB%93%E5%90%88eosio-system%E5%90%88%E7%BA%A6%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="源码分析eosio.system.cpp12345678910&#x2F;&#x2F; native.hpp (newaccount definition is actually in eosio.system.cpp)(newaccount)(updateauth)(deleteauth)(linkauth)(unlinkauth)(canceldelay)(onerror)&#x2F;&amp;#x2">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/ram-gs.jpg">
+<meta property="og:image" content="http://example.com/images/ram-step.png">
+<meta property="article:published_time" content="2018-08-08T19:06:52.000Z">
+<meta property="article:modified_time" content="2020-09-06T09:20:12.630Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="区块链">
+<meta property="article:tag" content="eos">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/ram-gs.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-RAM结合eosio-system合约详解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/09/RAM%E7%BB%93%E5%90%88eosio-system%E5%90%88%E7%BA%A6%E8%AF%A6%E8%A7%A3/" class="article-date">
+  <time datetime="2018-08-08T19:06:52.000Z" itemprop="datePublished">2018-08-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/eos/">eos</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      RAM结合eosio.system合约详解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><h4 id="eosio-system-cpp"><a href="#eosio-system-cpp" class="headerlink" title="eosio.system.cpp"></a>eosio.system.cpp</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; native.hpp (newaccount definition is actually in eosio.system.cpp)</span><br><span class="line">(newaccount)(updateauth)(deleteauth)(linkauth)(unlinkauth)(canceldelay)(onerror)</span><br><span class="line">&#x2F;&#x2F; eosio.system.cpp</span><br><span class="line">(setram)(setparams)(setpriv)(rmvproducer)(bidname)</span><br><span class="line">&#x2F;&#x2F; delegate_bandwidth.cpp</span><br><span class="line">(buyrambytes)(buyram)(sellram)(delegatebw)(undelegatebw)(refund)</span><br><span class="line">&#x2F;&#x2F; voting.cpp</span><br><span class="line">(regproducer)(unregprod)(voteproducer)(regproxy)</span><br><span class="line">&#x2F;&#x2F; producer_pay.cpp</span><br><span class="line">(onblock)(claimrewards)</span><br></pre></td></tr></table></figure>
+<p>ram,cpu和net操作相关方法的都定义在 <strong>delegate_bandwidth.cpp</strong> ，其中和 RAM 相关的是 buyrambytes (通过指定字节数购买ram), buyram (通过指定货币购买ram)和 sellram (销售ram)。</p>
+<h4 id="delegate-bandwidth-cpp"><a href="#delegate-bandwidth-cpp" class="headerlink" title="delegate_bandwidth.cpp"></a>delegate_bandwidth.cpp</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;根据当前市场的份额，将需要购买的字节数转化为指定的EOS进行购买</span><br><span class="line">void system_contract::buyrambytes( account_name payer, account_name receiver, uint32_t bytes ) &#123;</span><br><span class="line">      &#x2F;&#x2F;在数据库中查询RAMCORE发行量，默认为100000000000000</span><br><span class="line">      auto itr &#x3D; _rammarket.find(S(4,RAMCORE));</span><br><span class="line">      auto tmp &#x3D; *itr;</span><br><span class="line">      auto eosout &#x3D; tmp.convert( asset(bytes,S(0,RAM)), CORE_SYMBOL );</span><br><span class="line">      &#x2F;&#x2F;通过转化后，调用buyram使用EOS购买</span><br><span class="line">      buyram( payer, receiver, eosout );</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h5><p>RAM的交易机制采用Bancor算法，使每字节的价格保持不变，通过中间代币(RAMCORE)来保证EOS和RAM之间的交易流通性。从上源码看首先获得RAMCORE的发行量，再通过tmp.convert方法RAM-&gt;RAMCORE，RAMCORE-&gt;EOS(CORE_SYMBOL)再调用 buyram 进行购买。这里的CORE_SYMBOL不一定是指EOS，查看core_symbol.hpp，发现源码内定义为SYS，也就是说在没有修改的前提下，需要提前发行SYS代币，才能进行RAM购买。</p>
+<a id="more"></a>
+
+<h4 id="core-symbol-hpp"><a href="#core-symbol-hpp" class="headerlink" title="core_symbol.hpp"></a>core_symbol.hpp</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define CORE_SYMBOL S(4,SYS)</span><br></pre></td></tr></table></figure>
+<h4 id="delegate-bandwidth-cpp-1"><a href="#delegate-bandwidth-cpp-1" class="headerlink" title="delegate_bandwidth.cpp"></a>delegate_bandwidth.cpp</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">void system_contract::buyram(account_name payer, account_name receiver, asset quant)</span><br><span class="line">&#123;</span><br><span class="line">      &#x2F;&#x2F;验证权限</span><br><span class="line">      require_auth(payer);</span><br><span class="line">      &#x2F;&#x2F;不能为0</span><br><span class="line">      eosio_assert(quant.amount &gt; 0, &quot;must purchase a positive amount&quot;);</span><br><span class="line"></span><br><span class="line">      auto fee &#x3D; quant;</span><br><span class="line">      &#x2F;&#x2F;手续费为0.5%，如果amoun为1则手续费为1，如果小于1，则手续费在amoun&lt;free&lt;1 quant.amount.</span><br><span class="line">      &#x2F;&#x2F;扣除手续费后的金额，也就是实际用于购买RAM的金额。如果扣除手续费后，金额为0，则会引起下面的操作失败。</span><br><span class="line">      auto quant_after_fee &#x3D; quant;</span><br><span class="line">      quant_after_fee.amount -&#x3D; fee.amount; the next inline transfer will fail causing the buyram action to fail.</span><br><span class="line"></span><br><span class="line">      INLINE_ACTION_SENDER(eosio::token, transfer)</span><br><span class="line">      (N(eosio.token), &#123;payer, N(active)&#125;,</span><br><span class="line">       &#123;payer, N(eosio.ram), quant_after_fee, std::string(&quot;buy ram&quot;)&#125;);</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F;如果手续费大于0，则将手续费使用eosio.token合约中的transfer，将金额转移给eosio.ramfee，备注为ram fee</span><br><span class="line">      if (fee.amount &gt; 0)</span><br><span class="line">      &#123;</span><br><span class="line">            INLINE_ACTION_SENDER(eosio::token, transfer)</span><br><span class="line">            (N(eosio.token), &#123;payer, N(active)&#125;,</span><br><span class="line">             &#123;payer, N(eosio.ramfee), fee, std::string(&quot;ram fee&quot;)&#125;);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      int64_t bytes_out;</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F;根据ram市场里的EOS和RAM实时汇率计算出能够购买的RAM总量</span><br><span class="line">      const auto &amp;market &#x3D; _rammarket.get(S(4, RAMCORE), &quot;ram market does not exist&quot;);</span><br><span class="line">      _rammarket.modify(market, 0, [&amp;](auto &amp;es) &#123;</span><br><span class="line">            &#x2F;&#x2F;转化方法请参考下半部分</span><br><span class="line">            bytes_out &#x3D; es.convert(quant_after_fee, S(0, RAM)).amount;</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F;剩余总量大于0判断</span><br><span class="line">      eosio_assert(bytes_out &gt; 0, &quot;must reserve a positive amount&quot;);</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F;更新全局变量，总共可以使用的内存大小</span><br><span class="line">      _gstate.total_ram_bytes_reserved +&#x3D; uint64_t(bytes_out);</span><br><span class="line">      &#x2F;&#x2F;更新全局变量，购买RAM冻结总金额</span><br><span class="line">      _gstate.total_ram_stake +&#x3D; quant_after_fee.amount;</span><br><span class="line"></span><br><span class="line">      user_resources_table userres(_self, receiver);</span><br><span class="line">      auto res_itr &#x3D; userres.find(receiver);</span><br><span class="line">      if (res_itr &#x3D;&#x3D; userres.end())</span><br><span class="line">      &#123;</span><br><span class="line">            &#x2F;&#x2F;在userres表中添加ram相关记录</span><br><span class="line">            res_itr &#x3D; userres.emplace(receiver, [&amp;](auto &amp;res) &#123;</span><br><span class="line">                  res.owner &#x3D; receiver;</span><br><span class="line">                  res.ram_bytes &#x3D; bytes_out;</span><br><span class="line">            &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">      else</span><br><span class="line">      &#123;</span><br><span class="line">            &#x2F;&#x2F;在userres表中修改ram相关记录</span><br><span class="line">            userres.modify(res_itr, receiver, [&amp;](auto &amp;res) &#123;</span><br><span class="line">                  res.ram_bytes +&#x3D; bytes_out;</span><br><span class="line">            &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">      &#x2F;&#x2F;更新账号的RAM拥有量</span><br><span class="line">      set_resource_limits(res_itr-&gt;owner, res_itr-&gt;ram_bytes, res_itr-&gt;net_weight.amount, res_itr-&gt;cpu_weight.amount);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="解析-1"><a href="#解析-1" class="headerlink" title="解析"></a>解析</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INLINE_ACTION_SENDER(eosio::token, <span class="built_in">transfer</span>)</span><br><span class="line">            (N(eosio.token), &#123;payer, N(active)&#125;,</span><br><span class="line">             &#123;payer, N(eosio.ramfee), fee, <span class="built_in">std</span>::<span class="built_in">string</span>(<span class="string">&quot;ram fee&quot;</span>)&#125;);</span><br></pre></td></tr></table></figure>
+<p>INLINE_ACTION_SENDER为内联调用其他合约交易的方法，这里 transfer 参数对应为：合约名称，交易行为，合约账号，授权账号，支付账号，接收账号，金额，备注。具体的参数根据调用的合约交易方法而定。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">user_resources_table  <span class="title">userres</span><span class="params">( _self, receiver )</span></span>;</span><br></pre></td></tr></table></figure>
+<p>user_resources_table 为 typedef eosio::multi_index&lt; N(userres), user_resources&gt; 的重命名，这个方法是引用 multi_index.hpp ,这里定义对DB的所有操作，后续会专门分析。通过查询获取账号在DB中是否有值，进行操作。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set_resource_limits( res_itr-&gt;owner, res_itr-&gt;ram_bytes, res_itr-&gt;net_weight.amount, res_itr-&gt;cpu_weight.amount );</span><br></pre></td></tr></table></figure>
+<p>更新账号的限制资源，此方法最终执行的为到 pending_limits 表中一条购买的资源数据。</p>
+<p>参数：</p>
+<ul>
+<li>ram_bytes - ram limit</li>
+<li>net_weight - net limit</li>
+<li>cpu_weight - cput limit</li>
+</ul>
+<p>相关注释已经在代码中，这里还会用到一个比较重要的内容，那就是代币转化为RAM的公式，此方法请参考下面。</p>
+<h4 id="exchange-state-cpp"><a href="#exchange-state-cpp" class="headerlink" title="exchange_state.cpp"></a>exchange_state.cpp</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">asset exchange_state::convert_to_exchange( connector&amp; c, asset in ) &#123;</span><br><span class="line">      real_type R(supply.amount);   &#x2F;&#x2F;RAM已经售出的总量</span><br><span class="line">      real_type C(c.balance.amount+in.amount);  &#x2F;&#x2F;RAM总购买金额+本次购买的量</span><br><span class="line">      real_type F(c.weight&#x2F;1000.0);</span><br><span class="line">      real_type T(in.amount);</span><br><span class="line">      real_type ONE(1.0);</span><br><span class="line"></span><br><span class="line">      real_type E &#x3D; -R * (ONE - std::pow( ONE + T &#x2F; C, F) );&#x2F;&#x2F;换算出EOS对应的RAM量</span><br><span class="line">      &#x2F;&#x2F;print( &quot;E: &quot;, E, &quot;\n&quot;);</span><br><span class="line">      int64_t issued &#x3D; int64_t(E);</span><br><span class="line"></span><br><span class="line">      supply.amount +&#x3D; issued;&#x2F;&#x2F;更新RAM已经售出的总量</span><br><span class="line">      c.balance.amount +&#x3D; in.amount;&#x2F;&#x2F;更新RAM总购买金额</span><br><span class="line"></span><br><span class="line">      return asset( issued, supply.symbol );</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">asset exchange_state::convert( asset from, symbol_type to ) &#123;</span><br><span class="line">      auto sell_symbol  &#x3D; from.symbol;  </span><br><span class="line">      auto ex_symbol    &#x3D; supply.symbol; </span><br><span class="line">      auto base_symbol  &#x3D; base.balance.symbol;  </span><br><span class="line">      auto quote_symbol &#x3D; quote.balance.symbol;</span><br><span class="line">      </span><br><span class="line">     &#x2F;&#x2F;根据币种转化可以购买的RAM量</span><br><span class="line">      if( sell_symbol !&#x3D; ex_symbol ) &#123;</span><br><span class="line">         if( sell_symbol &#x3D;&#x3D; base_symbol ) &#123;</span><br><span class="line">            from &#x3D; convert_to_exchange( base, from );</span><br><span class="line">         &#125; else if( sell_symbol &#x3D;&#x3D; quote_symbol ) &#123;</span><br><span class="line">            from &#x3D; convert_to_exchange( quote, from );</span><br><span class="line">         &#125; else &#123; </span><br><span class="line">            eosio_assert( false, &quot;invalid sell&quot; );</span><br><span class="line">         &#125;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">         if( to &#x3D;&#x3D; base_symbol ) &#123;</span><br><span class="line">            from &#x3D; convert_from_exchange( base, from ); </span><br><span class="line">         &#125; else if( to &#x3D;&#x3D; quote_symbol ) &#123;</span><br><span class="line">            from &#x3D; convert_from_exchange( quote, from ); </span><br><span class="line">         &#125; else &#123;</span><br><span class="line">            eosio_assert( false, &quot;invalid conversion&quot; );</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      if( to !&#x3D; from.symbol )</span><br><span class="line">         return convert( from, to );</span><br><span class="line"></span><br><span class="line">      return from;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>convert_to_exchange的转化公式如下：<br><img src="/images/ram-gs.jpg" alt="image|432x98"></p>
+<p>ram购买的量是一个绝对值，是根据购买EOS的金额和当前市场内ram的数量计算出来的。一般来说在ram总量不增加的情况下，一样金额的EOS，所能获得的ram会越来越少。所以如果早期你购买了ram，然后过段时间后通过sellram卖掉ram可能还能挣钱。</p>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="ram购买流程图"><a href="#ram购买流程图" class="headerlink" title="ram购买流程图"></a>ram购买流程图</h4><p><img src="/images/ram-step.png" alt="image|690x488"></p>
+<p>购买RAM最终将以添加到数据库里的值为准，也就是说明每次的查询可用量都将根据本地数据库同步到的数据为准。接下来将主要分析multi_index请参考：<a target="_blank" rel="noopener" href="http://111.231.215.55/posts/eos_multi-index.html">http://111.231.215.55/posts/eos_multi-index.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/08/09/RAM%E7%BB%93%E5%90%88eosio-system%E5%90%88%E7%BA%A6%E8%AF%A6%E8%A7%A3/" data-id="ckeqw2oj0001baiqya73pf8ya" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/09/EOS%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2-%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E7%8E%AF%E5%A2%83/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          EOS自动化部署,搭建私有环境
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/04/EOS%E6%A0%B8%E5%BF%83%E4%BB%8B%E7%BB%8D/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">EOS核心介绍</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ETH/">ETH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elk/">elk</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eos/">eos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ionic/">ionic</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">nodejs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/stellar/">stellar</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/typescript/">typescript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ETH/" rel="tag">ETH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GraphQL/" rel="tag">GraphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/egg/" rel="tag">egg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elk/" rel="tag">elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphQL/" rel="tag">graphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/" rel="tag">ionic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-module/" rel="tag">node_module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag">sql优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" rel="tag">sql分析工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stellar/" rel="tag">stellar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1/" rel="tag">事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="tag">存储引擎</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ETH/" style="font-size: 10px;">ETH</a> <a href="/tags/GraphQL/" style="font-size: 10px;">GraphQL</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/docker/" style="font-size: 15.71px;">docker</a> <a href="/tags/egg/" style="font-size: 10px;">egg</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/eos/" style="font-size: 17.14px;">eos</a> <a href="/tags/graphQL/" style="font-size: 10px;">graphQL</a> <a href="/tags/ionic/" style="font-size: 12.86px;">ionic</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/linux/" style="font-size: 11.43px;">linux</a> <a href="/tags/mysql/" style="font-size: 11.43px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node/" style="font-size: 12.86px;">node</a> <a href="/tags/node-module/" style="font-size: 14.29px;">node_module</a> <a href="/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/tags/sql%E4%BC%98%E5%8C%96/" style="font-size: 12.86px;">sql优化</a> <a href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">sql分析工具</a> <a href="/tags/stellar/" style="font-size: 10px;">stellar</a> <a href="/tags/typescript/" style="font-size: 11.43px;">typescript</a> <a href="/tags/%E4%BA%8B%E5%8A%A1/" style="font-size: 10px;">事务</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 18.57px;">区块链</a> <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" style="font-size: 10px;">存储引擎</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10px;">架构</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 11.43px;">测试</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 12.86px;">索引</a> <a href="/tags/%E9%94%81/" style="font-size: 11.43px;">锁</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/06/Docker-BridgeNetwork%E5%8E%9F%E7%90%86/">Docker-BridgeNetwork原理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/14/egg-graphQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">egg-graphQL源码分析</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/GraphQL%E6%89%AB%E7%9B%B2/">GraphQL扫盲</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/docker-compose%E9%83%A8%E7%BD%B2eak/">docker-compose部署eak</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/node-rabbitMq/">node-rabbitMq</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

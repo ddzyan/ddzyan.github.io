@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-mysql知识点大纲-持续更新" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/09/mysql%E7%9F%A5%E8%AF%86%E7%82%B9%E5%A4%A7%E7%BA%B2-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/" class="article-date">
+  <time datetime="2020-03-09T08:25:07.000Z" itemprop="datePublished">2020-03-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/mysql/">mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/09/mysql%E7%9F%A5%E8%AF%86%E7%82%B9%E5%A4%A7%E7%BA%B2-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/">mysql知识点大纲(持续更新)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/mysql%E6%8A%80%E6%9C%AF%E8%B7%AF%E7%BA%BF.png" alt="image"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/03/09/mysql%E7%9F%A5%E8%AF%86%E7%82%B9%E5%A4%A7%E7%BA%B2-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/" data-id="ckeqw2ojw003kaiqy1tua5860" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-sql优化之profile" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/07/sql%E4%BC%98%E5%8C%96%E4%B9%8Bprofile/" class="article-date">
+  <time datetime="2020-03-07T10:31:06.000Z" itemprop="datePublished">2020-03-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/mysql/">mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/07/sql%E4%BC%98%E5%8C%96%E4%B9%8Bprofile/">sql优化之profile</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>mysql profile 工具可以记录执行sql总消耗的时间，并且记录系统cpu和i/o锁消耗的时间。</p>
+<p>此工具建议只在开发环境中启动，生产环境应该关闭，减少资源消耗。</p>
+        
+          <p class="article-more-link">
+            <a href="/2020/03/07/sql%E4%BC%98%E5%8C%96%E4%B9%8Bprofile/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/03/07/sql%E4%BC%98%E5%8C%96%E4%B9%8Bprofile/" data-id="ckeqw2okd0051aiqy5rimccdm" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" rel="tag">sql分析工具</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-mysql集群配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/07/mysql%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time datetime="2020-03-07T07:19:38.000Z" itemprop="datePublished">2020-03-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/mysql/">mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/07/mysql%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/">mysql集群配置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>mysql集群配置，采用的是主从模式。可以将一个数据库的数据复制到另外一个数据库中，其中主数据库称为master,从数据库称为slave,关系为1对多。复制操作为异步，从数据库不需要一直连接着主数据库。</p>
+<h3 id="常见错误解决方案"><a href="#常见错误解决方案" class="headerlink" title="常见错误解决方案"></a>常见错误解决方案</h3><ol>
+<li>文档：<a target="_blank" rel="noopener" href="https://blog.csdn.net/mbytes/article/details/86711508">https://blog.csdn.net/mbytes/article/details/86711508</a></li>
+</ol>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>实现高负载：采用读写分离，将一个数据库的压力进行分担</li>
+<li>提高安全性：多个从数据库对主数据库的数据进行备份，防止主数据库数据丢失</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2020/03/07/mysql%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/03/07/mysql%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/" data-id="ckeqw2ojy003saiqy61lt149k" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-sql优化之排序" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/06/sql%E4%BC%98%E5%8C%96%E4%B9%8B%E6%8E%92%E5%BA%8F/" class="article-date">
+  <time datetime="2020-03-06T07:14:41.000Z" itemprop="datePublished">2020-03-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/mysql/">mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/06/sql%E4%BC%98%E5%8C%96%E4%B9%8B%E6%8E%92%E5%BA%8F/">sql优化之排序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>本文介绍在sql中进行 order by 操作的时候，如何进行分析和优化sql执行效率。</p>
+<p>order by 索引优化总结：</p>
+<ol>
+<li>避免出现 using filesort(文件排序)，常见的方法如下：<ol>
+<li>单值索引：<ol>
+<li>order by列 和 select列一致，可以实现using index(索引覆盖)</li>
+<li>order by 只能使用一个索引，无法同时使用多个索引</li>
+</ol>
+</li>
+<li>复合索引：<ol>
+<li>order by列的顺序需要和复合索引创建顺序一致，不能跨列(最佳左前缀)</li>
+<li>where + order by 列需要和索引创建顺序一致，不能跨列(最佳左前缀)</li>
+<li>不能对 order by 列同时进行正向和反向排序</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2020/03/06/sql%E4%BC%98%E5%8C%96%E4%B9%8B%E6%8E%92%E5%BA%8F/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/03/06/sql%E4%BC%98%E5%8C%96%E4%B9%8B%E6%8E%92%E5%BA%8F/" data-id="ckeqw2oke0055aiqy308d0sjl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag">sql优化</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-多表sql优化实战" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/02/%E5%A4%9A%E8%A1%A8sql%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98/" class="article-date">
+  <time datetime="2020-03-02T14:27:17.000Z" itemprop="datePublished">2020-03-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/mysql/">mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/02/%E5%A4%9A%E8%A1%A8sql%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98/">多表sql优化实战</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>了解在多表查询的时候，如何使用索引来优化sql执行效率</p>
+<p>多表查询，索引添加原则：</p>
+<ol>
+<li>根据程序循环设计原则：外循环为小循环，内循环为大循环得出—&gt;小表驱动大表</li>
+<li>在表中索引建立在经常使用的字段</li>
+</ol>
+<h3 id="预备数据"><a href="#预备数据" class="headerlink" title="预备数据"></a>预备数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> demo</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> teacher(</span><br><span class="line">    tid <span class="built_in">bigint</span>(<span class="number">11</span>),</span><br><span class="line">    <span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">10</span>),</span><br><span class="line">    cid <span class="built_in">bigint</span>(<span class="number">11</span>)</span><br><span class="line">)<span class="keyword">engine</span>=<span class="keyword">innodb</span> <span class="keyword">default</span> <span class="keyword">charset</span>=utf8;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> course(</span><br><span class="line">    cid <span class="built_in">bigint</span>(<span class="number">11</span>),</span><br><span class="line">    title <span class="built_in">varchar</span>(<span class="number">10</span>)</span><br><span class="line">)<span class="keyword">engine</span>=<span class="keyword">innodb</span> <span class="keyword">default</span> <span class="keyword">charset</span>=utf8;</span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> teacher <span class="keyword">values</span> (<span class="number">1</span>,<span class="string">&quot;tz&quot;</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> teacher <span class="keyword">values</span> (<span class="number">2</span>,<span class="string">&quot;td&quot;</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> teacher <span class="keyword">values</span> (<span class="number">3</span>,<span class="string">&quot;zh&quot;</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> course <span class="keyword">values</span> (<span class="number">1</span>,<span class="string">&quot;mysql&quot;</span>);</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2020/03/02/%E5%A4%9A%E8%A1%A8sql%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/03/02/%E5%A4%9A%E8%A1%A8sql%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98/" data-id="ckeqw2okx0065aiqy91v85dlt" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag">sql优化</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-单表sql优化实战" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/02/26/%E5%8D%95%E8%A1%A8sql%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98/" class="article-date">
+  <time datetime="2020-02-26T08:42:41.000Z" itemprop="datePublished">2020-02-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/mysql/">mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/02/26/%E5%8D%95%E8%A1%A8sql%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98/">单表sql优化实战</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>模拟sql执行，根据返回结果分析和优化，从而提升sql执行效率。</p>
+<p>注意的点：</p>
+<ol>
+<li>复合索引的创建顺序和使用顺序需要一致</li>
+<li>在范围查询中，如果使用了in ，则可能会导致索引失效</li>
+<li>根据sql执行顺序，合理创建复合索引，使之满足第一个条件</li>
+<li>正常将sql查询类型优化到 type=ref/range 就可以。</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/2020/02/26/%E5%8D%95%E8%A1%A8sql%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/02/26/%E5%8D%95%E8%A1%A8sql%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98/" data-id="ckeqw2okw0061aiqye4e0fes2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag">sql优化</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-闭包的理解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/11/08/%E9%97%AD%E5%8C%85%E7%9A%84%E7%90%86%E8%A7%A3/" class="article-date">
+  <time datetime="2019-11-08T08:10:16.000Z" itemprop="datePublished">2019-11-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/08/%E9%97%AD%E5%8C%85%E7%9A%84%E7%90%86%E8%A7%A3/">闭包的理解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>问题：</p>
+<ol>
+<li>什么是闭包</li>
+<li>为什么需要闭包</li>
+<li>闭包的优点和缺点</li>
+<li>什么时候使用闭包</li>
+<li>如何解决闭包造成的内存溢出</li>
+</ol>
+<p>参考文档：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html">http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures</a></li>
+</ul>
+<h3 id="什么是闭包"><a href="#什么是闭包" class="headerlink" title="什么是闭包"></a>什么是闭包</h3><p>在代码中变量分为：全局变量和局部变量。</p>
+<p>在 js 运行环境中存在链式作用域，即子对象会一级级往上获取父对象作用域的变量。所以所有父对象的变量，子对象都可以访问，但是反之则不行。</p>
+<p>但是有时候我们需要在外部获取函数内的局部变量，所以就出现了闭包。</p>
+<p>闭包：从内部函数可以访问外部函数作用域的函数</p>
+<p>闭包是由函数以及创建该函数的词法环境组成而形成。这个环境包含了这个闭包创建时所能访问的所有局部变量。</p>
+<p>代码模板如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">outer</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">inner</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> inner();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>inner 内可以访问 outer 内定义的所有变量，但是 outer 外部无法访问。</p>
+        
+          <p class="article-more-link">
+            <a href="/2019/11/08/%E9%97%AD%E5%8C%85%E7%9A%84%E7%90%86%E8%A7%A3/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/11/08/%E9%97%AD%E5%8C%85%E7%9A%84%E7%90%86%E8%A7%A3/" data-id="ckeqw2ol1006iaiqy9illfp0d" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-性能优化之火焰图" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/12/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E7%81%AB%E7%84%B0%E5%9B%BE/" class="article-date">
+  <time datetime="2019-10-11T16:04:57.000Z" itemprop="datePublished">2019-10-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/12/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E7%81%AB%E7%84%B0%E5%9B%BE/">性能优化之火焰图</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>文章你所能了解的内容：</p>
+<ul>
+<li>如何定位影响系统性能瓶颈的问题</li>
+<li>什么是火焰图</li>
+<li>火焰图的 X，Y 轴所表达的信息是什么</li>
+<li>如何根据火焰图，分析定位问题</li>
+<li>如何生成火焰图</li>
+</ul>
+<p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://clinicjs.org/documentation/">https://clinicjs.org/documentation/</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2017/09/flame-graph.html">http://www.ruanyifeng.com/blog/2017/09/flame-graph.html</a></li>
+</ul>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>在上一篇文章中，我们已经对系统进行了压力测试，了解了 2 个测试 demo 的 TPS，根据接口功能分析，发现在 demo2 中 TPS 有大幅度的下降，所以我们需要定位下问题，找出大量占用 CPU 的原因。</p>
+<h2 id="火焰图"><a href="#火焰图" class="headerlink" title="火焰图"></a>火焰图</h2><p><img src="/images/clipboard2.png" alt="image"><br>火焰图是用来分析系统调用栈的 CPU 耗时情况，它的 X，Y 轴分别代表如下信息：</p>
+<ul>
+<li>X 轴：代表着调用栈的 CPU 消耗时间，X 轴越长，代表着占用的 CPU 的时间越长。</li>
+<li>Y 轴：代表着全部的调用栈，每一层都是一个函数，调用栈越深，火焰图越高。顶部就是正在执行的函数，下一个函数是它的父函数，存在调用关系。</li>
+</ul>
+<p>我们在进行分析火焰图的时候，可以观察顶层哪个函数所占用的宽度越长，就可以表示这个函数可能存在问题。</p>
+        
+          <p class="article-more-link">
+            <a href="/2019/10/12/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E7%81%AB%E7%84%B0%E5%9B%BE/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/10/12/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8B%E7%81%AB%E7%84%B0%E5%9B%BE/" data-id="ckeqw2oky0068aiqy2vrwe9np" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-服务压力测试" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/11/%E6%9C%8D%E5%8A%A1%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" class="article-date">
+  <time datetime="2019-10-11T15:28:03.000Z" itemprop="datePublished">2019-10-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/11/%E6%9C%8D%E5%8A%A1%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/">服务压力测试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5b827cbbe51d4538c021f2da">https://juejin.im/post/5b827cbbe51d4538c021f2da</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mcollina/autocannon">https://github.com/mcollina/autocannon</a></li>
+</ul>
+<p>文章你所能了解的内容：</p>
+<ol>
+<li>压力测试能做什么</li>
+<li>怎么进行压力测试</li>
+<li>如何分析压力测试结果</li>
+</ol>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>当系统开发完成后，为了了解系统最大能够承受的并发量和在并发情况下的服务器负载情况，我们就需要在系统上线之前进行一些压力测试，了解系统的性能瓶颈，针对性进行优化。</p>
+<p>负载测试指标：</p>
+<ol>
+<li>TPS 经常是业务核心逻辑测试结果的单位，它的定义是：系统每秒最多能够处理的请求数量。</li>
+</ol>
+<h2 id="压力测试"><a href="#压力测试" class="headerlink" title="压力测试"></a>压力测试</h2><p>做压力测试的工具有很多，例如：loadTest,ab,autocannon 等</p>
+<p>这里我选用的是 autocannon ，因为它能够配合 node-clinic 进行性能优化。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g autocannon</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li>-c :并发数量，默认为 10</li>
+<li>-d :压力测试持续的时间，默认为 10 秒</li>
+<li>-p :单个并发每秒发送的请求数量，默认为 1 次</li>
+<li>-m :请求类型,默认为 GET</li>
+<li>-b :请求报文体</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2019/10/11/%E6%9C%8D%E5%8A%A1%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/10/11/%E6%9C%8D%E5%8A%A1%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" data-id="ckeqw2okz006baiqy1xjo6q4t" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js异步编程实现方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/09/js%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/" class="article-date">
+  <time datetime="2019-10-08T17:38:31.000Z" itemprop="datePublished">2019-10-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js/">js</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/09/js%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/">js异步编程实现方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5c199c0ae51d452f6028a072">https://juejin.im/post/5c199c0ae51d452f6028a072</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_31001889/article/details/80321892">https://blog.csdn.net/qq_31001889/article/details/80321892</a></li>
+<li><a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/#docs/generator-async">http://es6.ruanyifeng.com/#docs/generator-async</a></li>
+</ul>
+<h2 id="基础介绍"><a href="#基础介绍" class="headerlink" title="基础介绍"></a>基础介绍</h2><p>由于 js 的单线程，如果没有异步编程方法，则主线程将直接卡死，极大的影响代码执行效率，所以 js 结合事件循环，实现了以下异步编程的方法：</p>
+<ol>
+<li>回调函数</li>
+<li>事件监听(主要是前端的元素绑定监听事件，如 onClick)</li>
+<li>发布/订阅</li>
+<li>Promise 对象</li>
+<li>generator 函数</li>
+<li>async/await</li>
+</ol>
+<p>这里所说的异步为：将任务分为两部分，先执行其中一部分，然后执行其他任务，等第二部分做好了准备，再继续执行第二部分代码。简单的说就是不连续的执行。</p>
+<p>异步实现的主要原理都是解决： js 主线程在执行代码的时候，遇到 I/O,计时器等异步耗时任务，将任务推到事件循环中，在事件循环遍历中，检测到任务状态完成后，要如何通知主线程继续执行内部代码。<img src="http://www.runoob.com/wp-content/uploads/2015/09/event_loop.jpg" alt="image"></p>
+<p>核心需要理解的内容：</p>
+<ol>
+<li>名词的定义：回调函数，发布/订阅，Promise 对象，协程，genetator 函数，参数求值策略，thunk 函数</li>
+<li>每个方法的优缺点</li>
+<li>什么是错误优先，为什么要将错误对象传入回调函数中</li>
+<li>Generator 函数为什么可以封装异步，是什么特性将它作为异步编程的完整解决方案</li>
+<li>js 是什么求值策略</li>
+<li>协程执行顺序</li>
+<li>genetator 函数自动流程管理的 2 个实现方法</li>
+<li>实现 发布/订阅(eventEmitter) , thunk 函数的自动流程管理 , promise 对象的自动流程管理</li>
+</ol>
+<p>示例代码仓库：<a target="_blank" rel="noopener" href="https://github.com/ddzyan/javascript-example/tree/master/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95">https://github.com/ddzyan/javascript-example/tree/master/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95</a></p>
+        
+          <p class="article-more-link">
+            <a href="/2019/10/09/js%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/10/09/js%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/" data-id="ckeqw2ojp0032aiqy87foagez" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ETH/">ETH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elk/">elk</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eos/">eos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ionic/">ionic</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">nodejs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/stellar/">stellar</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/typescript/">typescript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ETH/" rel="tag">ETH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GraphQL/" rel="tag">GraphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/egg/" rel="tag">egg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elk/" rel="tag">elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphQL/" rel="tag">graphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/" rel="tag">ionic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-module/" rel="tag">node_module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag">sql优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" rel="tag">sql分析工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stellar/" rel="tag">stellar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1/" rel="tag">事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="tag">存储引擎</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ETH/" style="font-size: 10px;">ETH</a> <a href="/tags/GraphQL/" style="font-size: 10px;">GraphQL</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/docker/" style="font-size: 15.71px;">docker</a> <a href="/tags/egg/" style="font-size: 10px;">egg</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/eos/" style="font-size: 17.14px;">eos</a> <a href="/tags/graphQL/" style="font-size: 10px;">graphQL</a> <a href="/tags/ionic/" style="font-size: 12.86px;">ionic</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/linux/" style="font-size: 11.43px;">linux</a> <a href="/tags/mysql/" style="font-size: 11.43px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node/" style="font-size: 12.86px;">node</a> <a href="/tags/node-module/" style="font-size: 14.29px;">node_module</a> <a href="/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/tags/sql%E4%BC%98%E5%8C%96/" style="font-size: 12.86px;">sql优化</a> <a href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">sql分析工具</a> <a href="/tags/stellar/" style="font-size: 10px;">stellar</a> <a href="/tags/typescript/" style="font-size: 11.43px;">typescript</a> <a href="/tags/%E4%BA%8B%E5%8A%A1/" style="font-size: 10px;">事务</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 18.57px;">区块链</a> <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" style="font-size: 10px;">存储引擎</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10px;">架构</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 11.43px;">测试</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 12.86px;">索引</a> <a href="/tags/%E9%94%81/" style="font-size: 11.43px;">锁</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/06/Docker-BridgeNetwork%E5%8E%9F%E7%90%86/">Docker-BridgeNetwork原理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/14/egg-graphQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">egg-graphQL源码分析</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/GraphQL%E6%89%AB%E7%9B%B2/">GraphQL扫盲</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/docker-compose%E9%83%A8%E7%BD%B2eak/">docker-compose部署eak</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/node-rabbitMq/">node-rabbitMq</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-nodejs性能调优-解决CPU占用过高问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/10/nodejs%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98-%E8%A7%A3%E5%86%B3CPU%E5%8D%A0%E7%94%A8%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/" class="article-date">
+  <time datetime="2018-12-09T18:12:29.000Z" itemprop="datePublished">2018-12-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/10/nodejs%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98-%E8%A7%A3%E5%86%B3CPU%E5%8D%A0%E7%94%A8%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/">nodejs性能调优--解决CPU占用过高问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>Nodejs(服务端)的角度来看，JS本身的执行时间对服务的影响至关重要，如果执行时间从30ms降低到3ms，理论上QPS就能提升10倍，换句话说，以前要10台服务器才能扛住的流量现在1台服务器就能扛住，而且响应时间更短.</p>
+<ul>
+<li>QPS：每秒查询率</li>
+</ul>
+<h4 id="方法1：Node-自带-profile"><a href="#方法1：Node-自带-profile" class="headerlink" title="方法1：Node 自带 profile"></a>方法1：Node 自带 profile</h4><h5 id="以–prof参数启动Node应用"><a href="#以–prof参数启动Node应用" class="headerlink" title="以–prof参数启动Node应用"></a>以–prof参数启动Node应用</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --prof [启动脚本]</span><br></pre></td></tr></table></figure>
+<h5 id="通过压测工具loadtest向服务施压"><a href="#通过压测工具loadtest向服务施压" class="headerlink" title="通过压测工具loadtest向服务施压"></a>通过压测工具loadtest向服务施压</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loadtest  [http://127.0.0.1:6001] --rps 10</span><br></pre></td></tr></table></figure>
+<h5 id="处理生成的log文件"><a href="#处理生成的log文件" class="headerlink" title="处理生成的log文件"></a>处理生成的log文件</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --prof-process [isolate-0XXXXXXXXXXX-v8-XXXX.log] &gt; profile.txt</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2018/12/10/nodejs%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98-%E8%A7%A3%E5%86%B3CPU%E5%8D%A0%E7%94%A8%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/12/10/nodejs%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98-%E8%A7%A3%E5%86%B3CPU%E5%8D%A0%E7%94%A8%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/" data-id="ckeqw2ok40048aiqyfjle913i" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-正向代理和反向代理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/07/%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86%E5%92%8C%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" class="article-date">
+  <time datetime="2018-12-06T17:34:11.000Z" itemprop="datePublished">2018-12-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/07/%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86%E5%92%8C%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">正向代理和反向代理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考文档：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013451157/article/details/78858894">https://blog.csdn.net/u013451157/article/details/78858894</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/-abm/p/9894289.html#autoid-0-0-0">http://www.cnblogs.com/-abm/p/9894289.html#autoid-0-0-0</a></li>
+</ul>
+<h3 id="写在前头"><a href="#写在前头" class="headerlink" title="写在前头"></a>写在前头</h3><ul>
+<li>代理本质上是一个服务器，可以类比为一个中介。</li>
+<li>为了A访问到B，中间插入一个 C，C 就是代理。</li>
+</ul>
+<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><h4 id="什么是正向代理-forward-Proxy"><a href="#什么是正向代理-forward-Proxy" class="headerlink" title="什么是正向代理(forward Proxy)"></a>什么是正向代理(forward Proxy)</h4><p>工作原理：如下图我们可以通过配置代理服务器来将我们的请求代为发送到目标服务器，再由代理服务器将目标服务器的响应转发回本地。</p>
+<p><img src="/images/forward-proxy.png" alt="image|549x495"></p>
+<h4 id="什么时候使用正向代理"><a href="#什么时候使用正向代理" class="headerlink" title="什么时候使用正向代理"></a>什么时候使用正向代理</h4><p>应用：vpn，FQ上网</p>
+<h4 id="正向代理的特点"><a href="#正向代理的特点" class="headerlink" title="正向代理的特点"></a>正向代理的特点</h4><ul>
+<li>访问本无法访问的服务器B</li>
+<li>隐藏访问者的行踪</li>
+<li>客户端访问授权</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2018/12/07/%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86%E5%92%8C%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/12/07/%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86%E5%92%8C%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" data-id="ckeqw2ol0006faiqyb4w864cl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-单线程为什么能支持高并发？" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/16/%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%94%AF%E6%8C%81%E9%AB%98%E5%B9%B6%E5%8F%91%EF%BC%9F/" class="article-date">
+  <time datetime="2018-11-15T16:44:14.000Z" itemprop="datePublished">2018-11-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/16/%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%94%AF%E6%8C%81%E9%AB%98%E5%B9%B6%E5%8F%91%EF%BC%9F/">单线程为什么能支持高并发？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>Nodejs是一个平台，构建在chrome的V8上（js语言解释器），采用事件驱动、非阻塞模型（ c++库：libuv）</li>
+</ol>
+<h3 id="为什么单线程却能够支持高并发？"><a href="#为什么单线程却能够支持高并发？" class="headerlink" title="为什么单线程却能够支持高并发？"></a>为什么单线程却能够支持高并发？</h3><h4 id="先搞清楚概念"><a href="#先搞清楚概念" class="headerlink" title="先搞清楚概念"></a>先搞清楚概念</h4><p>单线程：主线程一个，底层工作线程多个。</p>
+<p>异步：发出操作指令，然后就可以去做别的事情了（主线程不需要等待），所有操作完成后再执行回调</p>
+<h5 id="cpu核数与线程之间的关系"><a href="#cpu核数与线程之间的关系" class="headerlink" title="cpu核数与线程之间的关系"></a>cpu核数与线程之间的关系</h5><p>线程：又是被称为轻量级进程（Lightweight Process LWP）,是程序执行的最小单元。每一个程序都至少有一个线程，若程序只有一个线程，那么就是程序本身。</p>
+<p>单线程的进程可以简单的认为只有一个线程的进程。一个进程在同一时间只做一件事。</p>
+<p>多线程的进程可以尽可能的利用系统CPU资源。但也不是线程越多越好，线程越好，CPU分配给每个线程的时间片就越少。具体到这个任务在CPU哪个核上运行，这个就跟操作系统和CPU本身的设计相关了</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/11/16/%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%94%AF%E6%8C%81%E9%AB%98%E5%B9%B6%E5%8F%91%EF%BC%9F/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/11/16/%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%94%AF%E6%8C%81%E9%AB%98%E5%B9%B6%E5%8F%91%EF%BC%9F/" data-id="ckeqw2okv005yaiqy614kf4aj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-nodejs错误处理最佳实现" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/16/nodejs%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E7%8E%B0/" class="article-date">
+  <time datetime="2018-11-15T16:42:48.000Z" itemprop="datePublished">2018-11-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/16/nodejs%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E7%8E%B0/">nodejs错误处理最佳实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>参考资料：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000002741935#articleHeader3">https://segmentfault.com/a/1190000002741935#articleHeader3</a></li>
+</ul>
+<h3 id="四种传递错误的方式"><a href="#四种传递错误的方式" class="headerlink" title="四种传递错误的方式"></a>四种传递错误的方式</h3><ol>
+<li>作为异常抛出</li>
+<li>把错误传给一个callback</li>
+<li>在EventEmitter上触发一个Error事件</li>
+<li>程序运行过程中抛出的异常，或由底层库抛出，或是运行中发生的一些 SyntaxError 之类</li>
+</ol>
+<h3 id="错误捕获的几种方式"><a href="#错误捕获的几种方式" class="headerlink" title="错误捕获的几种方式"></a>错误捕获的几种方式</h3><p><img src="/images/errorInfo.png" alt="image"></p>
+<h4 id="try-catch"><a href="#try-catch" class="headerlink" title="try .. catch"></a>try .. catch</h4><p>常用的一种捕获错误方式，浏览器 || node 环境均适用</p>
+<p>缺点：只针对同步异常有效</p>
+<h4 id="callback"><a href="#callback" class="headerlink" title="callback"></a>callback</h4><p>异步执行的函数通过回调函数，将错误返回给同步函数。</p>
+<h4 id="EventEmitter"><a href="#EventEmitter" class="headerlink" title="EventEmitter"></a>EventEmitter</h4><p>由 Events 模块提供的 EventEmitter 类，基于 Observer 模式做的 publish/subscribe，通过 .on(‘error’, …) || .addEventlistener(‘error’, …) 注册 subscriber，.emit() 发布事件，但会有最大的 maxListener 的限制，可更改。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/11/16/nodejs%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E7%8E%B0/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/11/16/nodejs%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E7%8E%B0/" data-id="ckeqw2ok7004jaiqy28ze53v7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-EOS双花和分叉问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/12/EOS%E5%8F%8C%E8%8A%B1%E5%92%8C%E5%88%86%E5%8F%89%E9%97%AE%E9%A2%98/" class="article-date">
+  <time datetime="2018-11-11T17:40:43.000Z" itemprop="datePublished">2018-11-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/eos/">eos</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/12/EOS%E5%8F%8C%E8%8A%B1%E5%92%8C%E5%88%86%E5%8F%89%E9%97%AE%E9%A2%98/">EOS双花和分叉问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考文档：<a target="_blank" rel="noopener" href="http://8btc.com/thread-158287-1-6.html">http://8btc.com/thread-158287-1-6.html</a></p>
+<h3 id="什么是双花和分叉"><a href="#什么是双花和分叉" class="headerlink" title="什么是双花和分叉"></a>什么是双花和分叉</h3><p>一笔交易在广播时，被多个节点同时接收产生新的区块，此问题被称为分叉。</p>
+<p>两笔相同的交易，同时向全网进行广播，造成重复话费的问题被称为双花。</p>
+<h3 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h3><h4 id="分叉"><a href="#分叉" class="headerlink" title="分叉"></a>分叉</h4><p>EOS 采用 BFT-DPoS 共识机制 ，每个时间段只有一个超级节点在打包交易生产区块，所以不存在像 pow 一样的竞争关系，所以具有很强的抗分叉的能力。</p>
+<p>当其中部分节点作恶，进行分叉。任何时候一个诚实的超级节点看到一条有效的更长链时，都会从当前的分叉切换过来，又由于超级节点数量为奇数个，所以在任何时刻一定会有一条较长的链。</p>
+<h4 id="双花"><a href="#双花" class="headerlink" title="双花"></a>双花</h4><p>在 EOS 交易的数据结构中，ref_block_num, ref_block_prefix和expiration三者是用作TaPOS(Transaction as Proof of Stake, 交易作为权益证明)算法，是为了确保一笔交易在所引用的区块之后和交易过期日期之前能够发生．</p>
+<p>EOS 超级节点收到两笔相同信息的交易信息时，两笔交易在网络上将分为一前一后到达，因为超级节点在<br>EOS 节点收到广播的请求，同时节点上会存在全网所有的区块信息来验证该交易的合法性，所以当第二笔相同信息的交易再次验证时，将不会通过。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/11/12/EOS%E5%8F%8C%E8%8A%B1%E5%92%8C%E5%88%86%E5%8F%89%E9%97%AE%E9%A2%98/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/11/12/EOS%E5%8F%8C%E8%8A%B1%E5%92%8C%E5%88%86%E5%8F%89%E9%97%AE%E9%A2%98/" data-id="ckeqw2oih0005aiqybz3y1yjb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-bignumber-js快速上手" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/25/bignumber-js%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" class="article-date">
+  <time datetime="2018-10-24T17:25:45.000Z" itemprop="datePublished">2018-10-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/25/bignumber-js%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/">bignumber.js快速上手</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>用于任意精度小数和非小数运算的JavaScript库。</p>
+<p>解决某些小数相加出现意外情况</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">0.1</span>+<span class="number">0.2</span>); <span class="comment">// 0.30000000000000004</span></span><br></pre></td></tr></table></figure>
+
+<p>参考地址：<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/bignumber.js">https://www.npmjs.com/package/bignumber.js</a></p>
+<h3 id="安装和加载"><a href="#安装和加载" class="headerlink" title="安装和加载"></a>安装和加载</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save bignumber.js</span><br><span class="line">const BigNumber = require(<span class="string">&#x27;bignumber.js&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="keyword">new</span> BigNumber(<span class="number">123.4567</span>)</span><br><span class="line">y = BigNumber(<span class="string">&#x27;123456.7e-3&#x27;</span>)</span><br><span class="line">z = <span class="keyword">new</span> BigNumber(x)</span><br><span class="line">x.isEqualTo(y) &amp;&amp; y.isEqualTo(z) &amp;&amp; x.isEqualTo(z) </span><br></pre></td></tr></table></figure>
+<p>new BigNumber()参数接收Number，String或BigNumber类型，创建为十进制。可以通过如下设置其他基础进制。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="keyword">new</span> BigNumber(<span class="number">123</span>,<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2018/10/25/bignumber-js%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/10/25/bignumber-js%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" data-id="ckeqw2oj2001gaiqyfrqne4ok" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-module/" rel="tag">node_module</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-mocha快速上手" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/21/mocha%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" class="article-date">
+  <time datetime="2018-10-20T17:24:11.000Z" itemprop="datePublished">2018-10-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/21/mocha%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/">mocha快速上手</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015120301.png" alt="image"></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/12/a-mocha-tutorial-of-examples.html">mocha入门1</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9c78548caffa">mocha入门2</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f200a75a15d2">Chai.js断言库API中文文档</a></li>
+</ul>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Mocha（发音”摩卡”）诞生于2011年，是现在最流行的JavaScript测试框架之一，在浏览器和Node环境都可以使用。</p>
+<ul>
+<li>验证代码的正确性</li>
+<li>避免修改代码时出错</li>
+<li>避免其他团队成员修改代码时出错</li>
+<li>便于自动化测试与部署</li>
+</ul>
+<h4 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h4><h5 id="supertest"><a href="#supertest" class="headerlink" title="supertest"></a>supertest</h5><p>支持调试本地 api 接口</p>
+<h3 id="模块安装"><a href="#模块安装" class="headerlink" title="模块安装"></a>模块安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;全局安装</span><br><span class="line">npm i -g mocha</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;项目内安装</span><br><span class="line">npm i mocha --save-dev</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2018/10/21/mocha%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/10/21/mocha%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" data-id="ckeqw2ojs003aaiqy11inh985" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-ethersjs安装和Wallet-API介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/20/ethersjs%E5%AE%89%E8%A3%85%E5%92%8CWallet-API%E4%BB%8B%E7%BB%8D/" class="article-date">
+  <time datetime="2018-09-19T16:57:37.000Z" itemprop="datePublished">2018-09-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ETH/">ETH</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/20/ethersjs%E5%AE%89%E8%A3%85%E5%92%8CWallet-API%E4%BB%8B%E7%BB%8D/">ethersjs安装和Wallet-API介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>ethers.js库是以太坊的一个完整的JavaScript库。</p>
+<p>参考网址：<a target="_blank" rel="noopener" href="https://docs.ethers.io/ethers.js/html/getting-started.html">https://docs.ethers.io/ethers.js/html/getting-started.html</a></p>
+<h3 id="安装在Nodejs"><a href="#安装在Nodejs" class="headerlink" title="安装在Nodejs"></a>安装在Nodejs</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save ethers</span><br></pre></td></tr></table></figure>
+
+<p>导入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ethers = <span class="built_in">require</span>(<span class="string">&#x27;ethers&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考网址：<a target="_blank" rel="noopener" href="https://docs.ethers.io/ethers.js/html/api-wallet.html">https://docs.ethers.io/ethers.js/html/api-wallet.html</a></p>
+<h3 id="wallet"><a href="#wallet" class="headerlink" title="wallet"></a>wallet</h3><p>一个钱包管理一个私有/公共密钥对，用于对事务进行加密签名并在Ethereum网络上证明所有权。</p>
+<h4 id="创建wallet对象"><a href="#创建wallet对象" class="headerlink" title="创建wallet对象"></a>创建wallet对象</h4><h5 id="私钥创建"><a href="#私钥创建" class="headerlink" title="私钥创建"></a>私钥创建</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> privateKey = <span class="string">&quot;0x0123456789012345678901234567890123456789012345678901234567890123&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> wallet = <span class="keyword">new</span> Wallet(privateKey);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;Address: &quot;</span> + wallet.address);</span><br><span class="line"><span class="comment">// &quot;Address: 0x14791697260E4c9A71f18484C9f997B308e59325&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="随机创建"><a href="#随机创建" class="headerlink" title="随机创建"></a>随机创建</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> wallet = Wallet.createRandom();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;Address: &quot;</span> + wallet.address);</span><br><span class="line"><span class="comment">// &quot;Address: ... this will be different every time ...&quot;</span></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2018/09/20/ethersjs%E5%AE%89%E8%A3%85%E5%92%8CWallet-API%E4%BB%8B%E7%BB%8D/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/09/20/ethersjs%E5%AE%89%E8%A3%85%E5%92%8CWallet-API%E4%BB%8B%E7%BB%8D/" data-id="ckeqw2ojg002eaiqycx3h5kge" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ETH/" rel="tag">ETH</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Linux常用指令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/14/Linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" class="article-date">
+  <time datetime="2018-09-13T17:04:57.000Z" itemprop="datePublished">2018-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/linux/">linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/14/Linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">Linux常用指令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 树状图输出文件夹结构，需要安装 yum install -y tree</span></span><br><span class="line">tree -L 2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出内容到控制台</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;hello word&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 a.txt 结尾添加 abcd</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;abcd&quot;</span> &gt;&gt; a.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换文本内容，如果不存在则创建文件</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;hello&quot;</span> &gt; a.txt</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2018/09/14/Linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/09/14/Linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" data-id="ckeqw2oiy0014aiqybnax3i4k" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-yarn快速上手" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/13/yarn%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" class="article-date">
+  <time datetime="2018-09-12T16:43:02.000Z" itemprop="datePublished">2018-09-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/13/yarn%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/">yarn快速上手</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>与 npm 相同的依赖包管理工具</p>
+<p>官网：<a target="_blank" rel="noopener" href="https://yarnpkg.com/zh-Hans/">https://yarnpkg.com/zh-Hans/</a></p>
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>离线模式：如果你之前安装过某个包，你就可以在没有网络连接的情况下再次安装它。</li>
+<li>确定性：不管是什么顺序，在不同的机器上的依赖会以同一方式安装。</li>
+<li>相同软件包：从 npm 安装软件包并使用相同的包管理流程。</li>
+<li>网络性能：Yarn可以高效地队列化请求并且避免请求瀑布化，使网络利用率最大化。</li>
+</ul>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>参考网址：<a target="_blank" rel="noopener" href="https://yarnpkg.com/zh-Hans/docs/install#windows-stable">https://yarnpkg.com/zh-Hans/docs/install#windows-stable</a></p>
+<p>用 Chocolatey 安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install yarn</span><br></pre></td></tr></table></figure>
+
+<h5 id="检测"><a href="#检测" class="headerlink" title="检测"></a>检测</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn --version</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2018/09/13/yarn%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/09/13/yarn%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" data-id="ckeqw2okp005jaiqy10w2aes7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-module/" rel="tag">node_module</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ETH/">ETH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elk/">elk</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eos/">eos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ionic/">ionic</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">nodejs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/stellar/">stellar</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/typescript/">typescript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ETH/" rel="tag">ETH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GraphQL/" rel="tag">GraphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/egg/" rel="tag">egg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elk/" rel="tag">elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphQL/" rel="tag">graphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/" rel="tag">ionic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-module/" rel="tag">node_module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag">sql优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" rel="tag">sql分析工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stellar/" rel="tag">stellar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1/" rel="tag">事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="tag">存储引擎</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ETH/" style="font-size: 10px;">ETH</a> <a href="/tags/GraphQL/" style="font-size: 10px;">GraphQL</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/docker/" style="font-size: 15.71px;">docker</a> <a href="/tags/egg/" style="font-size: 10px;">egg</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/eos/" style="font-size: 17.14px;">eos</a> <a href="/tags/graphQL/" style="font-size: 10px;">graphQL</a> <a href="/tags/ionic/" style="font-size: 12.86px;">ionic</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/linux/" style="font-size: 11.43px;">linux</a> <a href="/tags/mysql/" style="font-size: 11.43px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node/" style="font-size: 12.86px;">node</a> <a href="/tags/node-module/" style="font-size: 14.29px;">node_module</a> <a href="/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/tags/sql%E4%BC%98%E5%8C%96/" style="font-size: 12.86px;">sql优化</a> <a href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">sql分析工具</a> <a href="/tags/stellar/" style="font-size: 10px;">stellar</a> <a href="/tags/typescript/" style="font-size: 11.43px;">typescript</a> <a href="/tags/%E4%BA%8B%E5%8A%A1/" style="font-size: 10px;">事务</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 18.57px;">区块链</a> <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" style="font-size: 10px;">存储引擎</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10px;">架构</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 11.43px;">测试</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 12.86px;">索引</a> <a href="/tags/%E9%94%81/" style="font-size: 11.43px;">锁</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/06/Docker-BridgeNetwork%E5%8E%9F%E7%90%86/">Docker-BridgeNetwork原理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/14/egg-graphQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">egg-graphQL源码分析</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/GraphQL%E6%89%AB%E7%9B%B2/">GraphQL扫盲</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/docker-compose%E9%83%A8%E7%BD%B2eak/">docker-compose部署eak</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/node-rabbitMq/">node-rabbitMq</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

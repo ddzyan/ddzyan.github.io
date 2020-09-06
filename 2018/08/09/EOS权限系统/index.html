@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>EOS权限系统 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="概念参考资料：https:&#x2F;&#x2F;hiblock.net&#x2F;topics&#x2F;222 权限作用 向EOS区块链发起一些事务，比如说转账，需要得到 账户 的授权。 账号交易可以通过权限转移做到。 新权限和action的绑定关系，可增加了eos网络权限的灵活性，通过单个权限的绑定，可将一个账户的权限分层管理，甚至一个公司的所有人都可以使用一个EOS账户来进行权限分离。  账户 的授权是如何授权的？账户的权限里">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EOS权限系统">
+<meta property="og:url" content="http://example.com/2018/08/09/EOS%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概念参考资料：https:&#x2F;&#x2F;hiblock.net&#x2F;topics&#x2F;222 权限作用 向EOS区块链发起一些事务，比如说转账，需要得到 账户 的授权。 账号交易可以通过权限转移做到。 新权限和action的绑定关系，可增加了eos网络权限的灵活性，通过单个权限的绑定，可将一个账户的权限分层管理，甚至一个公司的所有人都可以使用一个EOS账户来进行权限分离。  账户 的授权是如何授权的？账户的权限里">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-08T21:56:53.000Z">
+<meta property="article:modified_time" content="2020-09-06T09:20:10.303Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="区块链">
+<meta property="article:tag" content="eos">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-EOS权限系统" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/09/EOS%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F/" class="article-date">
+  <time datetime="2018-08-08T21:56:53.000Z" itemprop="datePublished">2018-08-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/eos/">eos</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      EOS权限系统
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>参考资料：<a target="_blank" rel="noopener" href="https://hiblock.net/topics/222">https://hiblock.net/topics/222</a></p>
+<h3 id="权限作用"><a href="#权限作用" class="headerlink" title="权限作用"></a>权限作用</h3><ol>
+<li>向EOS区块链发起一些事务，比如说转账，需要得到 <strong>账户</strong> 的授权。</li>
+<li>账号交易可以通过权限转移做到。</li>
+<li>新权限和action的绑定关系，可增加了eos网络权限的灵活性，通过单个权限的绑定，可将一个账户的权限分层管理，甚至一个公司的所有人都可以使用一个EOS账户来进行权限分离。</li>
+</ol>
+<p><strong>账户</strong> 的授权是如何授权的？账户的权限里 有一个阈值属性，当你的解锁状态的钱包中的有一把私钥能对应到那个权限所绑定的公钥上，而且权重刚好大于等于阈值时，那么就能成功签名，向区块链发送事务。</p>
+<a id="more"></a>
+
+<h3 id="权限配置"><a href="#权限配置" class="headerlink" title="权限配置"></a>权限配置</h3><p>首先当一个账户创建的时候，具备了两种基本权限。每个权限绑定到一个公钥上（单签名账户）或多个公钥上（多签名账户），除了绑定公钥也可以绑定到另一个有效的账户上：</p>
+<ul>
+<li><strong>owner</strong> ： 账号主权限, 声明的这个账号的归属。只有极少数事务需要使用到 owner权限。 建议把拥有这个权限的私钥进行<strong>冷存储</strong>。不要分享给任何人。 owner 可以用来恢复其他权限。</li>
+<li><strong>active</strong>： 活动权限，顾名思议，这个权限 ，一般用来做一些转账、投票、发起事务等常规操作。</li>
+</ul>
+<p>除了以上两种默认权限，还可以对账户自定义新的权限（计划在未来的账户管理软件中加入支持）。 这种权限的可扩展性，非常灵活，给软件开发者提供了很多可能的使用场景。</p>
+<h3 id="权限的权重（weight）与阈值（threshold）"><a href="#权限的权重（weight）与阈值（threshold）" class="headerlink" title="权限的权重（weight）与阈值（threshold）"></a>权限的权重（weight）与阈值（threshold）</h3><h4 id="单签名账户-（默认权限配置的账户）"><a href="#单签名账户-（默认权限配置的账户）" class="headerlink" title="单签名账户 （默认权限配置的账户）"></a>单签名账户 （默认权限配置的账户）</h4><p>owner 和 active 权限分别有一个值为1的阈值。</p>
+<p>owner 和 active 所绑定的公钥,则分别有一个值为1的权重。</p>
+<h4 id="怎么理解阈值和权重"><a href="#怎么理解阈值和权重" class="headerlink" title="怎么理解阈值和权重"></a>怎么理解阈值和权重</h4><p>举个例子来讲吧，把 <strong>owner</strong> 这个权限比作一扇门，打开这扇门需要一把正确的钥匙。 而 <strong>owner</strong> 所绑定的那个公钥 对应的那把 <strong>私钥</strong> 就是正确的钥匙。</p>
+<p>因此 <strong>单签名账户</strong> 就是 <strong>权限的阈值</strong> 和 <strong>钥匙的权重</strong>  都为1的一种账户类型。使用某个权限，只需要一把对应的私钥就行了</p>
+<h4 id="多重签名账户"><a href="#多重签名账户" class="headerlink" title="多重签名账户"></a>多重签名账户</h4><p>顾名思义，就是一个权限绑定了多个账户或公钥，权重之和大于等于owner权限的阈值，才能使用这个权限。</p>
+<p>使用一个权限，可能需要不只一个公钥的签名了，也可能是两个、三个、五个。</p>
+<h2 id="命令操作"><a href="#命令操作" class="headerlink" title="命令操作"></a>命令操作</h2><p>EOS版本号：v1.0.6</p>
+<p>环境：私有链</p>
+<p>操作系统：centos 7 </p>
+<p>参考资料：<a target="_blank" rel="noopener" href="https://developers.eos.io/eosio-cleos/reference#cleos-set-account">https://developers.eos.io/eosio-cleos/reference#cleos-set-account</a></p>
+<h4 id="查看账号权限"><a href="#查看账号权限" class="headerlink" title="查看账号权限"></a>查看账号权限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">cleos get account eosioddztest</span><br><span class="line">permissions: </span><br><span class="line">     owner     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9</span><br><span class="line">        active     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9</span><br><span class="line">memory: </span><br><span class="line">     quota:       unlimited  used:      2.66 KiB  </span><br><span class="line"></span><br><span class="line">net bandwidth: </span><br><span class="line">     used:               unlimited</span><br><span class="line">     available:          unlimited</span><br><span class="line">     limit:              unlimited</span><br><span class="line"></span><br><span class="line">cpu bandwidth:</span><br><span class="line">     used:               unlimited</span><br><span class="line">     available:          unlimited</span><br><span class="line">     limit:              unlimited</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;修改权限</span><br><span class="line">cleos set account permission $ACCOUNT_NAME $PERMISSION_NAME $PUBKEY_OR_ACCOUNT_NAME active -p sandwichfarm@active</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h5><ul>
+<li>account TEXT - 为其设置/删除权限授权的帐户</li>
+<li>permission TEXT - 设置/删除权限的权限名称</li>
+<li>authority TEXT - [delete] NULL，[create / update]公钥，JSON字符串或定义权限的文件名</li>
+<li>parent TEXT - [创建]此父母权限的权限名称（默认为：”active”）</li>
+</ul>
+<h5 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h5><ul>
+<li>-h,–help 打印此帮助信息并退出</li>
+<li>-x,–expiration TEXT - 设置交易到期之前的秒数，默认为30秒</li>
+<li>-s,–skip-sign 指定是否应使用解锁的钱包密钥来签署交易</li>
+<li>-d,–dont-broadcast - 不要向网络广播交易（只需打印到标准输出）</li>
+<li>-p,–permission TEXT - 要授权的帐户和权限级别，如’account @ permission’（默认为’account @ active’）</li>
+<li>–max-cpu-usage-ms UINT - 设置CPU使用预算的毫秒数上限，用于执行交易（默认为0，表示无限制）</li>
+<li>–max-net-usage UINT - 为交易设置净使用预算的上限（以字节为单位）（默认为0，表示无限制）</li>
+</ul>
+<h5 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h5><p>要修改帐户的权限，您必须拥有该帐户的权限和您正在修改的权限。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;example </span><br><span class="line">&#x2F;&#x2F;修改权限</span><br><span class="line">cleos set account permission eosioddztest active EOS69bTRDpiVr9wymPY3uKK9K28N1kh7kxR1wn6ynhbpWAasJKW1K owner -p eosioddztest@active</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;再次查看eosioddztest权限，发现active已经改变</span><br><span class="line">cleos get account eosioddztest</span><br><span class="line">permissions: </span><br><span class="line">     owner     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9</span><br><span class="line">        active     1:    1 EOS69bTRDpiVr9wymPY3uKK9K28N1kh7kxR1wn6ynhbpWAasJKW1K</span><br><span class="line">memory: </span><br><span class="line">     quota:       unlimited  used:      2.66 KiB  </span><br><span class="line"></span><br><span class="line">net bandwidth: </span><br><span class="line">     used:               unlimited</span><br><span class="line">     available:          unlimited</span><br><span class="line">     limit:              unlimited</span><br><span class="line"></span><br><span class="line">cpu bandwidth:</span><br><span class="line">     used:               unlimited</span><br><span class="line">     available:          unlimited</span><br><span class="line">     limit:              unlimited</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="权重和阈值模式"><a href="#权重和阈值模式" class="headerlink" title="权重和阈值模式"></a>权重和阈值模式</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;修改权限 </span><br><span class="line">cleos set account permission eosioddztest active &#39;&#123;&quot;threshold&quot; : 1, &quot;keys&quot; : [], &quot;accounts&quot; : [&#123;&quot;permission&quot;:&#123;&quot;actor&quot;:&quot;trustwallets&quot;,&quot;permission&quot;:&quot;active&quot;&#125;,&quot;weight&quot;:1&#125;]&#125;&#39; owner -p eosioddztest@active</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">查看权限，发现action已经改变为权重模式，如看详情可以-j，使用json方式</span><br><span class="line">cleos get account eosioddztest</span><br><span class="line">permissions: </span><br><span class="line">     owner     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9</span><br><span class="line">        active     1:    1 trustwallets@active, </span><br><span class="line">memory: </span><br><span class="line">     quota:       unlimited  used:     2.643 KiB  </span><br><span class="line"></span><br><span class="line">net bandwidth: </span><br><span class="line">     used:               unlimited</span><br><span class="line">     available:          unlimited</span><br><span class="line">     limit:              unlimited</span><br><span class="line"></span><br><span class="line">cpu bandwidth:</span><br><span class="line">     used:               unlimited</span><br><span class="line">     available:          unlimited</span><br><span class="line">     limit:              unlimited</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h6 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h6><p>accounts</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;threshold&quot;       : 100,    &#x2F;*签名需要权重值达到多少的一个整数*&#x2F;</span><br><span class="line">  &quot;keys&quot;            : [],     &#x2F;*包含eos风格的公约和权重*&#x2F;</span><br><span class="line">  &quot;accounts&quot;        : []      &#x2F;*包含eos账号和权限，权重*&#x2F;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>keys</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;permission&quot; : &#123;</span><br><span class="line">    &quot;actor&quot;       : &quot;sandwich&quot;,</span><br><span class="line">    &quot;permission&quot;  : &quot;active&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;weight&quot;      : 75</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="添加权限"><a href="#添加权限" class="headerlink" title="添加权限"></a>添加权限</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cleos set account permission eosioddztest test &#39;&#123;&quot;threshold&quot;:1,&quot;keys&quot;:[&#123;&quot;key&quot;:&quot;EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9&quot;,&quot;weight&quot;:1&#125;],&quot;accounts&quot;:[]&#125;&#39; active</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">查看权限多了一个test</span><br><span class="line">cleos get account eosioddztest</span><br><span class="line">permissions: </span><br><span class="line">     owner     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9</span><br><span class="line">        active     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9</span><br><span class="line">           test     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9</span><br><span class="line">memory: </span><br><span class="line">     quota:       unlimited  used:      2.99 KiB  </span><br><span class="line"></span><br><span class="line">net bandwidth: </span><br><span class="line">     used:               unlimited</span><br><span class="line">     available:          unlimited</span><br><span class="line">     limit:              unlimited</span><br><span class="line"></span><br><span class="line">cpu bandwidth:</span><br><span class="line">     used:               unlimited</span><br><span class="line">     available:          unlimited</span><br><span class="line">     limit:              unlimited</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="删除权限"><a href="#删除权限" class="headerlink" title="删除权限"></a>删除权限</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;删除权限</span><br><span class="line">cleos set account permission eosioddztest test &#39;NULL&#39; active</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">cleos get account eosioddztest</span><br><span class="line">permissions: </span><br><span class="line">     owner     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9</span><br><span class="line">        active     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9</span><br><span class="line">memory: </span><br><span class="line">     quota:       unlimited  used:      2.99 KiB  </span><br><span class="line"></span><br><span class="line">net bandwidth: </span><br><span class="line">     used:               unlimited</span><br><span class="line">     available:          unlimited</span><br><span class="line">     limit:              unlimited</span><br><span class="line"></span><br><span class="line">cpu bandwidth:</span><br><span class="line">     used:               unlimited</span><br><span class="line">     available:          unlimited</span><br><span class="line">     limit:              unlimited</span><br></pre></td></tr></table></figure>
+
+<h5 id="权限绑定action"><a href="#权限绑定action" class="headerlink" title="权限绑定action"></a>权限绑定action</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;将之前创建的test权限绑定交易事件</span><br><span class="line">cleos set action permission eosioddztest eosio.token transfer test</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;使用test权限进行交易</span><br><span class="line">cleos push action eosio.token transfer &#39;[&quot;eosioddztest&quot;,&quot;trustwallets&quot;,&quot;100.0000 EOS&quot;,&quot;transfer&quot;]&#39; -p eosioddztest@hello</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/08/09/EOS%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F/" data-id="ckeqw2oik000baiqy2ire80th" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/09/EOS%E7%9A%84Unlinkable-block%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          EOS的Unlinkable_block问题解决
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/09/%E5%88%9B%E5%BB%BAEOS%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">创建EOS智能合约</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ETH/">ETH</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elk/">elk</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eos/">eos</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ionic/">ionic</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nodejs/">nodejs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/stellar/">stellar</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/typescript/">typescript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ETH/" rel="tag">ETH</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GraphQL/" rel="tag">GraphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/egg/" rel="tag">egg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elk/" rel="tag">elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eos/" rel="tag">eos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphQL/" rel="tag">graphQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/" rel="tag">ionic</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-module/" rel="tag">node_module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag">sql优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" rel="tag">sql分析工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stellar/" rel="tag">stellar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8B%E5%8A%A1/" rel="tag">事务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="tag">存储引擎</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag">索引</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%86%E7%BE%A4/" rel="tag">集群</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ETH/" style="font-size: 10px;">ETH</a> <a href="/tags/GraphQL/" style="font-size: 10px;">GraphQL</a> <a href="/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/tags/docker/" style="font-size: 15.71px;">docker</a> <a href="/tags/egg/" style="font-size: 10px;">egg</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/eos/" style="font-size: 17.14px;">eos</a> <a href="/tags/graphQL/" style="font-size: 10px;">graphQL</a> <a href="/tags/ionic/" style="font-size: 12.86px;">ionic</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/linux/" style="font-size: 11.43px;">linux</a> <a href="/tags/mysql/" style="font-size: 11.43px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node/" style="font-size: 12.86px;">node</a> <a href="/tags/node-module/" style="font-size: 14.29px;">node_module</a> <a href="/tags/nodejs/" style="font-size: 20px;">nodejs</a> <a href="/tags/sql%E4%BC%98%E5%8C%96/" style="font-size: 12.86px;">sql优化</a> <a href="/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">sql分析工具</a> <a href="/tags/stellar/" style="font-size: 10px;">stellar</a> <a href="/tags/typescript/" style="font-size: 11.43px;">typescript</a> <a href="/tags/%E4%BA%8B%E5%8A%A1/" style="font-size: 10px;">事务</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 18.57px;">区块链</a> <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" style="font-size: 10px;">存储引擎</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10px;">架构</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 11.43px;">测试</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 12.86px;">索引</a> <a href="/tags/%E9%94%81/" style="font-size: 11.43px;">锁</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%86%E7%BE%A4/" style="font-size: 10px;">集群</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/06/Docker-BridgeNetwork%E5%8E%9F%E7%90%86/">Docker-BridgeNetwork原理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/14/egg-graphQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">egg-graphQL源码分析</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/GraphQL%E6%89%AB%E7%9B%B2/">GraphQL扫盲</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/docker-compose%E9%83%A8%E7%BD%B2eak/">docker-compose部署eak</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/26/node-rabbitMq/">node-rabbitMq</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
