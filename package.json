@@ -6,7 +6,7 @@
     "version": "3.7.1"
   },
   "scripts": {
-    "pub": "hexo clean && hexo d && hexo g",
+    "pub": "hexo clean && hexo g && hexo d",
     "start": "hexo server"
   },
   "dependencies": {
