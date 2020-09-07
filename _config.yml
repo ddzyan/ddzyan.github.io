@@ -5,14 +5,14 @@
 # Site
 title: 孺子牛
 subtitle: IT笔录
-description: nodejs 后端，react前端开发交流群(548619701)
+description: nodejs 全栈工程师，目前专注与算法与操作系统
 author: 孺子牛
 language: zh-CN
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: https://ddzyan.github.io/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -77,7 +77,9 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: leancloud_counter_security_sync
+  type: git
+  repository: https://github.com/ddzyan/ddzyan.github.io.git
+  branch: master
 
 leancloud_counter_security:
   enable_sync: true
