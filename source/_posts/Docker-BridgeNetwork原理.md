@@ -46,8 +46,6 @@ $ ip neigh show dev cali33e0eb4cdea
 10.233.96.1 lladdr aa:7a:7e:d0:be:fa REACHABLE
 ```
 
-<!--more-->
-
 ### 网络栈
 
 每个被隔离的 container 都有一套网络栈包含：包含网卡（Network Interface），回环设备，路由表（Routing Table）和 iptables 规则。
@@ -65,6 +63,8 @@ $ ip neigh show dev cali33e0eb4cdea
 在 OSI 网络模型中，每层都是对上一层的数据包包装并且加入自己的内容，反之则对每层的数据进行解包，流程如下：
 
 ![img](https://pic1.zhimg.com/80/b6ae78d0dfafa7b3f0b66848e40cc9ce_720w.jpg?source=1940ef5c)
+
+<!--more-->
 
 ## docker 网络
 
