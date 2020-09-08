@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.7.1"
+    "version": "3.9.0"
   },
   "scripts": {
     "pub": "hexo clean && hexo g && hexo d",
-    "start": "hexo server"
+    "start": "hexo server",
+    "reset": "hexo clean && hexo g"
   },
   "dependencies": {
     "hexo": "^3.7.0",
