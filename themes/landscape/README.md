@@ -36,6 +36,7 @@ rss: /atom.xml
 
 # Content
 excerpt_link: Read More
+fancybox: true
 
 # Sidebar
 sidebar: right
@@ -73,7 +74,7 @@ Landscape uses [Fancybox] to showcase your photos. You can use Markdown syntax o
 ```
 ![img caption](img url)
 
-{%  img_url [img_thumbnail] [img_caption] %}
+{% fancybox img_url [img_thumbnail] [img_caption] %}
 ```
 
 ### Sidebar
