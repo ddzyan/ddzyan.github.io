@@ -22,7 +22,6 @@ https://ddzyan.github.io/2020/03/07/mysql-ji-qun-pei-zhi/
 https://ddzyan.github.io/2020/03/06/sql-you-hua-zhi-pai-xu/
 https://ddzyan.github.io/2020/03/02/duo-biao-sql-you-hua-shi-zhan/
 https://ddzyan.github.io/2020/02/26/dan-biao-sql-you-hua-shi-zhan/
-https://ddzyan.github.io/2020/02/16/sort-algorithms/
 https://ddzyan.github.io/2019/11/08/bi-bao-de-li-jie/
 https://ddzyan.github.io/2019/10/12/xing-neng-you-hua-zhi-huo-yan-tu/
 https://ddzyan.github.io/2019/10/11/fu-wu-ya-li-ce-shi/

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ddzyan.github.io/2018/10/25/bignumber-js-kuai-su-shang-shou/</loc>
+    <loc>https://ddzyan.github.io/2021/01/12/axios-lan-jie-qi-yuan-ma-fen-xi/</loc>
     <lastmod>2021-01-16</lastmod>
   </url>  <url>
-    <loc>https://ddzyan.github.io/2021/01/12/axios-lan-jie-qi-yuan-ma-fen-xi/</loc>
+    <loc>https://ddzyan.github.io/2020/08/03/jwt-ren-zheng-mo-shi-jie-shao-he-yuan-li-fen-xi/</loc>
+    <lastmod>2021-01-16</lastmod>
+  </url>  <url>
+    <loc>https://ddzyan.github.io/2018/10/25/bignumber-js-kuai-su-shang-shou/</loc>
     <lastmod>2021-01-16</lastmod>
   </url>  <url>
     <loc>https://ddzyan.github.io/2018/12/07/zheng-xiang-dai-li-he-fan-xiang-dai-li/</loc>
@@ -124,9 +127,6 @@
     <loc>https://ddzyan.github.io/2019/08/20/koa2-typescript-kai-fa-hou-tai/</loc>
     <lastmod>2021-01-16</lastmod>
   </url>  <url>
-    <loc>https://ddzyan.github.io/2020/08/03/jwt-ren-zheng-mo-shi-jie-shao-he-yuan-li-fen-xi/</loc>
-    <lastmod>2021-01-16</lastmod>
-  </url>  <url>
     <loc>https://ddzyan.github.io/2019/10/09/js-yi-bu-bian-cheng-shi-xian-fang-fa/</loc>
     <lastmod>2021-01-16</lastmod>
   </url>  <url>
@@ -224,9 +224,6 @@
     <lastmod>2021-01-16</lastmod>
   </url>  <url>
     <loc>https://ddzyan.github.io/2020/10/12/consul-de-docker-zi-dong-zhu-ce/</loc>
-    <lastmod>2021-01-16</lastmod>
-  </url>  <url>
-    <loc>https://ddzyan.github.io/2020/02/16/sort-algorithms/</loc>
     <lastmod>2021-01-16</lastmod>
   </url>
 </urlset>
