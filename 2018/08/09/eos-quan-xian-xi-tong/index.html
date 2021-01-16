@@ -1,0 +1,969 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="EOS权限系统, 孺子牛的博客">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="概念参考资料：https://hiblock.net/topics/222
+权限作用
+向EOS区块链发起一些事务，比如说转账，需要得到 账户 的授权。
+账号交易可以通过权限转移做到。
+新权限和action的绑定关系，可增加了eos网络权限的">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>EOS权限系统 | 孺子牛的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?46e79e71af0709a5b9106bf20cecc493";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <div class="logo-name">孺子牛的博客</div>
+        <div class="logo-desc">
+            
+            nodejs全栈开发 | 区块链爱好者
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        EOS权限系统
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/区块链/" target="_blank">
+                            <span class="chip bg-color">区块链</span>
+                        </a>
+                        
+                        <a href="/tags/eos/" target="_blank">
+                            <span class="chip bg-color">eos</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/eos/" class="post-category" target="_blank">
+                            eos
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-08-09
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    孺子牛
+                    
+                </div>
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>参考资料：<a href="https://hiblock.net/topics/222" target="_blank" rel="noopener">https://hiblock.net/topics/222</a></p>
+<h3 id="权限作用"><a href="#权限作用" class="headerlink" title="权限作用"></a>权限作用</h3><ol>
+<li>向EOS区块链发起一些事务，比如说转账，需要得到 <strong>账户</strong> 的授权。</li>
+<li>账号交易可以通过权限转移做到。</li>
+<li>新权限和action的绑定关系，可增加了eos网络权限的灵活性，通过单个权限的绑定，可将一个账户的权限分层管理，甚至一个公司的所有人都可以使用一个EOS账户来进行权限分离。</li>
+</ol>
+<p><strong>账户</strong> 的授权是如何授权的？账户的权限里 有一个阈值属性，当你的解锁状态的钱包中的有一把私钥能对应到那个权限所绑定的公钥上，而且权重刚好大于等于阈值时，那么就能成功签名，向区块链发送事务。</p>
+<a id="more"></a>
+
+<h3 id="权限配置"><a href="#权限配置" class="headerlink" title="权限配置"></a>权限配置</h3><p>首先当一个账户创建的时候，具备了两种基本权限。每个权限绑定到一个公钥上（单签名账户）或多个公钥上（多签名账户），除了绑定公钥也可以绑定到另一个有效的账户上：</p>
+<ul>
+<li><strong>owner</strong> ： 账号主权限, 声明的这个账号的归属。只有极少数事务需要使用到 owner权限。 建议把拥有这个权限的私钥进行<strong>冷存储</strong>。不要分享给任何人。 owner 可以用来恢复其他权限。</li>
+<li><strong>active</strong>： 活动权限，顾名思议，这个权限 ，一般用来做一些转账、投票、发起事务等常规操作。</li>
+</ul>
+<p>除了以上两种默认权限，还可以对账户自定义新的权限（计划在未来的账户管理软件中加入支持）。 这种权限的可扩展性，非常灵活，给软件开发者提供了很多可能的使用场景。</p>
+<h3 id="权限的权重（weight）与阈值（threshold）"><a href="#权限的权重（weight）与阈值（threshold）" class="headerlink" title="权限的权重（weight）与阈值（threshold）"></a>权限的权重（weight）与阈值（threshold）</h3><h4 id="单签名账户-（默认权限配置的账户）"><a href="#单签名账户-（默认权限配置的账户）" class="headerlink" title="单签名账户 （默认权限配置的账户）"></a>单签名账户 （默认权限配置的账户）</h4><p>owner 和 active 权限分别有一个值为1的阈值。</p>
+<p>owner 和 active 所绑定的公钥,则分别有一个值为1的权重。</p>
+<h4 id="怎么理解阈值和权重"><a href="#怎么理解阈值和权重" class="headerlink" title="怎么理解阈值和权重"></a>怎么理解阈值和权重</h4><p>举个例子来讲吧，把 <strong>owner</strong> 这个权限比作一扇门，打开这扇门需要一把正确的钥匙。 而 <strong>owner</strong> 所绑定的那个公钥 对应的那把 <strong>私钥</strong> 就是正确的钥匙。</p>
+<p>因此 <strong>单签名账户</strong> 就是 <strong>权限的阈值</strong> 和 <strong>钥匙的权重</strong>  都为1的一种账户类型。使用某个权限，只需要一把对应的私钥就行了</p>
+<h4 id="多重签名账户"><a href="#多重签名账户" class="headerlink" title="多重签名账户"></a>多重签名账户</h4><p>顾名思义，就是一个权限绑定了多个账户或公钥，权重之和大于等于owner权限的阈值，才能使用这个权限。</p>
+<p>使用一个权限，可能需要不只一个公钥的签名了，也可能是两个、三个、五个。</p>
+<h2 id="命令操作"><a href="#命令操作" class="headerlink" title="命令操作"></a>命令操作</h2><p>EOS版本号：v1.0.6</p>
+<p>环境：私有链</p>
+<p>操作系统：centos 7 </p>
+<p>参考资料：<a href="https://developers.eos.io/eosio-cleos/reference#cleos-set-account" target="_blank" rel="noopener">https://developers.eos.io/eosio-cleos/reference#cleos-set-account</a></p>
+<h4 id="查看账号权限"><a href="#查看账号权限" class="headerlink" title="查看账号权限"></a>查看账号权限</h4><pre><code>cleos get account eosioddztest
+permissions: 
+     owner     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9
+        active     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9
+memory: 
+     quota:       unlimited  used:      2.66 KiB  
+
+net bandwidth: 
+     used:               unlimited
+     available:          unlimited
+     limit:              unlimited
+
+cpu bandwidth:
+     used:               unlimited
+     available:          unlimited
+     limit:              unlimited</code></pre><h4 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h4><pre><code>//修改权限
+cleos set account permission $ACCOUNT_NAME $PERMISSION_NAME $PUBKEY_OR_ACCOUNT_NAME active -p sandwichfarm@active
+</code></pre><h5 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h5><ul>
+<li>account TEXT - 为其设置/删除权限授权的帐户</li>
+<li>permission TEXT - 设置/删除权限的权限名称</li>
+<li>authority TEXT - [delete] NULL，[create / update]公钥，JSON字符串或定义权限的文件名</li>
+<li>parent TEXT - [创建]此父母权限的权限名称（默认为：”active”）</li>
+</ul>
+<h5 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h5><ul>
+<li>-h,–help 打印此帮助信息并退出</li>
+<li>-x,–expiration TEXT - 设置交易到期之前的秒数，默认为30秒</li>
+<li>-s,–skip-sign 指定是否应使用解锁的钱包密钥来签署交易</li>
+<li>-d,–dont-broadcast - 不要向网络广播交易（只需打印到标准输出）</li>
+<li>-p,–permission TEXT - 要授权的帐户和权限级别，如’account @ permission’（默认为’account @ active’）</li>
+<li>–max-cpu-usage-ms UINT - 设置CPU使用预算的毫秒数上限，用于执行交易（默认为0，表示无限制）</li>
+<li>–max-net-usage UINT - 为交易设置净使用预算的上限（以字节为单位）（默认为0，表示无限制）</li>
+</ul>
+<h5 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h5><p>要修改帐户的权限，您必须拥有该帐户的权限和您正在修改的权限。</p>
+<pre><code>//example 
+//修改权限
+cleos set account permission eosioddztest active EOS69bTRDpiVr9wymPY3uKK9K28N1kh7kxR1wn6ynhbpWAasJKW1K owner -p eosioddztest@active
+
+//再次查看eosioddztest权限，发现active已经改变
+cleos get account eosioddztest
+permissions: 
+     owner     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9
+        active     1:    1 EOS69bTRDpiVr9wymPY3uKK9K28N1kh7kxR1wn6ynhbpWAasJKW1K
+memory: 
+     quota:       unlimited  used:      2.66 KiB  
+
+net bandwidth: 
+     used:               unlimited
+     available:          unlimited
+     limit:              unlimited
+
+cpu bandwidth:
+     used:               unlimited
+     available:          unlimited
+     limit:              unlimited
+</code></pre><h5 id="权重和阈值模式"><a href="#权重和阈值模式" class="headerlink" title="权重和阈值模式"></a>权重和阈值模式</h5><pre><code>//修改权限 
+cleos set account permission eosioddztest active &#39;{&quot;threshold&quot; : 1, &quot;keys&quot; : [], &quot;accounts&quot; : [{&quot;permission&quot;:{&quot;actor&quot;:&quot;trustwallets&quot;,&quot;permission&quot;:&quot;active&quot;},&quot;weight&quot;:1}]}&#39; owner -p eosioddztest@active</code></pre><pre><code>查看权限，发现action已经改变为权重模式，如看详情可以-j，使用json方式
+cleos get account eosioddztest
+permissions: 
+     owner     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9
+        active     1:    1 trustwallets@active, 
+memory: 
+     quota:       unlimited  used:     2.643 KiB  
+
+net bandwidth: 
+     used:               unlimited
+     available:          unlimited
+     limit:              unlimited
+
+cpu bandwidth:
+     used:               unlimited
+     available:          unlimited
+     limit:              unlimited
+</code></pre><h6 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h6><p>accounts</p>
+<pre><code>{
+  &quot;threshold&quot;       : 100,    /*签名需要权重值达到多少的一个整数*/
+  &quot;keys&quot;            : [],     /*包含eos风格的公约和权重*/
+  &quot;accounts&quot;        : []      /*包含eos账号和权限，权重*/
+}</code></pre><p>keys</p>
+<pre><code>{
+  &quot;permission&quot; : {
+    &quot;actor&quot;       : &quot;sandwich&quot;,
+    &quot;permission&quot;  : &quot;active&quot;
+  },
+  &quot;weight&quot;      : 75
+}</code></pre><h5 id="添加权限"><a href="#添加权限" class="headerlink" title="添加权限"></a>添加权限</h5><pre><code>cleos set account permission eosioddztest test &#39;{&quot;threshold&quot;:1,&quot;keys&quot;:[{&quot;key&quot;:&quot;EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9&quot;,&quot;weight&quot;:1}],&quot;accounts&quot;:[]}&#39; active</code></pre><pre><code>查看权限多了一个test
+cleos get account eosioddztest
+permissions: 
+     owner     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9
+        active     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9
+           test     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9
+memory: 
+     quota:       unlimited  used:      2.99 KiB  
+
+net bandwidth: 
+     used:               unlimited
+     available:          unlimited
+     limit:              unlimited
+
+cpu bandwidth:
+     used:               unlimited
+     available:          unlimited
+     limit:              unlimited
+</code></pre><h5 id="删除权限"><a href="#删除权限" class="headerlink" title="删除权限"></a>删除权限</h5><pre><code>//删除权限
+cleos set account permission eosioddztest test &#39;NULL&#39; active</code></pre><pre><code>cleos get account eosioddztest
+permissions: 
+     owner     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9
+        active     1:    1 EOS8Lbyk31K78BaMGuP8WHiC1tL8tphrQjRir8pGccxxbg9zVA4f9
+memory: 
+     quota:       unlimited  used:      2.99 KiB  
+
+net bandwidth: 
+     used:               unlimited
+     available:          unlimited
+     limit:              unlimited
+
+cpu bandwidth:
+     used:               unlimited
+     available:          unlimited
+     limit:              unlimited</code></pre><h5 id="权限绑定action"><a href="#权限绑定action" class="headerlink" title="权限绑定action"></a>权限绑定action</h5><pre><code>//将之前创建的test权限绑定交易事件
+cleos set action permission eosioddztest eosio.token transfer test
+
+//使用test权限进行交易
+cleos push action eosio.token transfer &#39;[&quot;eosioddztest&quot;,&quot;trustwallets&quot;,&quot;100.0000 EOS&quot;,&quot;transfer&quot;]&#39; -p eosioddztest@hello</code></pre>
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/08/09/eos-de-unlinkable-block-wen-ti-jie-jue/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="EOS的Unlinkable_block问题解决">
+                        
+                        <span class="card-title">EOS的Unlinkable_block问题解决</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            eos版本：v1.1.1操作系统：centos 7 
+参考地址：
+
+https://github.com/EOSIO/eos/issues/4986
+https://github.com/EOSIO/eos/pull/5001
+
+
+
+问题区
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-08-09
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/eos/" class="post-category" target="_blank">
+                                    eos
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/区块链/" target="_blank">
+                        <span class="chip bg-color">区块链</span>
+                    </a>
+                    
+                    <a href="/tags/eos/" target="_blank">
+                        <span class="chip bg-color">eos</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/08/09/chuang-jian-eos-zhi-neng-he-yue/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="创建EOS智能合约">
+                        
+                        <span class="card-title">创建EOS智能合约</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            前提首先请先了解智能合约相关概念，智能合约介绍。
+在开始之前以下信息。
+
+eos-version:v.1.5
+os:centos 7
+必须在build文件夹中执行sudo make isntall，否在在执行编译wast文件时，将找不到相关
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-08-09
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/eos/" class="post-category" target="_blank">
+                                    eos
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/区块链/" target="_blank">
+                        <span class="chip bg-color">区块链</span>
+                    </a>
+                    
+                    <a href="/tags/eos/" target="_blank">
+                        <span class="chip bg-color">eos</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 孺子牛的博客<br />'
+            + '作者: 孺子牛<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+          
+
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/ddzyan" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ddzyan@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+    <a href="http://wpa.qq.com/msgrd?v=3&uin=619262284&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+</body>
+
+</html>

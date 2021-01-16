@@ -1,0 +1,986 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Docker-资源隔离和限制原理, 孺子牛的博客">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="开卷有益在阅读文章之前，你可以先想想自己是否了解以下内容，如果不了解希望此文章可以帮助你解除疑惑：
+
+解释 docker 原理
+简述 namespace 可以对哪些资源做隔离？
+简述 cgroups 的作用和可以限制的资源类型？
+
+
+在 l">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Docker-资源隔离和限制原理 | 孺子牛的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?46e79e71af0709a5b9106bf20cecc493";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <div class="logo-name">孺子牛的博客</div>
+        <div class="logo-desc">
+            
+            nodejs全栈开发 | 区块链爱好者
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Docker-资源隔离和限制原理
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/docker/" target="_blank">
+                            <span class="chip bg-color">docker</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/docker/" class="post-category" target="_blank">
+                            docker
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-09-08
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    孺子牛
+                    
+                </div>
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="开卷有益"><a href="#开卷有益" class="headerlink" title="开卷有益"></a>开卷有益</h2><p>在阅读文章之前，你可以先想想自己是否了解以下内容，如果不了解希望此文章可以帮助你解除疑惑：</p>
+<ol>
+<li>解释 docker 原理<ol>
+<li>简述 namespace 可以对哪些资源做隔离？</li>
+<li>简述 cgroups 的作用和可以限制的资源类型？</li>
+</ol>
+</li>
+<li>在 linux 如何实操检验 cgroups 对资源的限制？</li>
+<li>Docker 默认会为容器启用哪些 namespace?</li>
+<li>简述 虚拟机 和 docker 两者的技术缺陷？</li>
+</ol>
+<hr>
+<h2 id="简介-docker-原理"><a href="#简介-docker-原理" class="headerlink" title="简介 docker 原理"></a>简介 docker 原理</h2><p>docker 项目核心原理实际上就是未待创建的用户进程：</p>
+<ol>
+<li>启用 Linux Namespace 配置，实现资源隔离</li>
+<li>设置指定的 Cgroups 参数，实现资源限制</li>
+<li>切换进程的根目录（change rootfs）</li>
+</ol>
+<h2 id="Namespace"><a href="#Namespace" class="headerlink" title="Namespace"></a>Namespace</h2><p>它实际上修改了容器内的应用程序看待整个计算机的“视图”，即它的“视线”被操作系统做了限制，只能“看到”某些特定的内容，但是对于宿主机来说，这些被“隔离”的进程和其他进程没有什么区别，所以 docker container 的本质其实就是被操作系统加了一些限定参数进程。</p>
+<p>了解了 docker container 的本质之后，我们可以比较下 docker 和 虚拟机 的技术特点：</p>
+<ol>
+<li>虚拟机缺点：<ol>
+<li>体积较大：首先虚拟机需要在宿主机上虚拟化出一个操作系统，然后在虚拟化的操作系统上部署应用和依赖等，这里操作系统本身就会占用一定的内存</li>
+<li>性能较低：虚拟机上的应用如果要操作宿主机操作系统，则需要通过虚拟化软件的拦截和处理，从而造成性能的浪费。</li>
+</ol>
+</li>
+<li>docker 缺点<ol>
+<li>隔离不彻底<ol>
+<li>因为 container 只是运行在宿主上的一个特殊的进程，所以所有 container 都还是使用同一个宿主机的系统内核，如果修改内核参数，则会全局生效。</li>
+<li>namespace 对部分资源和对象无法隔离，例如时间（在 container 内修改时间，会导致宿主机的时间也会一起改变） — kernel 5.6 已经支持 time namespace</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>架构图</p>
+<p><img src="https://pic1.zhimg.com/80/v2-28323060e9fd610597f1b3d7e0a314c0_720w.jpg" alt="img"></p>
+<p>从架构图上也可以看出，docker 并没有使用虚拟化技术实现一个操作系统，它在应用的最右侧，表示用户在容器内运行的进程跟宿主机的其他进程一样，都由宿主机操作系统统一管理，只不过这些被隔离的进程额外设置了一些 namespace，而 docker 在这其中只是起到了辅助管理工作。</p>
+<p>namespace 分别可以对以下资源做隔离：</p>
+<ol>
+<li>pid — 默认</li>
+<li>network — 默认</li>
+<li>user</li>
+<li>mount</li>
+<li>IPC</li>
+<li>cgroup</li>
+<li>UTS</li>
+</ol>
+<a id="more"></a>
+
+<h2 id="CGroups（linux-controller-groups）"><a href="#CGroups（linux-controller-groups）" class="headerlink" title="CGroups（linux controller groups）"></a>CGroups（linux controller groups）</h2><p>docker 使用了 linux 的 CGroups 实现了对进程资源的限制，通过以下命令可以看到可以被限制的资源都有哪些：</p>
+<pre class="line-numbers language-shell"><code class="language-shell"># 查看都可以限制哪些资源,每一个文件夹都表示一种可以被限制的资源种类
+$ mount -t cgroup
+cgroup on /sys/fs/cgroup/systemd type cgroup (rw,nosuid,nodev,noexec,relatime,xattr,name=systemd)
+cgroup on /sys/fs/cgroup/net_cls,net_prio type cgroup (rw,nosuid,nodev,noexec,relatime,net_cls,net_prio)
+cgroup on /sys/fs/cgroup/hugetlb type cgroup (rw,nosuid,nodev,noexec,relatime,hugetlb)
+cgroup on /sys/fs/cgroup/blkio type cgroup (rw,nosuid,nodev,noexec,relatime,blkio)
+cgroup on /sys/fs/cgroup/cpu,cpuacct type cgroup (rw,nosuid,nodev,noexec,relatime,cpu,cpuacct)
+cgroup on /sys/fs/cgroup/perf_event type cgroup (rw,nosuid,nodev,noexec,relatime,perf_event)
+cgroup on /sys/fs/cgroup/freezer type cgroup (rw,nosuid,nodev,noexec,relatime,freezer)
+cgroup on /sys/fs/cgroup/devices type cgroup (rw,nosuid,nodev,noexec,relatime,devices)
+cgroup on /sys/fs/cgroup/cpuset type cgroup (rw,nosuid,nodev,noexec,relatime,cpuset)
+cgroup on /sys/fs/cgroup/pids type cgroup (rw,nosuid,nodev,noexec,relatime,pids)
+cgroup on /sys/fs/cgroup/rdma type cgroup (rw,nosuid,nodev,noexec,relatime,rdma)
+cgroup on /sys/fs/cgroup/memory type cgroup (rw,nosuid,nodev,noexec,relatime,memory)
+
+# 或者这样，每一个文件夹都表示一种可以被限制的资源种类
+$ ls /sys/fs/cgroup
+blkio  cpu  cpuacct  cpu,cpuacct  cpuset  devices  freezer  hugetlb  memory  net_cls  net_cls,net_prio  net_prio  perf_event  pids  rdma  systemd  unified<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>首先我们先通过代码了解如何进行其中一种资源的限制（CPU），再运行一个 docker container 来进行验证。</p>
+<pre class="line-numbers language-shell"><code class="language-shell"># 首先启动一个死循环进程，查看 top 数据，我们会发现此进程会消耗100%的CPU，而我们的目标就是对此进行的资源进行限定
+$ while : ; do : ; done &
+[1] 24899
+
+$ top
+top - 08:17:30 up 2 days, 19:46,  2 users,  load average: 0.89, 0.49, 0.41
+Tasks: 164 total,   2 running, 106 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  1.9 us,  8.4 sy, 17.8 ni, 71.9 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem :  8084860 total,  4431220 free,   904984 used,  2748656 buff/cache
+KiB Swap:        0 total,        0 free,        0 used.  7004876 avail Mem
+
+PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND                   24899 root      25   5   54116   3676      0 R  99.7  0.0   1:03.48 zsh
+
+# 首先创建一个资源组
+$ cd /sys/fs/cgroup/cpu
+
+# 文件夹创建后，操作系统会自动在此文件夹下创建资源限制文件
+$ mkdir container
+$ ll
+-rw-r--r-- 1 root root 0 Sep  7 06:45 cgroup.clone_children
+-rw-r--r-- 1 root root 0 Sep  7 06:45 cgroup.procs
+-r--r--r-- 1 root root 0 Sep  7 06:45 cpuacct.stat
+-rw-r--r-- 1 root root 0 Sep  7 06:45 cpuacct.usage
+-r--r--r-- 1 root root 0 Sep  7 06:45 cpuacct.usage_all
+-r--r--r-- 1 root root 0 Sep  7 06:45 cpuacct.usage_percpu
+-r--r--r-- 1 root root 0 Sep  7 06:45 cpuacct.usage_percpu_sys
+-r--r--r-- 1 root root 0 Sep  7 06:45 cpuacct.usage_percpu_user
+-r--r--r-- 1 root root 0 Sep  7 06:45 cpuacct.usage_sys
+-r--r--r-- 1 root root 0 Sep  7 06:45 cpuacct.usage_user
+-rw-r--r-- 1 root root 0 Sep  7 06:45 cpu.cfs_period_us
+-rw-r--r-- 1 root root 0 Sep  7 07:00 cpu.cfs_quota_us
+-rw-r--r-- 1 root root 0 Sep  7 06:45 cpu.shares
+-r--r--r-- 1 root root 0 Sep  7 06:45 cpu.stat
+-rw-r--r-- 1 root root 0 Sep  7 06:45 notify_on_release
+-rwxrwxrwx 1 root root 0 Sep  7 07:00 tasks<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>部分资源限制文件详解</p>
+<pre class="line-numbers language-shell"><code class="language-shell"># 资源显示间隔时间10000 us
+$ cat cpu.cfs_period_us
+100000
+
+# 资源限制大小，默认为 -1 不限制
+$ cat cpu.cfs_quota_us
+-1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>修改限制资源，在限制条件中设定一个满的 CPU 是 1000 ms，如果我们设置了 200，则为在指定时间内提供单核的 20%的算力</p>
+<pre class="line-numbers language-shell"><code class="language-shell"># 修改 CPU 限制为 20%
+$ echo 20000 > cpu.cfs_quota_us
+
+# 添加需要限制的 PID
+$ chmod 777 tasks
+$ echo 24899>tasks
+
+# 在查看资源,发现已经为20%
+$ top
+top - 08:25:48 up 2 days, 19:55,  2 users,  load average: 1.61, 1.09, 0.75
+Tasks: 160 total,   2 running, 106 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  3.9 us,  2.8 sy,  3.9 ni, 89.3 id,  0.2 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem :  8084860 total,  4431508 free,   903404 used,  2749948 buff/cache
+KiB Swap:        0 total,        0 free,        0 used.  7006456 avail Mem
+
+PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND                     24899 root      25   5   54116   3676      0 R  20.5  0.0   9:00.67 zsh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过以上我们已经了解到了 linus 如何进行 CPU 资源限制，为了验证 Docker 是否也是运用此方法，我们可以通过以下方式验证</p>
+<pre class="line-numbers language-shell"><code class="language-shell"># 创建容器，并且限制使用 CPU 资源
+$ docker run -d --cpu-quota=20000 --cpu-period 100000 --name busybox-1 busybox tail -f
+167e90b8a2f1598fc6f4084ef8845650c1456de58509c55829fd4ffd403ab4ec
+
+# 查看资源限制,发现与预期设置一致
+$ cd /sys/fs/cgroup/cpu/docker/167e90b8a2f1598fc6f4084ef8845650c1456de58509c55829fd4ffd403ab4ec
+
+$ cat cpu.cfs_quota_us
+20000
+
+$ cat cpu.cfs_period_us
+100000
+
+# 进入容器，进行压力测试，验证CPU资源
+$ docker exec -it 167e90b8a2f1598fc6f4084ef8845650c1456de58509c55829fd4ffd403ab4ec sh
+$ while : ; do : ; done &
+$ exit
+
+# 发现与预期结果一致，在这里也可以看发现 container 也只是宿主机内一个进程而已
+$ top - 08:33:27 up 2 days, 20:02,  2 users,  load average: 0.61, 0.64, 0.65
+Tasks: 164 total,   2 running, 106 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  8.0 us,  1.7 sy,  0.0 ni, 90.0 id,  0.1 wa,  0.0 hi,  0.2 si,  0.0 st
+KiB Mem :  8084860 total,  4427444 free,   904860 used,  2752556 buff/cache
+KiB Swap:        0 total,        0 free,        0 used.  7005040 avail Mem
+
+PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND                     1265 root      20   0    1316     68      4 R  19.9  0.0   0:10.73 sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>以上只是对 CGroups 中对 CPU 限制了详细的操作和解释，除此之外它还能对以下资源做限制：</p>
+<ul>
+<li>memory 内存</li>
+<li>blkio 磁盘读写</li>
+<li>…</li>
+</ul>
+<p>docker 支持的资源限制方法，发现 CGroups 支持的，docker 都支持：</p>
+<ul>
+<li>–memory-swappiness int Tune container memory swappiness (0 to 100) (default -1)</li>
+<li>–memory bytes Memory limit</li>
+<li>–blkio-weight uint16 Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)</li>
+<li>–blkio-weight-device list Block IO weight (relative device weight) (default [])</li>
+</ul>
+<p>到这里已经将 docker 中 namespace 资源隔离，CGroup 资源限制做了详细的解释</p>
+
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/10/08/da-jian-yi-ge-wan-zheng-de-docker-sheng-tai/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="搭建一个完整的docker生态">
+                        
+                        <span class="card-title">搭建一个完整的docker生态</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            概要通过本文你可以学习到以下内容：
+
+快速安装 docker 和 docker-compose
+如何使用 docker 可视化管理平台
+如何对 docker 容器进行监控和报警
+
+环境安装ubuntuapt-get update
+apt-g
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-10-08
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/docker/" class="post-category" target="_blank">
+                                    docker
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/docker/" target="_blank">
+                        <span class="chip bg-color">docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/09/07/docker-bridgenetwork-yuan-li/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Docker-BridgeNetwork原理">
+                        
+                        <span class="card-title">Docker-BridgeNetwork原理</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            参考资料
+三层交换机
+OSI 网络架构
+七层网络架构
+
+疑问
+为什么已经有了链路层的交换机，还要有网络层的路由器呢?
+为什么主机之间需要 MAC 地址才能进行通信？
+有了 MAC 地址，为什么不直接通过 MAC : prot 进行发送数据？
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-09-07
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/docker/" class="post-category" target="_blank">
+                                    docker
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/docker/" target="_blank">
+                        <span class="chip bg-color">docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 孺子牛的博客<br />'
+            + '作者: 孺子牛<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+          
+
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/ddzyan" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ddzyan@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+    <a href="http://wpa.qq.com/msgrd?v=3&uin=619262284&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+</body>
+
+</html>

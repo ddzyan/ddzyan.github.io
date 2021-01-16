@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>孺子牛的博客</title>
+  
+  <subtitle>孺子牛的博客</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://ddzyan.github.io/"/>
+  <updated>2021-01-16T10:07:35.422Z</updated>
+  <id>https://ddzyan.github.io/</id>
+  
+  <author>
+    <name>孺子牛</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>axios拦截器源码分析</title>
+    <link href="https://ddzyan.github.io/2021/01/12/axios-lan-jie-qi-yuan-ma-fen-xi/"/>
+    <id>https://ddzyan.github.io/2021/01/12/axios-lan-jie-qi-yuan-ma-fen-xi/</id>
+    <published>2021-01-11T18:31:28.000Z</published>
+    <updated>2021-01-16T10:07:35.422Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;本文主要分析 axios 模块中拦截器的使用和源码分析，文章分为如下几个部分：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;拦截器的作用以及使用场景&lt;/li&gt;
+&lt;li&gt;如何使用拦截器&lt;/li&gt;
+&lt;li&gt;拦截器的源码分析&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;axios 源码仓库：&lt;a href=&quot;https://github.com/axios/axios/blob/master/lib/core/Axios.js&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/axios/axios/blob/master/lib/core/Axios.js&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;拦截器的作用&quot;&gt;&lt;a href=&quot;#拦截器的作用&quot; class=&quot;headerlink&quot; title=&quot;拦截器的作用&quot;&gt;&lt;/a&gt;拦截器的作用&lt;/h3&gt;&lt;p&gt;axios 的拦截器可以分为请求拦截器和响应拦截器。请求拦截器可以在发出请求之前，按照拦截器添加顺序执行，再发送请求。而响应拦截器则是在收到响应之后，按照拦截器添加顺序执行后，再返回响应结果。&lt;/p&gt;
+&lt;p&gt;使用场景：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;数据转换&lt;/li&gt;
+&lt;li&gt;添加额外的数据，例如往 header 添加信息等&lt;/li&gt;
+&lt;li&gt;日志记录，输出请求响应时间和失败率等&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="nodejs" scheme="https://ddzyan.github.io/categories/nodejs/"/>
+    
+    
+      <category term="axios" scheme="https://ddzyan.github.io/tags/axios/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>git-workflows配置</title>
+    <link href="https://ddzyan.github.io/2020/10/17/git-workflows-pei-zhi/"/>
+    <id>https://ddzyan.github.io/2020/10/17/git-workflows-pei-zhi/</id>
+    <published>2020-10-17T15:44:12.000Z</published>
+    <updated>2021-01-16T10:07:32.162Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;github 在近期提供了一个 workflows 功能，可以轻松实现定制化工作流任务，包括经常使用的包括了 ci和cd ，从此不再需要通过第三方服务来实现。&lt;/p&gt;
+&lt;p&gt;通过 workflows 我们可以实现以下功能：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;构建和测试 Node.js&lt;/li&gt;
+&lt;li&gt;构建和测试 Python&lt;/li&gt;
+&lt;li&gt;使用 Maven 构建和测试 Java&lt;/li&gt;
+&lt;li&gt;使用 Gradle 构建和测试 Java&lt;/li&gt;
+&lt;li&gt;使用 Ant 构建和测试 Java&lt;/li&gt;
+&lt;li&gt;发布 Node.js 模块包&lt;/li&gt;
+&lt;li&gt;使用 Maven 发布 Java 软件包&lt;/li&gt;
+&lt;li&gt;使用 Gradle 发布 Java 软件包&lt;/li&gt;
+&lt;li&gt;发布 Docker 镜像&lt;/li&gt;
+&lt;li&gt;缓存依赖文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;workflows 执行结果配置推送：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;个人邮箱&lt;/li&gt;
+&lt;li&gt;如果您属于组织，则可以选择要将组织活动通知发送到的电子邮件帐户&lt;/li&gt;
+&lt;li&gt;选择仅接收失败的工作流通知&lt;/li&gt;
+&lt;li&gt;为移动设备启用推送通知&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="git" scheme="https://ddzyan.github.io/categories/git/"/>
+    
+    
+      <category term="git" scheme="https://ddzyan.github.io/tags/git/"/>
+    
+      <category term="workflows" scheme="https://ddzyan.github.io/tags/workflows/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>consul的docker自动注册</title>
+    <link href="https://ddzyan.github.io/2020/10/12/consul-de-docker-zi-dong-zhu-ce/"/>
+    <id>https://ddzyan.github.io/2020/10/12/consul-de-docker-zi-dong-zhu-ce/</id>
+    <published>2020-10-12T07:50:38.000Z</published>
+    <updated>2021-01-16T10:07:31.026Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;Registrator 通过检查容器在线来自动为任何Docker容器注册和注销服务，后端注册中心支持consul、etcd、skydns2、zookeeper等存储&lt;/p&gt;
+&lt;h2 id=&quot;部署&quot;&gt;&lt;a href=&quot;#部署&quot; class=&quot;headerlink&quot; title=&quot;部署&quot;&gt;&lt;/a&gt;部署&lt;/h2&gt;&lt;p&gt;必须先在本地部署内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;docker&lt;/li&gt;
+&lt;li&gt;consul&lt;/li&gt;
+&lt;li&gt;fabio (不使用则可以不安装)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;需要在每个docker engine上部署一个Registrator实例了，可以通过 docker 部署 registrator 服务，请修改命令中的 consul 地址&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;docker run -d \
+    --name=registrator \
+    --net=host \
+    --volume=/var/run/docker.sock:/tmp/docker.sock \
+    gliderlabs/registrator:latest \
+      consul://localhost:8500&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;参数解析：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;–net=host 帮助Registrator获取到主机级别的ip和主机名&lt;/li&gt;
+&lt;li&gt;–volume=/var/run/docker.sock:/tmp/docker.sock 允许Registrator访问docker的api接口&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="微服务" scheme="https://ddzyan.github.io/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+    
+      <category term="服务注册和发现" scheme="https://ddzyan.github.io/tags/%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E5%8F%91%E7%8E%B0/"/>
+    
+      <category term="consul" scheme="https://ddzyan.github.io/tags/consul/"/>
+    
+      <category term="Registrator" scheme="https://ddzyan.github.io/tags/Registrator/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>consul的负载均衡fabio</title>
+    <link href="https://ddzyan.github.io/2020/10/12/consul-de-fu-zai-jun-heng-fabio/"/>
+    <id>https://ddzyan.github.io/2020/10/12/consul-de-fu-zai-jun-heng-fabio/</id>
+    <published>2020-10-12T07:49:38.000Z</published>
+    <updated>2021-01-16T10:07:31.065Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;fabio 是 ebay 团队用 golang 开发的一个快速、简单零配置，能够让 consul 部署的应用快速支持 http(s) 的负载均衡路由器。&lt;/p&gt;
+&lt;p&gt;因为 consul 支持服务注册与健康检查，所以 fabio 能够零配置提供负载，升级部署从未如此简单。&lt;/p&gt;
+&lt;p&gt;根据项目的介绍，fabio 能提供每秒15000次请求。&lt;/p&gt;
+&lt;p&gt;fabio 的工作就很简单了！ 就是直接从consul 注册表里面取出健康的服务，根据服务注册时候的 tags 配置自动创建自己的路由表，然后当一个 http 请求过来的时候自动去做负载均衡&lt;/p&gt;
+&lt;p&gt;资料：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://fabiolb.net/feature/docker/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官网&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://fabiolb.net/ref/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;配置&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;工作原理&quot;&gt;&lt;a href=&quot;#工作原理&quot; class=&quot;headerlink&quot; title=&quot;工作原理&quot;&gt;&lt;/a&gt;工作原理&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;======    服务注册     =========         =========
+  A服务   &amp;lt;------&amp;gt;    consul集群  ----&amp;gt;  健康的 A/不健康的 A 集群
+======    健康检查     =========         =========
+                          ^
+                          | 加入/移出路由表
+                          |
+                       ========
+                       fabio 集群
+                       ========
+                          |
+                          | A服务   如果找到则成功路由，否则返回错误
+                          V
+                        http 请求&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+      <category term="微服务" scheme="https://ddzyan.github.io/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+    
+      <category term="服务注册和发现" scheme="https://ddzyan.github.io/tags/%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E5%8F%91%E7%8E%B0/"/>
+    
+      <category term="consul" scheme="https://ddzyan.github.io/tags/consul/"/>
+    
+      <category term="fabio" scheme="https://ddzyan.github.io/tags/fabio/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>服务注册和发现</title>
+    <link href="https://ddzyan.github.io/2020/10/12/fu-wu-zhu-ce-he-fa-xian/"/>
+    <id>https://ddzyan.github.io/2020/10/12/fu-wu-zhu-ce-he-fa-xian/</id>
+    <published>2020-10-12T07:48:05.000Z</published>
+    <updated>2021-01-16T10:07:35.032Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;服务发现的特点&quot;&gt;&lt;a href=&quot;#服务发现的特点&quot; class=&quot;headerlink&quot; title=&quot;服务发现的特点&quot;&gt;&lt;/a&gt;服务发现的特点&lt;/h2&gt;&lt;p&gt;服务与服务之间的调用通常需要在配置文件中填写好主机和端口,但是这样不易于维护，且分布式环境中不易于部署与扩容。&lt;/p&gt;
+&lt;p&gt;那么此时就需要考虑服务启动的时候自己把主机和端口以及一些其他信息注册到注册中心，这样其他服务可以从中找到它。&lt;/p&gt;
+&lt;p&gt;甚至更为简单的，注册完毕后通过 DNS 的方式来『寻址』。比如 Zookeepr 可以很好的完成这个工作，但是其中还有一个弊端就是服务的健康检查，服务注册到注册中心之后如何保证这个服务一定可用？此时就需要自己来写逻辑，当服务不可用的时候自动从注册中心下线。 &lt;/p&gt;
+&lt;h2 id=&quot;服务注册发现方案&quot;&gt;&lt;a href=&quot;#服务注册发现方案&quot; class=&quot;headerlink&quot; title=&quot;服务注册发现方案&quot;&gt;&lt;/a&gt;服务注册发现方案&lt;/h2&gt;&lt;p&gt;完整的服务注册与发现流程图&lt;/p&gt;
+&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlly1gjj2y1r58dj312k0mygq3.jpg&quot; alt=&quot;image-20201009144635533&quot; style=&quot;zoom:50%;&quot;&gt;
+
+&lt;p&gt;一个服务发现系统主要由三部分组成：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;注册器&lt;/li&gt;
+&lt;li&gt;注册表&lt;/li&gt;
+&lt;li&gt;发现机制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;第三方实现：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;zookeeper&lt;/li&gt;
+&lt;li&gt;etcd&lt;/li&gt;
+&lt;li&gt;consul&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="微服务" scheme="https://ddzyan.github.io/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+    
+      <category term="服务注册和发现" scheme="https://ddzyan.github.io/tags/%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E5%8F%91%E7%8E%B0/"/>
+    
+      <category term="consul" scheme="https://ddzyan.github.io/tags/consul/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>搭建一个完整的docker生态</title>
+    <link href="https://ddzyan.github.io/2020/10/08/da-jian-yi-ge-wan-zheng-de-docker-sheng-tai/"/>
+    <id>https://ddzyan.github.io/2020/10/08/da-jian-yi-ge-wan-zheng-de-docker-sheng-tai/</id>
+    <published>2020-10-08T15:03:20.000Z</published>
+    <updated>2021-01-16T10:07:34.706Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概要&quot;&gt;&lt;a href=&quot;#概要&quot; class=&quot;headerlink&quot; title=&quot;概要&quot;&gt;&lt;/a&gt;概要&lt;/h2&gt;&lt;p&gt;通过本文你可以学习到以下内容：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;快速安装 docker 和 docker-compose&lt;/li&gt;
+&lt;li&gt;如何使用 docker 可视化管理平台&lt;/li&gt;
+&lt;li&gt;如何对 docker 容器进行监控和报警&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;环境安装&quot;&gt;&lt;a href=&quot;#环境安装&quot; class=&quot;headerlink&quot; title=&quot;环境安装&quot;&gt;&lt;/a&gt;环境安装&lt;/h2&gt;&lt;h3 id=&quot;ubuntu&quot;&gt;&lt;a href=&quot;#ubuntu&quot; class=&quot;headerlink&quot; title=&quot;ubuntu&quot;&gt;&lt;/a&gt;ubuntu&lt;/h3&gt;&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;apt-get update
+apt-get -y install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+apt-key fingerprint 0EBFCD88
+add-apt-repository \
+   &amp;quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) \
+  stable&amp;quot;
+
+apt-get update
+
+apt-get -y install docker-ce docker-ce-cli containerd.io&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;centos&quot;&gt;&lt;a href=&quot;#centos&quot; class=&quot;headerlink&quot; title=&quot;centos&quot;&gt;&lt;/a&gt;centos&lt;/h3&gt;&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;sudo yum install -y yum-utils
+
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+sudo yum install -y docker-ce docker-ce-cli containerd.io
+
+sudo systemctl start docker&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;修改镜像源和默认资源存储位置&quot;&gt;&lt;a href=&quot;#修改镜像源和默认资源存储位置&quot; class=&quot;headerlink&quot; title=&quot;修改镜像源和默认资源存储位置&quot;&gt;&lt;/a&gt;修改镜像源和默认资源存储位置&lt;/h3&gt;&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;vim /etc/docker/daemon.json
+{
+  &amp;quot;registry-mirrors&amp;quot;: [&amp;quot;https://7a1tnjfc.mirror.aliyuncs.com&amp;quot;,&amp;quot;http://hub-mirror.c.163.com&amp;quot;],
+  &amp;quot;data-root&amp;quot;: &amp;quot;/media/nvme/docker_data&amp;quot;
+}
+
+# 重启
+service docker restart&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;docker-compose-部署&quot;&gt;&lt;a href=&quot;#docker-compose-部署&quot; class=&quot;headerlink&quot; title=&quot;docker-compose 部署&quot;&gt;&lt;/a&gt;docker-compose 部署&lt;/h3&gt;&lt;p&gt;要安装其他版本的 Compose，请替换 1.24.1。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;$ sudo curl -L &amp;quot;https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)&amp;quot; -o /usr/local/bin/docker-compose
+
+$ sudo chmod +x /usr/local/bin/docker-compose
+
+$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+$ docker-compose --version&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+      <category term="docker" scheme="https://ddzyan.github.io/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="https://ddzyan.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker-资源隔离和限制原理</title>
+    <link href="https://ddzyan.github.io/2020/09/08/docker-zi-yuan-ge-chi-he-xian-zhi-yuan-li/"/>
+    <id>https://ddzyan.github.io/2020/09/08/docker-zi-yuan-ge-chi-he-xian-zhi-yuan-li/</id>
+    <published>2020-09-08T01:11:39.000Z</published>
+    <updated>2021-01-16T10:07:31.301Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;开卷有益&quot;&gt;&lt;a href=&quot;#开卷有益&quot; class=&quot;headerlink&quot; title=&quot;开卷有益&quot;&gt;&lt;/a&gt;开卷有益&lt;/h2&gt;&lt;p&gt;在阅读文章之前，你可以先想想自己是否了解以下内容，如果不了解希望此文章可以帮助你解除疑惑：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;解释 docker 原理&lt;ol&gt;
+&lt;li&gt;简述 namespace 可以对哪些资源做隔离？&lt;/li&gt;
+&lt;li&gt;简述 cgroups 的作用和可以限制的资源类型？&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;在 linux 如何实操检验 cgroups 对资源的限制？&lt;/li&gt;
+&lt;li&gt;Docker 默认会为容器启用哪些 namespace?&lt;/li&gt;
+&lt;li&gt;简述 虚拟机 和 docker 两者的技术缺陷？&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;简介-docker-原理&quot;&gt;&lt;a href=&quot;#简介-docker-原理&quot; class=&quot;headerlink&quot; title=&quot;简介 docker 原理&quot;&gt;&lt;/a&gt;简介 docker 原理&lt;/h2&gt;&lt;p&gt;docker 项目核心原理实际上就是未待创建的用户进程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;启用 Linux Namespace 配置，实现资源隔离&lt;/li&gt;
+&lt;li&gt;设置指定的 Cgroups 参数，实现资源限制&lt;/li&gt;
+&lt;li&gt;切换进程的根目录（change rootfs）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;Namespace&quot;&gt;&lt;a href=&quot;#Namespace&quot; class=&quot;headerlink&quot; title=&quot;Namespace&quot;&gt;&lt;/a&gt;Namespace&lt;/h2&gt;&lt;p&gt;它实际上修改了容器内的应用程序看待整个计算机的“视图”，即它的“视线”被操作系统做了限制，只能“看到”某些特定的内容，但是对于宿主机来说，这些被“隔离”的进程和其他进程没有什么区别，所以 docker container 的本质其实就是被操作系统加了一些限定参数进程。&lt;/p&gt;
+&lt;p&gt;了解了 docker container 的本质之后，我们可以比较下 docker 和 虚拟机 的技术特点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;虚拟机缺点：&lt;ol&gt;
+&lt;li&gt;体积较大：首先虚拟机需要在宿主机上虚拟化出一个操作系统，然后在虚拟化的操作系统上部署应用和依赖等，这里操作系统本身就会占用一定的内存&lt;/li&gt;
+&lt;li&gt;性能较低：虚拟机上的应用如果要操作宿主机操作系统，则需要通过虚拟化软件的拦截和处理，从而造成性能的浪费。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;docker 缺点&lt;ol&gt;
+&lt;li&gt;隔离不彻底&lt;ol&gt;
+&lt;li&gt;因为 container 只是运行在宿主上的一个特殊的进程，所以所有 container 都还是使用同一个宿主机的系统内核，如果修改内核参数，则会全局生效。&lt;/li&gt;
+&lt;li&gt;namespace 对部分资源和对象无法隔离，例如时间（在 container 内修改时间，会导致宿主机的时间也会一起改变） — kernel 5.6 已经支持 time namespace&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;架构图&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://pic1.zhimg.com/80/v2-28323060e9fd610597f1b3d7e0a314c0_720w.jpg&quot; alt=&quot;img&quot;&gt;&lt;/p&gt;
+&lt;p&gt;从架构图上也可以看出，docker 并没有使用虚拟化技术实现一个操作系统，它在应用的最右侧，表示用户在容器内运行的进程跟宿主机的其他进程一样，都由宿主机操作系统统一管理，只不过这些被隔离的进程额外设置了一些 namespace，而 docker 在这其中只是起到了辅助管理工作。&lt;/p&gt;
+&lt;p&gt;namespace 分别可以对以下资源做隔离：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;pid — 默认&lt;/li&gt;
+&lt;li&gt;network — 默认&lt;/li&gt;
+&lt;li&gt;user&lt;/li&gt;
+&lt;li&gt;mount&lt;/li&gt;
+&lt;li&gt;IPC&lt;/li&gt;
+&lt;li&gt;cgroup&lt;/li&gt;
+&lt;li&gt;UTS&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="docker" scheme="https://ddzyan.github.io/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="https://ddzyan.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker-BridgeNetwork原理</title>
+    <link href="https://ddzyan.github.io/2020/09/07/docker-bridgenetwork-yuan-li/"/>
+    <id>https://ddzyan.github.io/2020/09/07/docker-bridgenetwork-yuan-li/</id>
+    <published>2020-09-07T02:21:36.000Z</published>
+    <updated>2021-01-16T10:07:31.090Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;参考资料&quot;&gt;&lt;a href=&quot;#参考资料&quot; class=&quot;headerlink&quot; title=&quot;参考资料&quot;&gt;&lt;/a&gt;参考资料&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.csdn.net/tshangshi/article/details/50894478&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;三层交换机&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/32059190&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;OSI 网络架构&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.lifewire.com/layers-of-the-osi-model-illustrated-818017&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;七层网络架构&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;疑问&quot;&gt;&lt;a href=&quot;#疑问&quot; class=&quot;headerlink&quot; title=&quot;疑问&quot;&gt;&lt;/a&gt;疑问&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;为什么已经有了链路层的交换机，还要有网络层的路由器呢?&lt;/li&gt;
+&lt;li&gt;为什么主机之间需要 MAC 地址才能进行通信？&lt;/li&gt;
+&lt;li&gt;有了 MAC 地址，为什么不直接通过 MAC : prot 进行发送数据？&lt;/li&gt;
+&lt;li&gt;简述在 docker 中被隔离的 container 如何与其他 Network Namespace 里的 container 进行交互？&lt;/li&gt;
+&lt;li&gt;docker 使用宿主机网络栈（host 模式）会引起什么问题？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;基础概念（可以先跳过）&quot;&gt;&lt;a href=&quot;#基础概念（可以先跳过）&quot; class=&quot;headerlink&quot; title=&quot;基础概念（可以先跳过）&quot;&gt;&lt;/a&gt;基础概念（可以先跳过）&lt;/h2&gt;&lt;h3 id=&quot;操作指令&quot;&gt;&lt;a href=&quot;#操作指令&quot; class=&quot;headerlink&quot; title=&quot;操作指令&quot;&gt;&lt;/a&gt;操作指令&lt;/h3&gt;&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;# 查看路由表
+$ route
+
+# 查看网络桥接连接信息
+$ brctl show
+
+# 查看网络接口信息
+$ ip link show
+
+# 查看网络接口绑定信息
+$ cat /sys/class/net/etho/iflnk
+
+# 显示数据包到主机的路径
+$ traceroute
+
+# 显示 IP 对应的 mac 地址0
+$ ip neigh show dev cali33e0eb4cdea
+10.233.96.1 lladdr aa:7a:7e:d0:be:fa REACHABLE&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;网络栈&quot;&gt;&lt;a href=&quot;#网络栈&quot; class=&quot;headerlink&quot; title=&quot;网络栈&quot;&gt;&lt;/a&gt;网络栈&lt;/h3&gt;&lt;p&gt;每个被隔离的 container 都有一套网络栈包含：包含网卡（Network Interface），回环设备，路由表（Routing Table）和 iptables 规则。&lt;/p&gt;
+&lt;h3 id=&quot;网桥&quot;&gt;&lt;a href=&quot;#网桥&quot; class=&quot;headerlink&quot; title=&quot;网桥&quot;&gt;&lt;/a&gt;网桥&lt;/h3&gt;&lt;p&gt;网桥是工作在 &lt;strong&gt;数据链路层&lt;/strong&gt; 的设备，主要功能是根据 MAC 地址来将数据包转发到网桥的不同 Port 上。&lt;/p&gt;
+&lt;h3 id=&quot;交换机工作原理&quot;&gt;&lt;a href=&quot;#交换机工作原理&quot; class=&quot;headerlink&quot; title=&quot;交换机工作原理&quot;&gt;&lt;/a&gt;交换机工作原理&lt;/h3&gt;&lt;p&gt;当交换机接收到一个数据帧，提取出该数据帧的目的 MAC 地址，并依此为根据进行 CAM 表查询，如果能查找到结果，则根据结果进行数据帧的转发，如果不能命中则（向除接收端口外的）所有端口进行 UDP 广播 。如果有端口匹配的 MAC 地址匹配，则会进行响应，交换机会将该 MAC 地址和接收到该 MAC 地址的端口绑定起来，插入 CAM 表项，这样当接收到一个发送到该 MAC 地址的数据帧时，就不需要向所有端口广播。&lt;/p&gt;
+&lt;p&gt;二层设备只认帧中的源和目的 MAC 地址进行数据传输，当传到第三层路由器，三层设备却是基于数据报文中的 IP 进行数据转发。&lt;/p&gt;
+&lt;p&gt;在 OSI 网络模型中，每层都是对上一层的数据包包装并且加入自己的内容，反之则对每层的数据进行解包，流程如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://pic1.zhimg.com/80/b6ae78d0dfafa7b3f0b66848e40cc9ce_720w.jpg?source=1940ef5c&quot; alt=&quot;img&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="docker" scheme="https://ddzyan.github.io/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="https://ddzyan.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JWT认证模式介绍和原理分析</title>
+    <link href="https://ddzyan.github.io/2020/08/03/jwt-ren-zheng-mo-shi-jie-shao-he-yuan-li-fen-xi/"/>
+    <id>https://ddzyan.github.io/2020/08/03/jwt-ren-zheng-mo-shi-jie-shao-he-yuan-li-fen-xi/</id>
+    <published>2020-08-03T07:55:25.000Z</published>
+    <updated>2021-01-16T10:07:32.570Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;用户提供用户名和密码给认证服务器，服务器验证用户提交的信息的合法性，如果验证成功则返回一个 token , 用户可以使用这个 token 访问服务器上受保护的资源。&lt;/p&gt;
+&lt;p&gt;示例代码：&lt;a href=&quot;https://github.com/ddzyan/node-project/tree/master/jwt-auth&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/ddzyan/node-project/tree/master/jwt-auth&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;token-结构&quot;&gt;&lt;a href=&quot;#token-结构&quot; class=&quot;headerlink&quot; title=&quot;token 结构&quot;&gt;&lt;/a&gt;token 结构&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;header.claims.signature&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;为了安全的在 url 中使用，所有部分都用 base64 URL-safe 进行编码处理&lt;/p&gt;
+&lt;h4 id=&quot;Header&quot;&gt;&lt;a href=&quot;#Header&quot; class=&quot;headerlink&quot; title=&quot;Header&quot;&gt;&lt;/a&gt;Header&lt;/h4&gt;&lt;p&gt;简单声明了类型以及产生签名所使用的算法&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;alg&amp;quot; : &amp;quot;AES256&amp;quot;,
+  &amp;quot;typ&amp;quot; : &amp;quot;JWT&amp;quot;
+}&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+      <category term="js" scheme="https://ddzyan.github.io/categories/js/"/>
+    
+    
+      <category term="js" scheme="https://ddzyan.github.io/tags/js/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>egg-graphQL源码分析</title>
+    <link href="https://ddzyan.github.io/2020/07/14/egg-graphql-yuan-ma-fen-xi/"/>
+    <id>https://ddzyan.github.io/2020/07/14/egg-graphql-yuan-ma-fen-xi/</id>
+    <published>2020-07-14T10:06:44.000Z</published>
+    <updated>2021-01-16T10:07:31.336Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h3&gt;&lt;p&gt;egg-graphQL 是 egg 的 graphQL 插件，规范化 GraphQL API 实现，自动创建 schema ，挂载 koa middleware 处理 GraphQL 请求，并且提供创建 GraphQL 开发者工具&lt;/p&gt;
+&lt;h3 id=&quot;源码分析&quot;&gt;&lt;a href=&quot;#源码分析&quot; class=&quot;headerlink&quot; title=&quot;源码分析&quot;&gt;&lt;/a&gt;源码分析&lt;/h3&gt;&lt;h4 id=&quot;项目依赖模块分析&quot;&gt;&lt;a href=&quot;#项目依赖模块分析&quot; class=&quot;headerlink&quot; title=&quot;项目依赖模块分析&quot;&gt;&lt;/a&gt;项目依赖模块分析&lt;/h4&gt;&lt;pre&gt;&lt;code class=&quot;json&quot;&gt;{
+  &amp;quot;dependencies&amp;quot;: {
+    &amp;quot;apollo-server-koa&amp;quot;: &amp;quot;2.0.4&amp;quot;,
+    &amp;quot;apollo-server-module-graphiql&amp;quot;: &amp;quot;1.4.0&amp;quot;,
+    &amp;quot;graphql&amp;quot;: &amp;quot;0.13.2&amp;quot;,
+    &amp;quot;graphql-tools&amp;quot;: &amp;quot;3.1.1&amp;quot;,
+    &amp;quot;lodash&amp;quot;: &amp;quot;^4.17.10&amp;quot;,
+    &amp;quot;lru-cache&amp;quot;: &amp;quot;^4.1.2&amp;quot;
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;apollo-server-koa：apollo 提供的服务端 GraphQL 开源模块种 nodejs-koa 的实现方式&lt;/p&gt;
+&lt;p&gt;apollo-server-module-graphiql ：apollo 提供的 GraphQL 开发者工具&lt;/p&gt;
+&lt;p&gt;graphql-tools：提供更好的创建 GraphQL schema 的方法&lt;/p&gt;
+&lt;h4 id=&quot;项目核心代码结构&quot;&gt;&lt;a href=&quot;#项目核心代码结构&quot; class=&quot;headerlink&quot; title=&quot;项目核心代码结构&quot;&gt;&lt;/a&gt;项目核心代码结构&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;.
+├── agent.js
+├── app
+│   ├── extend
+│   │   └── context.js
+│   ├── middleware
+│   │   └── graphql.js
+│   └── service
+│       └── graphql.js
+├── app.js
+├── config
+│   └── config.default.js
+├── lib
+│   ├── graphql-tag.js
+│   ├── load_connector.js
+│   ├── load_schema.js
+│   └── util.js
+├── package.json
+&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+      <category term="nodejs" scheme="https://ddzyan.github.io/categories/nodejs/"/>
+    
+    
+      <category term="nodejs" scheme="https://ddzyan.github.io/tags/nodejs/"/>
+    
+      <category term="egg" scheme="https://ddzyan.github.io/tags/egg/"/>
+    
+      <category term="graphQL" scheme="https://ddzyan.github.io/tags/graphQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GraphQL扫盲</title>
+    <link href="https://ddzyan.github.io/2020/07/10/graphqlia/"/>
+    <id>https://ddzyan.github.io/2020/07/10/graphqlia/</id>
+    <published>2020-07-10T10:22:55.000Z</published>
+    <updated>2021-01-16T10:07:32.211Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;GraphQL-简介&quot;&gt;&lt;a href=&quot;#GraphQL-简介&quot; class=&quot;headerlink&quot; title=&quot;GraphQL 简介&quot;&gt;&lt;/a&gt;GraphQL 简介&lt;/h2&gt;&lt;p&gt;参考资料：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://juejin.im/post/5d5d2f9ef265da03c02c06ed#heading-25&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://juejin.im/post/5d5d2f9ef265da03c02c06ed#heading-25&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://graphql.cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://graphql.cn/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.apollographql.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.apollographql.com/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;实例项目：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/ddzyan/graphql-koa-demo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/ddzyan/graphql-koa-demo&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;常见依赖模块：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;graphql-compose&lt;/li&gt;
+&lt;li&gt;graphql-compose-mongoose&lt;/li&gt;
+&lt;li&gt;graphql&lt;/li&gt;
+&lt;li&gt;apollo-server-koa&lt;/li&gt;
+&lt;li&gt;dataloader&lt;/li&gt;
+&lt;li&gt;egg-graphql&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;是什么&quot;&gt;&lt;a href=&quot;#是什么&quot; class=&quot;headerlink&quot; title=&quot;是什么&quot;&gt;&lt;/a&gt;是什么&lt;/h3&gt;&lt;p&gt;GraphQL 是一种用于 API 的查询语言，对 API 中的数据提供一套易于理解的完整描述，使得客户端能够准确获得它需要的数据，没有任何冗余，也让 API 更容易随着时间推移而演进，还能构建强大的开发者工具（来自官网介绍）&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="GraphQL" scheme="https://ddzyan.github.io/categories/GraphQL/"/>
+    
+    
+      <category term="GraphQL" scheme="https://ddzyan.github.io/tags/GraphQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>docker-compose部署eak</title>
+    <link href="https://ddzyan.github.io/2020/07/09/docker-compose-bu-shu-eak/"/>
+    <id>https://ddzyan.github.io/2020/07/09/docker-compose-bu-shu-eak/</id>
+    <published>2020-07-09T02:24:58.000Z</published>
+    <updated>2021-01-16T10:07:31.116Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;ELK安装&quot;&gt;&lt;a href=&quot;#ELK安装&quot; class=&quot;headerlink&quot; title=&quot;ELK安装&quot;&gt;&lt;/a&gt;ELK安装&lt;/h3&gt;&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;git clone https://github.com/deviantony/docker-elk.git
+
+cd docker-elk
+
+# 后台守护进程模式启动所有服务
+docker-compose up -d
+
+# 检查服务状态
+docker ps
+CONTAINER ID        IMAGE                      COMMAND                  CREATED             STATUS              PORTS                                                                              NAMES
+e306f6fae7bf        docker-elk_kibana          &amp;quot;/usr/local/bin/dumb…&amp;quot;   16 seconds ago      Up 14 seconds       0.0.0.0:5601-&amp;gt;5601/tcp                                                             docker-elk_kibana_1
+e906b1d1b8db        docker-elk_logstash        &amp;quot;/usr/local/bin/dock…&amp;quot;   16 seconds ago      Up 14 seconds       0.0.0.0:5000-&amp;gt;5000/tcp, 0.0.0.0:9600-&amp;gt;9600/tcp, 0.0.0.0:5000-&amp;gt;5000/udp, 5044/tcp   docker-elk_logstash_1
+f32071efd7f3        docker-elk_elasticsearch   &amp;quot;/tini -- /usr/local…&amp;quot;   16 seconds ago      Up 15 seconds       0.0.0.0:9200-&amp;gt;9200/tcp, 0.0.0.0:9300-&amp;gt;9300/tcp                                     docker-elk_elasticsearch_1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;打开浏览器地址：&lt;a href=&quot;http://127.0.0.1:5601/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://127.0.0.1:5601/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;账号：elastic&lt;/p&gt;
+&lt;p&gt;密码：changeme&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="elk" scheme="https://ddzyan.github.io/categories/elk/"/>
+    
+    
+      <category term="docker" scheme="https://ddzyan.github.io/tags/docker/"/>
+    
+      <category term="elk" scheme="https://ddzyan.github.io/tags/elk/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>node-rabbitMq</title>
+    <link href="https://ddzyan.github.io/2020/06/26/node-rabbitmq/"/>
+    <id>https://ddzyan.github.io/2020/06/26/node-rabbitmq/</id>
+    <published>2020-06-25T16:04:56.000Z</published>
+    <updated>2021-01-16T10:07:33.564Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;此文章内容核心为 nodejs 如何实现 &lt;a href=&quot;https://github.com/ddzyan/node-amqplib&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;rabbitMq 的五种常见的工作模式&lt;/a&gt;，其余内容来自于百度/谷歌。&lt;/p&gt;
+&lt;h2 id=&quot;RabbitMq-环境创建&quot;&gt;&lt;a href=&quot;#RabbitMq-环境创建&quot; class=&quot;headerlink&quot; title=&quot;RabbitMq 环境创建&quot;&gt;&lt;/a&gt;RabbitMq 环境创建&lt;/h2&gt;&lt;h3 id=&quot;docker-构建&quot;&gt;&lt;a href=&quot;#docker-构建&quot; class=&quot;headerlink&quot; title=&quot;docker 构建&quot;&gt;&lt;/a&gt;docker 构建&lt;/h3&gt;&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;# 拉去镜像 management 为带管理界面
+docker pull rabbitmq:management
+
+# 启动
+docker run -dit --name Myrabbitmq -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 15672:15672 -p 5672:5672 rabbitmq:management&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;使用&quot;&gt;&lt;a href=&quot;#使用&quot; class=&quot;headerlink&quot; title=&quot;使用&quot;&gt;&lt;/a&gt;使用&lt;/h3&gt;&lt;p&gt;RabbitMQ 后台管理界面地址：&lt;a href=&quot;http://192.168.100.117:15672&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://192.168.100.117:15672&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;默认账号：admin&lt;/p&gt;
+&lt;p&gt;默认密码：admin&lt;/p&gt;
+&lt;p&gt;nodejs 参考代码：&lt;a href=&quot;https://github.com/ddzyan/node-amqplib&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/ddzyan/node-amqplib&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="nodejs" scheme="https://ddzyan.github.io/categories/nodejs/"/>
+    
+    
+      <category term="微服务" scheme="https://ddzyan.github.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+      <category term="MQ" scheme="https://ddzyan.github.io/tags/MQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nodejs之buffer与stream</title>
+    <link href="https://ddzyan.github.io/2020/03/19/nodejs-zhi-buffer-yu-stream/"/>
+    <id>https://ddzyan.github.io/2020/03/19/nodejs-zhi-buffer-yu-stream/</id>
+    <published>2020-03-19T07:10:35.000Z</published>
+    <updated>2021-01-16T10:07:33.505Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;buffer&quot;&gt;&lt;a href=&quot;#buffer&quot; class=&quot;headerlink&quot; title=&quot;buffer&quot;&gt;&lt;/a&gt;buffer&lt;/h3&gt;&lt;p&gt;buffer 使用从磁盘读取保存的临时空间，用于文件操作，二进制数据处理。&lt;/p&gt;
+&lt;p&gt;buffer 一个堆外内存，不通过v8引擎进行分配，而是由node的c++层面提供，node层面进行操作。内存申请操作如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当申请的内存小于8kb的时候，会与现实申请一个固定存储(8kb)区域，用于保存数据。&lt;/li&gt;
+&lt;li&gt;当下一个申请的内存也小于8kb的时候，会进行判断上一个申请的固定存储区域剩余空间是否足够，不够则会申请一个新的固定存储区域，用于存储，上一个空间的剩余部分则不会被使用，直到存储的数据被释放，固定存储区域则会被释放（小数据内存采用预先申请，事后分配，减少了node于系统之间的申请和调用操作）&lt;/li&gt;
+&lt;li&gt;当申请的内存大于8kb的时候，会直接申请一个指定大小的存储区域，用于保存数据（大数据由c++层面提供，不需要事后分配）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;使用场景：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;网络数据传输的时候，采用buffer会比使用string更有效率&lt;/li&gt;
+&lt;li&gt;文件操作，例如下面要讲到的stream&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="nodejs" scheme="https://ddzyan.github.io/categories/nodejs/"/>
+    
+    
+      <category term="nodejs" scheme="https://ddzyan.github.io/tags/nodejs/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mysql主要引擎区别</title>
+    <link href="https://ddzyan.github.io/2020/03/11/mysql-zhu-yao-yin-qing-qu-bie/"/>
+    <id>https://ddzyan.github.io/2020/03/11/mysql-zhu-yao-yin-qing-qu-bie/</id>
+    <published>2020-03-11T08:04:51.000Z</published>
+    <updated>2021-01-16T10:07:33.180Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;通过梳理了解 mysql innodb 和 myisam
+        
+      
+    
+    </summary>
+    
+      <category term="mysql" scheme="https://ddzyan.github.io/categories/mysql/"/>
+    
+    
+      <category term="存储引擎" scheme="https://ddzyan.github.io/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mysql事务机制</title>
+    <link href="https://ddzyan.github.io/2020/03/11/mysql-shi-wu-ji-zhi/"/>
+    <id>https://ddzyan.github.io/2020/03/11/mysql-shi-wu-ji-zhi/</id>
+    <published>2020-03-11T07:15:44.000Z</published>
+    <updated>2021-01-16T10:07:32.929Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;知识点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;什么是事务&lt;/li&gt;
+&lt;li&gt;事务的特点&lt;/li&gt;
+&lt;li&gt;事务的隔离机制&lt;/li&gt;
+&lt;li&gt;事务的并发问题&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;事务概念和特点&quot;&gt;&lt;a href=&quot;#事务概念和特点&quot; class=&quot;headerlink&quot; title=&quot;事务概念和特点&quot;&gt;&lt;/a&gt;事务概念和特点&lt;/h3&gt;&lt;p&gt;事务是指执行大量和复杂的数据操作，只有innodb引擎才支持事务。&lt;/p&gt;
+&lt;p&gt;事务具有以下特点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;一致性:如果事务没有成功，则所做的修改将不会保存到数据库中&lt;/li&gt;
+&lt;li&gt;原子性:事务的所有操作，要么全部成功提交，要么全部失败回滚&lt;/li&gt;
+&lt;li&gt;持久性:一旦事务成功提交，则对数据库的修改是永久有效的&lt;/li&gt;
+&lt;li&gt;隔离性:一个事务在提交之前所做的修改，对于其他事务是不可见的&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;操作sql&quot;&gt;&lt;a href=&quot;#操作sql&quot; class=&quot;headerlink&quot; title=&quot;操作sql&quot;&gt;&lt;/a&gt;操作sql&lt;/h3&gt;&lt;pre&gt;&lt;code class=&quot;sql&quot;&gt;start tranction;
+select * from userinfo where id = 1;
+update userinfo set number = 1 where id =1;
+commit;
+
+begin;
+select * from userinfo where id = 1;
+update userinfo set number = 1 where id =1;
+commit;&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="https://ddzyan.github.io/categories/mysql/"/>
+    
+    
+      <category term="事务" scheme="https://ddzyan.github.io/tags/%E4%BA%8B%E5%8A%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mysql锁机制</title>
+    <link href="https://ddzyan.github.io/2020/03/10/mysql-suo-ji-zhi/"/>
+    <id>https://ddzyan.github.io/2020/03/10/mysql-suo-ji-zhi/</id>
+    <published>2020-03-10T08:18:18.000Z</published>
+    <updated>2021-01-16T10:07:33.057Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;通过此文，你将学习mysql锁的相关内容：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;什么是锁&lt;/li&gt;
+&lt;li&gt;锁都有哪些类型，每个类型的区别&lt;/li&gt;
+&lt;li&gt;分析锁的使用情况和应用场景&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;概念&quot;&gt;&lt;a href=&quot;#概念&quot; class=&quot;headerlink&quot; title=&quot;概念&quot;&gt;&lt;/a&gt;概念&lt;/h3&gt;&lt;p&gt;锁：mysql为了解决资源共享，所造成并发问题的处理机制。&lt;/p&gt;
+&lt;p&gt;锁根据粒度分为：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;表锁(粒度大,myisam引擎默认)&lt;ol&gt;
+&lt;li&gt;锁类型：&lt;ol&gt;
+&lt;li&gt;锁操作&lt;ol&gt;
+&lt;li&gt;加锁:lock table 表名 read/write;&lt;/li&gt;
+&lt;li&gt;解锁:unlock table;&lt;/li&gt;
+&lt;li&gt;观察表锁:show open tables; &lt;/li&gt;
+&lt;li&gt;分析表锁:show status like “table_lock%”;&lt;ol&gt;
+&lt;li&gt;Table_locks_immediate 可以立即添加锁的表数量&lt;/li&gt;
+&lt;li&gt;Table_locks_waited 需要等待的锁数量&lt;/li&gt;
+&lt;li&gt;Table_locks_immediate/Table_locks_waited &amp;gt;5000 建议使用innodb引擎，否则使用myisam&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;读锁(共享锁)影响&lt;ol&gt;
+&lt;li&gt;当前会话&lt;ol&gt;
+&lt;li&gt;可以对锁表进行读，但是写操作会处于等待状态，直到锁被释放&lt;/li&gt;
+&lt;li&gt;不可以其他表进行读写&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;其他会话&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;写锁(排他锁)影响&lt;ol&gt;
+&lt;li&gt;当前会话&lt;ol&gt;
+&lt;li&gt;可以对锁表进行读写&lt;/li&gt;
+&lt;li&gt;不可以对其他表进行读写&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;其他会话：&lt;ol&gt;
+&lt;li&gt;对锁表进行的读写，会处于等待状态，直到锁被释放&lt;/li&gt;
+&lt;li&gt;可以对其他表进行读写&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;优点&lt;ol&gt;
+&lt;li&gt;资源占用少，加锁速度快&lt;/li&gt;
+&lt;li&gt;不会出现死锁&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;缺点&lt;ol&gt;
+&lt;li&gt;并发度低&lt;/li&gt;
+&lt;li&gt;容易出现锁冲突&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;行锁(粒度小,innodb引擎默认)&lt;ol&gt;
+&lt;li&gt;锁类型&lt;ol&gt;
+&lt;li&gt;锁操作&lt;ol&gt;
+&lt;li&gt;加锁&lt;ol&gt;
+&lt;li&gt;写锁:进行写操作(insert,update,delete)时候，innodb会自动添加写锁，直到事务提交(commit)或者回滚(rollback)。在测试的时候，可以通过set autocommit=0;关闭事务自动提交&lt;/li&gt;
+&lt;li&gt;读锁: select * from innodb_lock where id=1 for update;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;解锁:事务提交或者回滚&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;读锁(共享锁)/写锁(排他锁)影响&lt;ol&gt;
+&lt;li&gt;当前会话&lt;ol&gt;
+&lt;li&gt;可以多锁定行和其他行进行读写&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;其他会话&lt;ol&gt;
+&lt;li&gt;可以对锁定行进行读，但是写操作会处于等待状态，直到锁被释放&lt;/li&gt;
+&lt;li&gt;可以对其他行进行读写                &lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;优点&lt;ol&gt;
+&lt;li&gt;并发度高&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;缺点&lt;ol&gt;
+&lt;li&gt;资源占用大，加锁速度慢&lt;/li&gt;
+&lt;li&gt;会出现死锁&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;行锁(粒度介于以上两者之间)&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="https://ddzyan.github.io/categories/mysql/"/>
+    
+    
+      <category term="锁" scheme="https://ddzyan.github.io/tags/%E9%94%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>乐观锁和悲观锁</title>
+    <link href="https://ddzyan.github.io/2020/03/10/le-guan-suo-he-bei-guan-suo/"/>
+    <id>https://ddzyan.github.io/2020/03/10/le-guan-suo-he-bei-guan-suo/</id>
+    <published>2020-03-10T08:18:09.000Z</published>
+    <updated>2021-01-16T10:07:35.097Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;通过此文你可以了解到的内容有：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;什么是乐观锁和悲观锁&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;首先要了解什么是锁：mysql为了解决资源共享，所造成并发问题的处理机制。&lt;/p&gt;
+&lt;h3 id=&quot;悲观锁&quot;&gt;&lt;a href=&quot;#悲观锁&quot; class=&quot;headerlink&quot; title=&quot;悲观锁&quot;&gt;&lt;/a&gt;悲观锁&lt;/h3&gt;&lt;p&gt;在操作之前给数据添加锁，锁定后再对数据进行操作。在锁未释放之前，其他人无法对数据进行读写。&lt;/p&gt;
+&lt;p&gt;特点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;可以保证数据的完全独占性和正确性&lt;/li&gt;
+&lt;li&gt;开销大，性能不高&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="https://ddzyan.github.io/categories/mysql/"/>
+    
+    
+      <category term="锁" scheme="https://ddzyan.github.io/tags/%E9%94%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mysql知识点大纲(持续更新)</title>
+    <link href="https://ddzyan.github.io/2020/03/09/mysql-zhi-shi-dian-da-gang-chi-xu-geng-xin/"/>
+    <id>https://ddzyan.github.io/2020/03/09/mysql-zhi-shi-dian-da-gang-chi-xu-geng-xin/</id>
+    <published>2020-03-09T08:25:07.000Z</published>
+    <updated>2021-01-16T10:07:33.123Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;/images/mysql%E6%8A%80%E6%9C%AF%E8%B7%AF%E7%BA%BF.png&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="mysql" scheme="https://ddzyan.github.io/categories/mysql/"/>
+    
+    
+      <category term="mysql" scheme="https://ddzyan.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sql优化之profile</title>
+    <link href="https://ddzyan.github.io/2020/03/07/sql-you-hua-zhi-profile/"/>
+    <id>https://ddzyan.github.io/2020/03/07/sql-you-hua-zhi-profile/</id>
+    <published>2020-03-07T10:31:06.000Z</published>
+    <updated>2021-01-16T10:07:34.006Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;mysql profile 工具可以记录执行sql总消耗的时间，并且记录系统cpu和i/o锁消耗的时间。&lt;/p&gt;
+&lt;p&gt;此工具建议只在开发环境中启动，生产环境应该关闭，减少资源消耗。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="https://ddzyan.github.io/categories/mysql/"/>
+    
+    
+      <category term="sql分析工具" scheme="https://ddzyan.github.io/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+</feed>

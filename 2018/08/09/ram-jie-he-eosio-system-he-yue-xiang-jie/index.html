@@ -1,0 +1,963 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="RAM结合eosio.system合约详解, 孺子牛的博客">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="源码分析eosio.system.cpp// native.hpp (newaccount definition is actually in eosio.system.cpp)
+(newaccount)(updateauth)(delet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>RAM结合eosio.system合约详解 | 孺子牛的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?46e79e71af0709a5b9106bf20cecc493";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <div class="logo-name">孺子牛的博客</div>
+        <div class="logo-desc">
+            
+            nodejs全栈开发 | 区块链爱好者
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        RAM结合eosio.system合约详解
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/区块链/" target="_blank">
+                            <span class="chip bg-color">区块链</span>
+                        </a>
+                        
+                        <a href="/tags/eos/" target="_blank">
+                            <span class="chip bg-color">eos</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/eos/" class="post-category" target="_blank">
+                            eos
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-08-09
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    孺子牛
+                    
+                </div>
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><h4 id="eosio-system-cpp"><a href="#eosio-system-cpp" class="headerlink" title="eosio.system.cpp"></a>eosio.system.cpp</h4><pre><code>// native.hpp (newaccount definition is actually in eosio.system.cpp)
+(newaccount)(updateauth)(deleteauth)(linkauth)(unlinkauth)(canceldelay)(onerror)
+// eosio.system.cpp
+(setram)(setparams)(setpriv)(rmvproducer)(bidname)
+// delegate_bandwidth.cpp
+(buyrambytes)(buyram)(sellram)(delegatebw)(undelegatebw)(refund)
+// voting.cpp
+(regproducer)(unregprod)(voteproducer)(regproxy)
+// producer_pay.cpp
+(onblock)(claimrewards)</code></pre><p>ram,cpu和net操作相关方法的都定义在 <strong>delegate_bandwidth.cpp</strong> ，其中和 RAM 相关的是 buyrambytes (通过指定字节数购买ram), buyram (通过指定货币购买ram)和 sellram (销售ram)。</p>
+<h4 id="delegate-bandwidth-cpp"><a href="#delegate-bandwidth-cpp" class="headerlink" title="delegate_bandwidth.cpp"></a>delegate_bandwidth.cpp</h4><pre><code>//根据当前市场的份额，将需要购买的字节数转化为指定的EOS进行购买
+void system_contract::buyrambytes( account_name payer, account_name receiver, uint32_t bytes ) {
+      //在数据库中查询RAMCORE发行量，默认为100000000000000
+      auto itr = _rammarket.find(S(4,RAMCORE));
+      auto tmp = *itr;
+      auto eosout = tmp.convert( asset(bytes,S(0,RAM)), CORE_SYMBOL );
+      //通过转化后，调用buyram使用EOS购买
+      buyram( payer, receiver, eosout );
+   }</code></pre><h5 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h5><p>RAM的交易机制采用Bancor算法，使每字节的价格保持不变，通过中间代币(RAMCORE)来保证EOS和RAM之间的交易流通性。从上源码看首先获得RAMCORE的发行量，再通过tmp.convert方法RAM-&gt;RAMCORE，RAMCORE-&gt;EOS(CORE_SYMBOL)再调用 buyram 进行购买。这里的CORE_SYMBOL不一定是指EOS，查看core_symbol.hpp，发现源码内定义为SYS，也就是说在没有修改的前提下，需要提前发行SYS代币，才能进行RAM购买。</p>
+<a id="more"></a>
+
+<h4 id="core-symbol-hpp"><a href="#core-symbol-hpp" class="headerlink" title="core_symbol.hpp"></a>core_symbol.hpp</h4><pre><code>#define CORE_SYMBOL S(4,SYS)</code></pre><h4 id="delegate-bandwidth-cpp-1"><a href="#delegate-bandwidth-cpp-1" class="headerlink" title="delegate_bandwidth.cpp"></a>delegate_bandwidth.cpp</h4><pre><code>void system_contract::buyram(account_name payer, account_name receiver, asset quant)
+{
+      //验证权限
+      require_auth(payer);
+      //不能为0
+      eosio_assert(quant.amount &gt; 0, &quot;must purchase a positive amount&quot;);
+
+      auto fee = quant;
+      //手续费为0.5%，如果amoun为1则手续费为1，如果小于1，则手续费在amoun&lt;free&lt;1 quant.amount.
+      //扣除手续费后的金额，也就是实际用于购买RAM的金额。如果扣除手续费后，金额为0，则会引起下面的操作失败。
+      auto quant_after_fee = quant;
+      quant_after_fee.amount -= fee.amount; the next inline transfer will fail causing the buyram action to fail.
+
+      INLINE_ACTION_SENDER(eosio::token, transfer)
+      (N(eosio.token), {payer, N(active)},
+       {payer, N(eosio.ram), quant_after_fee, std::string(&quot;buy ram&quot;)});
+
+      //如果手续费大于0，则将手续费使用eosio.token合约中的transfer，将金额转移给eosio.ramfee，备注为ram fee
+      if (fee.amount &gt; 0)
+      {
+            INLINE_ACTION_SENDER(eosio::token, transfer)
+            (N(eosio.token), {payer, N(active)},
+             {payer, N(eosio.ramfee), fee, std::string(&quot;ram fee&quot;)});
+      }
+
+      int64_t bytes_out;
+
+      //根据ram市场里的EOS和RAM实时汇率计算出能够购买的RAM总量
+      const auto &amp;market = _rammarket.get(S(4, RAMCORE), &quot;ram market does not exist&quot;);
+      _rammarket.modify(market, 0, [&amp;](auto &amp;es) {
+            //转化方法请参考下半部分
+            bytes_out = es.convert(quant_after_fee, S(0, RAM)).amount;
+      });
+
+      //剩余总量大于0判断
+      eosio_assert(bytes_out &gt; 0, &quot;must reserve a positive amount&quot;);
+
+      //更新全局变量，总共可以使用的内存大小
+      _gstate.total_ram_bytes_reserved += uint64_t(bytes_out);
+      //更新全局变量，购买RAM冻结总金额
+      _gstate.total_ram_stake += quant_after_fee.amount;
+
+      user_resources_table userres(_self, receiver);
+      auto res_itr = userres.find(receiver);
+      if (res_itr == userres.end())
+      {
+            //在userres表中添加ram相关记录
+            res_itr = userres.emplace(receiver, [&amp;](auto &amp;res) {
+                  res.owner = receiver;
+                  res.ram_bytes = bytes_out;
+            });
+      }
+      else
+      {
+            //在userres表中修改ram相关记录
+            userres.modify(res_itr, receiver, [&amp;](auto &amp;res) {
+                  res.ram_bytes += bytes_out;
+            });
+      }
+      //更新账号的RAM拥有量
+      set_resource_limits(res_itr-&gt;owner, res_itr-&gt;ram_bytes, res_itr-&gt;net_weight.amount, res_itr-&gt;cpu_weight.amount);
+}</code></pre><h5 id="解析-1"><a href="#解析-1" class="headerlink" title="解析"></a>解析</h5><pre class="line-numbers language-c++"><code class="language-c++">INLINE_ACTION_SENDER(eosio::token, transfer)
+            (N(eosio.token), {payer, N(active)},
+             {payer, N(eosio.ramfee), fee, std::string("ram fee")});<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>INLINE_ACTION_SENDER为内联调用其他合约交易的方法，这里 transfer 参数对应为：合约名称，交易行为，合约账号，授权账号，支付账号，接收账号，金额，备注。具体的参数根据调用的合约交易方法而定。</p>
+<pre class="line-numbers language-c++"><code class="language-c++">user_resources_table  userres( _self, receiver );<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>user_resources_table 为 typedef eosio::multi_index&lt; N(userres), user_resources&gt; 的重命名，这个方法是引用 multi_index.hpp ,这里定义对DB的所有操作，后续会专门分析。通过查询获取账号在DB中是否有值，进行操作。</p>
+<pre class="line-numbers language-c++"><code class="language-c++"> set_resource_limits( res_itr->owner, res_itr->ram_bytes, res_itr->net_weight.amount, res_itr->cpu_weight.amount );<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>更新账号的限制资源，此方法最终执行的为到 pending_limits 表中一条购买的资源数据。</p>
+<p>参数：</p>
+<ul>
+<li>ram_bytes - ram limit</li>
+<li>net_weight - net limit</li>
+<li>cpu_weight - cput limit</li>
+</ul>
+<p>相关注释已经在代码中，这里还会用到一个比较重要的内容，那就是代币转化为RAM的公式，此方法请参考下面。</p>
+<h4 id="exchange-state-cpp"><a href="#exchange-state-cpp" class="headerlink" title="exchange_state.cpp"></a>exchange_state.cpp</h4><pre><code>asset exchange_state::convert_to_exchange( connector&amp; c, asset in ) {
+      real_type R(supply.amount);   //RAM已经售出的总量
+      real_type C(c.balance.amount+in.amount);  //RAM总购买金额+本次购买的量
+      real_type F(c.weight/1000.0);
+      real_type T(in.amount);
+      real_type ONE(1.0);
+
+      real_type E = -R * (ONE - std::pow( ONE + T / C, F) );//换算出EOS对应的RAM量
+      //print( &quot;E: &quot;, E, &quot;\n&quot;);
+      int64_t issued = int64_t(E);
+
+      supply.amount += issued;//更新RAM已经售出的总量
+      c.balance.amount += in.amount;//更新RAM总购买金额
+
+      return asset( issued, supply.symbol );
+   }
+
+asset exchange_state::convert( asset from, symbol_type to ) {
+      auto sell_symbol  = from.symbol;  
+      auto ex_symbol    = supply.symbol; 
+      auto base_symbol  = base.balance.symbol;  
+      auto quote_symbol = quote.balance.symbol;
+
+     //根据币种转化可以购买的RAM量
+      if( sell_symbol != ex_symbol ) {
+         if( sell_symbol == base_symbol ) {
+            from = convert_to_exchange( base, from );
+         } else if( sell_symbol == quote_symbol ) {
+            from = convert_to_exchange( quote, from );
+         } else { 
+            eosio_assert( false, &quot;invalid sell&quot; );
+         }
+      } else {
+         if( to == base_symbol ) {
+            from = convert_from_exchange( base, from ); 
+         } else if( to == quote_symbol ) {
+            from = convert_from_exchange( quote, from ); 
+         } else {
+            eosio_assert( false, &quot;invalid conversion&quot; );
+         }
+      }
+
+      if( to != from.symbol )
+         return convert( from, to );
+
+      return from;
+   }</code></pre><p>convert_to_exchange的转化公式如下：<br><img src="/images/ram-gs.jpg" alt="image|432x98"></p>
+<p>ram购买的量是一个绝对值，是根据购买EOS的金额和当前市场内ram的数量计算出来的。一般来说在ram总量不增加的情况下，一样金额的EOS，所能获得的ram会越来越少。所以如果早期你购买了ram，然后过段时间后通过sellram卖掉ram可能还能挣钱。</p>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="ram购买流程图"><a href="#ram购买流程图" class="headerlink" title="ram购买流程图"></a>ram购买流程图</h4><p><img src="/images/ram-step.png" alt="image|690x488"></p>
+<p>购买RAM最终将以添加到数据库里的值为准，也就是说明每次的查询可用量都将根据本地数据库同步到的数据为准。接下来将主要分析multi_index请参考：<a href="http://111.231.215.55/posts/eos_multi-index.html" target="_blank" rel="noopener">http://111.231.215.55/posts/eos_multi-index.html</a></p>
+
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/08/09/eos-zi-dong-hua-bu-shu-da-jian-si-you-huan-jing/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="EOS自动化部署,搭建私有环境">
+                        
+                        <span class="card-title">EOS自动化部署,搭建私有环境</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+eosio版本：v1.0.5
+操作系统：centos 7
+参考网址为：https://developers.eos.io/eosio-nodeos/docs/local-single-node-testnet
+
+step1 编译代码
+获取
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-08-09
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/eos/" class="post-category" target="_blank">
+                                    eos
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/区块链/" target="_blank">
+                        <span class="chip bg-color">区块链</span>
+                    </a>
+                    
+                    <a href="/tags/eos/" target="_blank">
+                        <span class="chip bg-color">eos</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/08/04/eos-he-xin-jie-shao/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="EOS核心介绍">
+                        
+                        <span class="card-title">EOS核心介绍</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            account账号规则账号命名规则
+
+Must be less than 13 characters
+Can only contain the following symbols: .12345abcdefghijklmnopqrstuvw
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-08-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/eos/" class="post-category" target="_blank">
+                                    eos
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/区块链/" target="_blank">
+                        <span class="chip bg-color">区块链</span>
+                    </a>
+                    
+                    <a href="/tags/eos/" target="_blank">
+                        <span class="chip bg-color">eos</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 孺子牛的博客<br />'
+            + '作者: 孺子牛<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+          
+
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/ddzyan" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ddzyan@163.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+    <a href="http://wpa.qq.com/msgrd?v=3&uin=619262284&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+</body>
+
+</html>
