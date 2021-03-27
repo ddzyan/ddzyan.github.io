@@ -109,15 +109,6 @@
         </a>
     </li>
     
-    <li class="hide-on-med-and-down">
-        <a href="/contact" class="waves-effect waves-light">
-            
-            <i class="fa fa-comments"></i>
-            
-            <span>留言板</span>
-        </a>
-    </li>
-    
     <li>
         <a href="#searchModal" class="modal-trigger waves-effect waves-light">
             <i id="searchIcon" class="fa fa-search" title="搜索"></i>
@@ -132,7 +123,7 @@
         <div class="logo-name">孺子牛的博客</div>
         <div class="logo-desc">
             
-            nodejs全栈开发 | 区块链爱好者
+            nodejs全栈开发 | 区块链爱好者 | k8s 爱好者
             
         </div>
     </div>
@@ -186,15 +177,6 @@
             </a>
         </li>
         
-        <li>
-            <a href="/contact" class="waves-effect waves-light">
-                
-                <i class="fa fa-fw fa-comments"></i>
-                
-                留言板
-            </a>
-        </li>
-        
         
     </ul>
 </div>
@@ -223,7 +205,7 @@
 
             <div class="description center-align">
                 
-                    nodejs全栈开发 | 区块链爱好者
+                    nodejs全栈开发 | 区块链爱好者 | k8s 爱好者
                     <!-- <span id="jinrishici-sentence">正在加载今日诗词...</span> -->
                 
             </div>
@@ -247,6 +229,61 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
     <!-- 所有文章卡片 -->
     <article id="articles" class="container articles">
         <div class="row article-row">
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2018/09/13/yarn-kuai-su-shang-shou/" target="_blank">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="yarn快速上手">
+                            
+                            <span class="card-title">yarn快速上手</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                            简介与 npm 相同的依赖包管理工具
+官网：https://yarnpkg.com/zh-Hans/
+特点
+离线模式：如果你之前安装过某个包，你就可以在没有网络连接的情况下再次安装它。
+确定性：不管是什么顺序，在不同的机器上的依赖会以同一方
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-09-13
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fa fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/nodejs/" class="post-category" target="_blank">
+                                    nodejs
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/nodejs/" target="_blank">
+                            <span class="chip bg-color">nodejs</span>
+                        </a>
+                        
+                        <a href="/tags/node-module/" target="_blank">
+                            <span class="chip bg-color">node_module</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
@@ -821,54 +858,6 @@ git demo地址：https://github.com/ddzyan/node-modu
                         
                         <a href="/tags/node-module/" target="_blank">
                             <span class="chip bg-color">node_module</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/08/24/prototype-yu-proto-qu-bie/" target="_blank">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="prototype与__proto__区别">
-                            
-                            <span class="card-title">prototype与__proto__区别</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                            prototype（原型属性）只有函数才具有 prototype 属性。prototype 是一个对象，默认有一个属性 constructor 指向原型对象的构造函数。
-__ proto __所有对象都具有的 __ proto __ 属性，
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-08-24
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/javascript/" class="post-category" target="_blank">
-                                    javascript
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/javascript/" target="_blank">
-                            <span class="chip bg-color">javascript</span>
                         </a>
                         
                     </div>

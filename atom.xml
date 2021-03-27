@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ddzyan.github.io/"/>
-  <updated>2021-01-16T14:53:20.010Z</updated>
+  <updated>2021-03-27T15:16:15.969Z</updated>
   <id>https://ddzyan.github.io/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>限流算法</title>
+    <link href="https://ddzyan.github.io/2021/03/27/xian-liu-suan-fa/"/>
+    <id>https://ddzyan.github.io/2021/03/27/xian-liu-suan-fa/</id>
+    <published>2021-03-27T15:15:05.000Z</published>
+    <updated>2021-03-27T15:16:15.969Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;常见的限流算法&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;计数器算法&lt;/li&gt;
+&lt;li&gt;漏桶算法&lt;/li&gt;
+&lt;li&gt;令牌桶算法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;限流常用场景&quot;&gt;&lt;a href=&quot;#限流常用场景&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="微服务" scheme="https://ddzyan.github.io/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+    
+      <category term="微服务" scheme="https://ddzyan.github.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>axios拦截器源码分析</title>
@@ -868,27 +900,6 @@ commit;&lt;/code&gt;&lt;/pre&gt;
     
     
       <category term="mysql" scheme="https://ddzyan.github.io/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sql优化之profile</title>
-    <link href="https://ddzyan.github.io/2020/03/07/sql-you-hua-zhi-profile/"/>
-    <id>https://ddzyan.github.io/2020/03/07/sql-you-hua-zhi-profile/</id>
-    <published>2020-03-07T10:31:06.000Z</published>
-    <updated>2021-01-16T10:07:34.006Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;mysql profile 工具可以记录执行sql总消耗的时间，并且记录系统cpu和i/o锁消耗的时间。&lt;/p&gt;
-&lt;p&gt;此工具建议只在开发环境中启动，生产环境应该关闭，减少资源消耗。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="mysql" scheme="https://ddzyan.github.io/categories/mysql/"/>
-    
-    
-      <category term="sql分析工具" scheme="https://ddzyan.github.io/tags/sql%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
